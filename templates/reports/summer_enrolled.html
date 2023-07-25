@@ -1,0 +1,305 @@
+{% extends 'base-fa6.html' %}
+{% load qurl humanize static %}
+{% block title %}Summer Enrolled{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-width-1-1" style="margin-left: auto; margin-right: auto">
+        <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+            <div class="uk-margin-small-top">
+                <div class="uk-card uk-card-small">
+                    <div class="uk-card-body">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-sun fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">Summer Enrollment Data</h3>
+                            </div>
+                            <div class="uk-width-expand">
+                                <a href="{% url 'inventory:expiration_extension' %}" class="uk-button uk-button-primary uk-button-small">
+                                    <div class="uk-flex uk-flex-middle">
+                                        Go to Enrollment Page<i class="fas fa-arrow-right uk-margin-small-left"></i>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="uk-width-auto">
+                                <button id="export-student-enrollment" class="uk-button uk-button-secondary">Export Full Report<i class="fas fa-share-square uk-margin-small-left"></i></button>
+                                <div style="margin-top:2px">
+                                    <progress id="export-student-enrollment-progress" class="uk-progress" value="0" max="100" style="height:5px"></progress>
+                                </div>
+                            </div>
+                            <script>
+                                function updateStudentEnrollmentProgress(progressURL) {
+                                    progressButton = document.getElementById("export-student-enrollment");
+                                    progressBar = document.getElementById("export-student-enrollment-progress");
+
+                                    fetch(progressURL)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data === null) {
+                                                progressButton.innerHTML = 'Starting...'
+
+                                                setTimeout(updateStudentEnrollmentProgress, 1000, progressURL, progressButton, progressBar);
+                                            } else {
+                                                progressBar.setAttribute("max", data.total);
+                                                progressBar.setAttribute("value", data.current);
+
+                                                progressButton.innerHTML = data.description;
+
+                                                if (data.filename !== null) {
+                                                    var redirectString = window.location.protocol + '//' + window.location.host + data.filepath;
+                                                    window.location.href = redirectString;
+                                                } else {
+                                                    setTimeout(updateStudentEnrollmentProgress, 1000, progressURL, progressButton, progressBar);
+                                                }
+                                            }
+
+                                            console.log(data);
+                                        })
+                                        .catch(console.error);
+                                }
+
+                                $("#export-student-enrollment").on("click", function(event) {
+                                    event.preventDefault();
+
+                                    $.ajax({
+                                        url: "{% url 'reports:export_student_enrollment' %}",
+                                        type: "POST",
+                                        data: {
+                                            csrfmiddlewaretoken: "{{ csrf_token }}"
+                                        },
+                                        dataType: "json",
+                                        success: function() {
+                                            $("#export-student-enrollment").attr("disabled", "");
+                                            updateStudentEnrollmentProgress("{% url 'reports:get_progress_state' %}");
+                                        },
+                                        error: function(xhr) {
+                                            console.log(xhr.status + ": " + xhr.responseText);
+                                        }
+                                    });
+                                });
+                            </script>
+                            <div class="uk-width-auto">
+                                <form id="current-page" action="{% url 'reports:export_csv' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="headers" value="{{ data_fields|safe }}" />
+                                    <input type="hidden" name="dataset" value="{{ data_json }}" />
+                                    <button id="current-page-submit" class="uk-button uk-button-secondary">Export this Page<i class="fas fa-share-square uk-margin-small-left"></i></button>
+                                    <div style="margin-top:2px">
+                                        <progress id="export-page-progress" class="uk-progress" value="0" max="100" style="height:5px"></progress>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+                    <div>
+                        <div class="uk-card uk-card-default uk-card-small">
+                            <div class="uk-card-header uk-text-small filterlist-header">
+                                <div class="uk-grid-small" data-uk-grid>
+                                    <div class="uk-width-auto">Filters</div>
+                                    <div class="uk-width-expand uk-text-left"><a href="{% qurl request.get_full_path location=None grade=None %}"><i class="far fa-minus-square"></i> <span class="uk-text-capitalize">Clear Filters</span></a></div>
+                                </div>
+                            </div>
+                            <div class="uk-card-body uk-text-small filterlist-body">
+                                <div class="uk-grid-small" data-uk-grid>
+                                    <div>
+                                        <a class="uk-button uk-button-default uk-button-small">
+                                            Location:
+                                            {% if request.GET.location is None %}
+                                                All
+                                            {% else %}
+                                            {% for location in locations %}
+                                                {% if location.id in request.GET.location %}
+                                                {{ location.alias }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                            <i class="fas fa-angle-down uk-margin-small-left"></i>
+                                        </a>
+                                        <div uk-dropdown="mode: click; offset: 2; animation: uk-animation-slide-top-small; duration: 200">
+                                            <ul class="uk-dropdown-nav" uk-nav>
+                                            {% for location in locations %}
+                                                <li{% if location.id in request.GET.location %} class="uk-active"{% endif %}><a style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}" href="{% qurl request.get_full_path location=location.id %}">{{ location.name }}</a></li>
+                                            {% endfor %}
+                                                <li class="uk-nav-divider"></li>
+                                                <li><a href="{% qurl request.get_full_path location=None %}">Clear Filter</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a class="uk-button uk-button-default uk-button-small">
+                                            Grade:
+                                            {% if request.GET.grade is None %}
+                                            All
+                                            {% else %}
+                                            {{ request.GET.grade }}
+                                            {% endif %}
+                                            <i class="fas fa-angle-down uk-margin-small-left"></i>
+                                        </a>
+                                        <div uk-dropdown="mode: click; offset: 2; animation: uk-animation-slide-top-small; duration: 200">
+                                            <ul class="uk-nav uk-dropdown-nav">
+                                            {% for grade in grades %}
+                                                <li{% if grade in request.GET.grade %} class="uk-active"{% endif %}>
+                                                    <a href="{% qurl request.get_full_path grade=grade %}" style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}">
+                                                        {% if grade == "00" %}
+                                                        None
+                                                        {% elif grade == "PK" %}
+                                                        Pre-Kindergarten
+                                                        {% elif grade == "KG" %}
+                                                        Kingergarten
+                                                        {% elif grade == "GD" %}
+                                                        Graduated
+                                                        {% else %}
+                                                        {{ grade | ordinal }} Grade
+                                                        {% endif %}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                                <li class="uk-nav-divider"></li>
+                                                <li><a href="{% qurl request.get_full_path grade=None %}">Clear Filter</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a class="uk-button uk-button-default uk-button-small">
+                                            Program:
+                                            {% if request.GET.program is None %}
+                                                All
+                                            {% else %}
+                                            {% for program in programs %}
+                                                {% if program.id in request.GET.program %}
+                                                {{ program.id }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                            <i class="fas fa-angle-down uk-margin-small-left"></i>
+                                        </a>
+                                        <div uk-dropdown="mode: click; offset: 2; animation: uk-animation-slide-top-small; duration: 200">
+                                            <ul class="uk-dropdown-nav" uk-nav>
+                                            {% for program in programs %}
+                                                <li{% if program.id in request.GET.program %} class="uk-active"{% endif %}><a style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}" href="{% qurl request.get_full_path program=program.id %}">{{ program.name }}</a></li>
+                                            {% endfor %}
+                                                <li class="uk-nav-divider"></li>
+                                                <li><a href="{% qurl request.get_full_path program=None %}">Clear Filter</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Student Location</th>
+                                        <th>Program</th>
+                                        <th>DLMR on File</th>
+                                        <th>BPI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student, property in data_dictionary.items %}
+                                    <tr>
+                                        <td>
+                                            <div class="uk-width-1-1">
+                                                <a class="uk-link-reset" href="{% url 'users:detail_students' student %}" target="blank">
+                                                <b>{{ property.first_name }} {{ property.last_name }}</b>
+                                                <br /><span class="uk-text-meta"><i class="fas fa-hashtag"></i> {{ student }}</span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <b>{{ property.school }}</b>
+                                            <br /><span class="uk-text-meta">
+                                                <i class="fas fa-graduation-cap"></i> {{ property.grade | ordinal }}
+                                                <i class="fas fa-circle-question uk-margin-small-left"></i> {{ property.status }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <b>{{ property.program }}</b>
+                                            <br />{{ property.program_start }} - {{ property.program_end }}
+                                        </td>
+                                        <td>
+                                            {% if property.form_completed == '22-23' %}
+                                            <span class="uk-text-warning">{{ property.form_completed }}</span>
+                                            {% elif property.form_completed == '23-24' %}
+                                            <span class="uk-text-success">{{ property.form_completed }}</span>
+                                            {% else %}
+                                            <i class="fas fa-times uk-text-danger"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <b>{{ property.device_id }}</b>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="3" class="uk-text-center">Sorry, but there are no results.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            {% if entries.has_other_pages %}
+                            <ul class="uk-pagination uk-flex-center">
+                                {% if entries.has_previous %}
+                                <li>
+                                    <a href="{% qurl request.get_full_path page=entries.previous_page_number %}">
+                                        <span data-uk-pagination-previous></span>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="uk-disabled">
+                                    <span data-uk-pagination-previous></span>
+                                </li>
+                                {% endif %}
+                                {% if entries.number|add:'-4' > 1 %}
+                                <li>
+                                    <a href="{% qurl request.get_full_path page=entries.number|add:'-5' %}">&hellip;</a>
+                                </li>
+                                {% endif %}
+                            {% for i in entries.paginator.page_range %}
+                                {% if entries.number == i %}
+                                <li class="uk-active">
+                                    {{ i }}
+                                </li>
+                                {% elif i > entries.number|add:'-5' and i < entries.number|add:'5' %}
+                                <li>
+                                    <a href="{% qurl request.get_full_path page=i %}">{{ i }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                                {% if entries.paginator.num_pages > entries.number|add:'4' %}
+                                <li>
+                                    <a href="{% qurl request.get_full_path page=entries.number|add:'5' %}">&hellip;</a>
+                                </li>
+                                {% endif %}
+                                {% if entries.has_next %}
+                                <li>
+                                    <a href="{% qurl request.get_full_path page=entries.next_page_number %}">
+                                        <span data-uk-pagination-next></span>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="uk-disabled" style="padding-top: 8px">
+                                    <span data-uk-pagination-next></span>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

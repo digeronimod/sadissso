@@ -1,0 +1,53 @@
+<div id="report-details-content">
+    <button class="uk-modal-close-default" type="button" data-uk-close></button>
+    <div class="uk-grid-small uk-flex uk-flex-baseline" data-uk-grid>
+        <div>
+            <h2 class="uk-modal-title">{{ title }}</h2>
+        </div>
+        <div>
+            <form action="{% url 'reports:export_distributions_signups' %}" method="POST">
+                {% csrf_token %}
+                <button id="get-report-export" class="uk-button uk-button-secondary">Export Data</button>
+            </form>
+        </div>
+    </div>
+    <table id="data-table" class="uk-table uk-table-small uk-table-striped">
+        <thead>
+            <th>Device ID</th>
+            <th>Device Model</th>
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Form Completed</th>
+            <th>Location</th>
+            <th>Student Grade</th>
+        </thead>
+        <tbody>
+            {% for key, data in students.items %}
+            <tr>
+                <td>{{ data.device_id }}</td>
+                <td><a href="{% url 'assets:detail' data.device_id %}" target="_blank">{{ data.device_model }}</a></td>
+                <td>{{ data.student_id }}</td>
+                <td><a href="{% url 'users:detail_students' data.student_id %}" target="_blank">{{ data.student_name }}</a></td>
+                <td>{{ data.form_completed }}</td>
+                <td>{{ data.student_location }}</td>
+                <td>{{ data.student_grade }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+$(function () {
+    $("#get-report-export").on("click", function() {
+        $("#data-table").replaceWith(
+            '<div class="uk-text-center uk-margin-top">' +
+                '<span class="uk-text-danger" uk-spinner="ratio: 4.5"></span>' +
+            '</div>'
+        );
+
+        setTimeout(function() {
+            UIkit.modal("#report-details").hide();
+        }, 1000);
+    });
+});
+</script>

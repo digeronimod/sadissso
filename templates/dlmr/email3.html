@@ -1,0 +1,560 @@
+{% extends 'base_email.html' %}
+{% load static humanize %}
+{% block content%}
+<table border="0" cellpadding="0" cellspacing="0" class="body" role="presentation">
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td class="align-center" style="font-weight:bold">
+                                        <h2 style="color:#aeaeae;margin-top:10px">Student Service/Choice Selections</h2>
+                                        <hr />
+                                        <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="84px" />
+                                        <br>
+                                        <p style="text-transform:uppercase">
+                                            <span style="font-size:1.75em">Flagler County Public Schools</span>
+                                            <br /><span style="font-size:2.1em">Student Service/Choice Selections</span>
+                                        </p>
+                                        <hr />
+                                        <p style="text-transform:uppercase">
+                                            <span style="font-size:4em;">{{ student.name }}</span>
+                                        </p>
+                                        <hr />
+                                        <p style="font-size:1.8em;">
+                                            Below is a digital copy of your choices for your records.
+                                        </p>
+                                        <hr />
+                                        <p>
+                                            Please vist: <a href="https://www.flaglerschools.com" target="_blank">https://www.flaglerschools.com</a> for more information.
+                                        </p>
+                                        <td class="content-block">
+                                            <span class="apple-link">&copy; 2023-2024 Flagler County Public Schools</span>
+                                        </td>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="align-center" style="font-weight:bold">
+                                                        <table>
+                                                            <tr>
+                                                                <td style="width:20%">
+                                                                    <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="60" />
+                                                                </td>
+                                                                <td style="width:80%">
+                                                                    <p style="font-weight:bold;text-align:left">
+                                                                        <span style="font-size:1.3em">Flagler County Public Schools</span>
+                                                                        <br /><span style="font-size:1.15em">ANNUAL CONSENT FOR SCHOOL CLINIC SERVICES</span>
+                                                                        <br /><span style="font-size:1.15em">School Year: 2023-2024</span>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="padding:10px;padding-bottom:0;font-weight:bold">STUDENT INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_first_name }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_last_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">First Name</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">Last Name</p>
+                                                    </td>
+                                                </tr>
+                                                {% comment %}
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_location }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px" valign="bottom">
+                                                            {% if student_grade == 'KG' %}Kindergarten{% else %}{{ student_grade|ordinal }} Grade{% endif %}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">School</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Grade Level</p>
+                                                    </td>
+                                                </tr>
+                                                {% endcomment %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="2" style="padding:10px;padding-bottom:0;font-weight:bold">PARENT/GUARDIAN INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Name</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_address }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Address</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_phone }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_email }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Phone Number</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Email Address</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding:5px 10px 10px">
+                                        </div>
+                                        </table>
+                                        <div style="padding:5px 10px 10px">
+                                            <span style="font-weight:bold">Healthcare Services selected at the time of form submission:</span>
+                                            <p><b>Illness Assessment</b></p>
+                                            <p>{% if basic_first_aid == 'true' %}
+                                                :white_check_mark:Basic First Aid
+                                                {% else %}
+                                                :x: Basic First Aid
+                                                {endif}</p>
+                                            <p>{{ minor_wound_care }}</p>
+                                            <p>{{ minor_eye_irritation }}</p>
+                                            <p>{{ minor_bites_and_stings }}</p>
+                                            <p>{{ minor_upset_stomach }}</p>
+                                            <p>{{ check_for_rashes }}</p>
+                                        </div>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{  clinic_services_electronic_signature }}</p>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_signature }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ current_datetime }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px dashed">Parent/Guardian Electronic Signature</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Date</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding:10px">
+                                            <b>☑</b> I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.
+                                        </div>
+                                        <div class="footer">
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <span class="apple-link">&copy; 2023-2024 Flagler County Public Schools</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="align-center" style="font-weight:bold">
+                                                        <table>
+                                                            <tr>
+                                                                <td style="width:20%">
+                                                                    <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="60" />
+                                                                </td>
+                                                                <td style="width:80%">
+                                                                    <p style="font-weight:bold;text-align:left">
+                                                                        <span style="font-size:1.3em">Flagler County Public Schools</span>
+                                                                        <br /><span style="font-size:1.15em">MEDIA PARENT CHOICE</span>
+                                                                        <br /><span style="font-size:1.15em">School Year: 2023-2024</span>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="padding:10px;padding-bottom:0;font-weight:bold">STUDENT INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_first_name }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_last_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">First Name</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">Last Name</p>
+                                                    </td>
+                                                </tr>
+                                                {% comment %}
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_location }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px" valign="bottom">
+                                                            {% if student_grade == 'KG' %}Kindergarten{% else %}{{ student_grade|ordinal }} Grade{% endif %}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">School</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Grade Level</p>
+                                                    </td>
+                                                </tr>
+                                                {% endcomment %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="2" style="padding:10px;padding-bottom:0;font-weight:bold">PARENT/GUARDIAN INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Name</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_address }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Address</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_phone }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_email }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Phone Number</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Email Address</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding:5px 10px 10px">
+                                            <span style="font-weight:bold">The district understands parents and guardians play a major role in guiding their child’s reading and media center use. It is important that each family has the right to determine which library resources are acceptable for its children and that we afford that right to each family. The district strives to provide appropriate educational, intellectual and physical access to resources that provide for a wide range of abilities and differing points of view.  This process in no way negates our responsibility to ensure that the materials that are in our media centers align to state statutes but provides families with additional choice around all available media materials.</span>
+                                            <p><b>Level chosen at the time of form submission:</b></p>
+                                            <p></p>
+                                            <p>{{ mclevel }}</p>
+                                        </div>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ clinic_services_electronic_signature }}</p>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_signature }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ current_datetime }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px dashed">Parent/Guardian Electronic Signature</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Date</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding:10px">
+                                            <b>☑</b> I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.
+                                        </div>
+                                        <div class="footer">
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <span class="apple-link">&copy; 2023-2024 Flagler County Public Schools</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="align-center" style="font-weight:bold">
+                                                        <table>
+                                                            <tr>
+                                                                <td style="width:20%">
+                                                                    <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="60" />
+                                                                </td>
+                                                                <td style="width:80%">
+                                                                    <p style="font-weight:bold;text-align:left">
+                                                                        <span style="font-size:1.3em">Flagler County Public Schools</span>
+                                                                        <br /><span style="font-size:1.15em">REMOVE IF UNUSED</span>
+                                                                        <br /><span style="font-size:1.15em">School Year: 2023-2024</span>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="padding:10px;padding-bottom:0;font-weight:bold">STUDENT INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_first_name }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_last_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">First Name</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">Last Name</p>
+                                                    </td>
+                                                </tr>
+                                                {% comment %}
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_location }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px" valign="bottom">
+                                                            {% if student_grade == 'KG' %}Kindergarten{% else %}{{ student_grade|ordinal }} Grade{% endif %}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">School</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Grade Level</p>
+                                                    </td>
+                                                </tr>
+                                                {% endcomment %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="2" style="padding:10px;padding-bottom:0;font-weight:bold">PARENT/GUARDIAN INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Name</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_address }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Address</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_phone }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_email }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Phone Number</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Email Address</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding:5px 10px 10px">
+                                            <span style="font-weight:bold">Please check that you have read and accept the terms and conditions of the following documents and board policies:</span>
+                                            {% comment %} Updated: 05-03-2023 {% endcomment %}
+                                            <br /><b>☑</b> <a href="https://drive.google.com/file/d/1qz9aFHWqNU60G4lJKPE1uqujOZbpX9u2/view" target="_blank">Digital Learning Movement Handbook</a>
+                                            <br /><b>☑</b> <a href="https://docs.google.com/document/d/1u6wJq8KSo_PN7Fl4giPlj5KTiePduUM-rLOXKZ74RAw/view" target="_blank">Technology Repair and Replacement Fee Schedule</a>
+                                            <br /><b>☑</b> <a href="https://go.boarddocs.com/fla/flcsd/Board.nsf/goto?open&id=9ABQDF68C5F5" target="_blank">School Board Policy 321: Electronic Systems Responsible Use</a>
+                                        </div>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_signature }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ current_datetime }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px dashed">Parent/Guardian Electronic Signature</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Date</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding:10px">
+                                            <b>☑</b> I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.
+                                        </div>
+                                        <div class="footer">
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <span class="apple-link">&copy; 2023-2024 Flagler County Public Schools</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% load allowance static %}
+<div uk-sticky="sel-target: .navbar; cls-active: uk-navbar-sticky">
+    <nav id="navbar" class="uk-padding-small uk-padding-remove-vertical" data-uk-navbar>
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav uk-text-center">
+                <li>
+                    <a href="{% url 'inventory:home' %}">
+                        <div class="reduce-size">
+                            <i class="fas fa-2x fa-home"></i>
+                            <div class="uk-navbar-subtitle">Home</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'inventory:home' %}">
+                        <div class="reduce-size">
+                            <i class="fa-solid fa-2x fa-users"></i>
+                            <div class="uk-navbar-subtitle">Users <i class="fa fa-caret-down"></i></div>
+                        </div>
+                    </a>
+                    <div class="dropdown" data-uk-dropdown="mode: click; offset: 0; animation: uk-animation-slide-top-small; duration: 150">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li>
+                                <a href="{% url 'inventory:home' %}"><i class="fa fa-angle-double-right fa-fw uk-margin-small-right"></i>Students</a>
+                            </li>
+                            {% if request.user.username == 'digeronimod' or request.user.username == 'thibodeaut' %}
+                            <li class="uk-nav-divider"></li>
+                            <li>
+                                <a href="{% url 'users:home_employees' %}"><i class="fa fa-angle-double-right fa-fw uk-margin-small-right"></i>Employees</a>
+                            </li>
+                            {% endif %} 
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a>
+                        <div class="reduce-size">
+                            <i class="fas fa-2x fa-tools"></i>
+                            <div class="uk-navbar-subtitle">Reports <i class="fa fa-caret-down"></i></div>
+                        </div>
+                    </a>
+                    <div class="dropdown" data-uk-dropdown="mode: click; offset: 0; animation: uk-animation-slide-top-small; duration: 150">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li>
+                                <a href="https://sadissso.flaglerschools.com/reports/forms_status"
+                                    ><i class="fas fa-angle-double-right fa-fw uk-margin-small-right"></i>Form Status</a
+                                >
+                            </li>
+                            <li>
+                                <a href="https://sadissso.flaglerschools.com/reports/media_parent_choice"
+                                    ><i class="fas fa-angle-double-right fa-fw uk-margin-small-right"></i>Media Parent Choice</a
+                                >
+                            </li>
+                            <li>
+                                <a href="{https://sadissso.flaglerschools.com/reports/school_clinic_services}"
+                                    ><i class="fas fa-angle-double-right fa-fw uk-margin-small-right"></i>School Clinic Services</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a class="uk-link-heading" href="">
+                        <img src="{% get_static_prefix %}img/avatars/default.png" class="avatar uk-border-circle uk-margin-small-right" />
+                        <span class="uk-visible@m uk-margin-small-right">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+                        <i class="fas fa-caret-down"></i>
+                    </a>
+                    <div class="dropdown" data-uk-dropdown="mode: click; offset: 0; animation: uk-animation-slide-top-small; duration: 150">
+                        <ul class="uk-nav uk-dropdown-nav">
+                            {% if request.user.is_staff %}
+                            <li>
+                                <a href="{% url 'admin:index' %}" target="_blank"><i class="fas fa-key uk-margin-small-right"></i>Admin Portal</a>
+                            </li>
+                            {% endif %}
+                            <li>
+                                <a href="{% url 'logout' %}?next={{ request.path }}"><i class="fas fa-angle-double-right uk-margin-small-right"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

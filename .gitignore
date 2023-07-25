@@ -1,0 +1,29 @@
+## Hidden Settings
+*.token
+
+## Byte-coded
+__pycache__/
+*.py[cod]
+*$py.class
+
+## Operating System
+.DS_Store
+.Thumbs
+
+## Django
+static/
+media/
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+## Development Environment
+.vscode/*
+node_modules/
+
+## Virtual Environment
+.env/
+
+## Data Files
+sadis/api/calendly/
+sadis/api/incidentiq/

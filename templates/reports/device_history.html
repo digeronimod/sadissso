@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load humanize qurl static %}
+{% block title %}Device History{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding">
+    <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+        <div class="uk-width-1-1">
+            <form class="uk-grid-collapse uk-flex uk-flex-center" method="GET" data-uk-grid>
+                <div class="uk-button-group">
+                    <input class="uk-input uk-width-large" type="search" name="search" {% if 'search' in request.GET %}placeholder="{{ request.GET.search }}"{% else %}placeholder="Search by asset tag or serial"{% endif %} autofocus>
+                        <a class="uk-form-icon uk-form-icon-flip uk-width-auto" href="{% qurl request.get_full_path search=None %}" style="right:115px;opacity:30%" data-uk-tooltip="Reset Search">
+                            <i class="fas fa-times" style="font-size:18px"></i>
+                        </a>
+                    </input>
+                    <button class="uk-button uk-button-primary">Search</button>
+                </div>
+            </form>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <h3 class="uk-card-title">Collections Information</h3>
+                </div>
+                <div class="uk-card-body">
+                    {% if collections_entry %}
+                    {{ collections_entry.student.name }} ({{ collections_entry.student.grade|ordinal }} Grade)
+                    <br />Filled out on {{ collections_entry.updated | date:'M jS, Y' }}
+                    {% else %}
+                    No information available.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <h3 class="uk-card-title">Last Owner Information</h3>
+                </div>
+                <div class="uk-card-body">
+                    {% if last_historical_entry %}
+                    {{ last_historical_entry.student.name }} ({{ last_historical_entry.student.grade|ordinal }} Grade)
+                    {% else %}
+                    No information available.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

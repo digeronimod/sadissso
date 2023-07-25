@@ -1,0 +1,282 @@
+{% extends 'base_reports.html' %}
+{% load humanize qurl static %}
+{% block title %}Reports | Media Parent Choice{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding">
+    <div class="uk-margin uk-width-1-1">
+        <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <i class="fa-light fa-calendar fa-2x"></i>
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom">Media Parent Choice</h3>
+            </div>
+        </div>
+    </div>
+    <div class="uk-margin uk-width-1-1">
+        <div class="uk-card uk-card-default uk-card-small">
+            <div class="uk-card-header uk-text-small filterlist-header">
+                <div class="uk-grid-small" data-uk-grid>
+                    <div class="uk-width-auto">Filters</div>
+                    <div class="uk-width-expand uk-text-left"><a href="{% qurl request.get_full_path grade=None grade_level=None media_choice_level=None location=None %}"><i class="far fa-minus-square"></i> <span class="uk-text-capitalize">Clear All</span></a></div>
+                </div>
+            </div>
+            <div class="uk-card-body uk-text-small filterlist-body">
+                <div class="uk-grid-small" data-uk-grid>
+                    <div>
+                        <a class="uk-button uk-button-default uk-button-small">
+                            Location:
+                            {% if not request.GET.location %}
+                                All
+                            {% else %}
+                                {% for location in locations %}
+                                    {% if location.id in request.GET.location %}
+                                        {{ location.alias }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            <i class="fa-light fa-angle-down uk-margin-small-left"></i>
+                        </a>
+                        <div uk-dropdown="mode: click; offset: 2; animation: uk-animation-slide-top-small; duration: 200">
+                            <ul class="uk-dropdown-nav" uk-nav>
+                                {% for location in locations %}
+                                    <li{% if location.id in request.GET.location %} class="uk-active"{% endif %}>
+                                        <a style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}" href="{% qurl request.get_full_path location=location.id %}">
+                                            {{ location.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="{% qurl request.get_full_path location=None %}">Clear Filter</a></li>
+                            </ul>
+                        </div>
+                    </div>                    
+                    
+                    <div>
+                        <a class="uk-button uk-button-default uk-button-small">
+                            Grade:
+                            {% if grade_filter is None %}
+                                All
+                            {% else %}
+                                {{ grade_filter }}
+                            {% endif %}
+                            <i class="fa-light fa-angle-down uk-margin-small-left"></i>
+                        </a>
+                        <div class="uk-width-large" data-uk-dropdown="mode: click; offset: 2; animation: uk-animation-slide-top-small; duration: 200">
+                            <div class="uk-dropdown-grid uk-grid-divider uk-child-width-1-2@m" data-uk-grid>
+                                <div>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        {% for grade in grades %}
+                                            <li{% if grade in grade_filter %} class="uk-active"{% endif %}>
+                                                <a href="{% qurl request.get_full_path grade=grade grade_level=None %}" style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}">
+                                                    {% if grade == "00" %}
+                                                        None
+                                                    {% elif grade == "KG" %}
+                                                        Kindergarten
+                                                    {% else %}
+                                                        {{ grade | ordinal }} Grade
+                                                    {% endif %}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                        <li class="uk-nav-divider"></li>
+                                        <li><a href="{% qurl request.get_full_path grade=None %}">Clear Filter</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        {% for grade_level_key, grade_level_value in grade_levels.items %}
+                                            <li{% if grade_level_key in request.GET.grade_level %} class="uk-active"{% endif %}>
+                                                <a href="{% qurl request.get_full_path grade_level=grade_level_key grade=None %}" style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}">
+                                                    {{ grade_level_value.display }} Grades
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                        <li class="uk-nav-divider"></li>
+                                        <li><a href="{% qurl request.get_full_path grade_level=None %}">Clear Filter</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        
+                    <div>
+                        <a class="uk-button uk-button-default uk-button-small">
+                            Parent Choice Level:
+                            {% if not request.GET.media_choice_level %}
+                                All
+                            {% else %}
+                                {{ request.GET.media_choice_level }}
+                            {% endif %}
+                            <i class="fa-light fa-angle-down uk-margin-small-left"></i>
+                        </a>
+                        <div uk-dropdown="mode: click; offset: 2; animation: uk-animation-slide-top-small; duration: 200">
+                            <ul class="uk-nav uk-dropdown-nav">
+                                {% for choice_level in media_choice_levels %}
+                                    <li{% if choice_level in request.GET.media_choice_level %} class="uk-active"{% endif %}>
+                                        <a href="{% qurl request.get_full_path media_choice_level=choice_level %}" style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}">
+                                            Level {{ choice_level }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="{% qurl request.get_full_path media_choice_level=None %}">Clear Filter</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-margin uk-width-1-1">
+        <div id="calendly-data" class="uk-card uk-card-default uk-card-small">
+            <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Location</th>
+                        <th>Media Parent Choice</th>
+                        <th>Updated</th>
+                        <!-- <th></th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in page_obj %}
+                    <tr>
+                        <td>
+                            <a class="uk-link-reset" href="{% url 'users:detail_students' student.student_id %}">
+                                <div class="uk-width-1-1">
+                                    {{ student.name }}
+                                    <br /><span class="uk-text-meta"><i class="fa-solid fa-user"></i> {{ student.username }}</span>
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            {{ student.location }}
+                            <div class="uk-text-meta">
+                                <div class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical">
+                                    <i class="fa-solid fa-graduation-cap"></i><span>&nbsp;{{ student.grade|ordinal }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                                <div class="uk-width-1-1">
+                                    Level {{ student.media_choice_level }}
+                                </div>
+                        </td>
+                        <td>
+                            <div class="uk-width-1-1">
+                                {{ student.created_at }}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="uk-text-center">No results.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            {% if page_obj.has_other_pages %}
+            <ul class="uk-pagination uk-flex-center">
+                {% if page_obj.has_previous %}
+                <li><a href="{% qurl request.get_full_path page=page_obj.previous_page_number %}"><span uk-pagination-previous></span></a></li>
+                {% else %}
+                <li class="uk-disabled" style="padding-top: 8px"><span uk-pagination-previous></span></li>
+                {% endif %}
+                {% if page_obj.number|add:'-4' > 1 %}
+                <li><a href="{% qurl request.get_full_path page=page_obj.number|add:'-5' %}">&hellip;</a></li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="uk-active">{{ i }}</li>
+                {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                <li><a href="{% qurl request.get_full_path page=i %}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                <li><a href="{% qurl request.get_full_path page=page_obj.number|add:'5' %}">&hellip;</a></li>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <li><a href="{% qurl request.get_full_path page=page_obj.next_page_number %}"><span uk-pagination-next></span></a></li>
+                {% else %}
+                <li class="uk-disabled" style="padding-top: 8px"><span uk-pagination-next></span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- <update-modal> -->
+<!-- <div id="update-data-modal" data-uk-modal>
+    <div class="uk-modal-dialog">
+        <form id="update-data-form" class="uk-form-vertical uk-margin-large" method="POST">
+            {% csrf_token %}
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Update Staging Data</h2>
+            </div>
+            <div class="uk-modal-body">
+                <div class="uk-grid-small" data-uk-grid>
+                    <div>
+                        <div class="uk-form-label uk-text-bold">Bin</div>
+                        <div class="uk-form-controls uk-form-controls-text">
+                            <input id="update-bin" type="text" class="uk-input" placeholder="GS0" required="" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-form-label uk-text-bold">BPI</div>
+                        <div class="uk-form-controls uk-form-controls-text">
+                            <input id="update-bpi" type="text" class="uk-input" placeholder="000000" required="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <input id="student-id" type="hidden" value="" />
+                <button id="update-data-submit" type="submit" class="uk-button uk-button-danger">Apply</button>
+                <a class="uk-button uk-button-default uk-modal-close">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div> -->
+<!-- </update-modal> -->
+<script>
+$(document).ready(function() {
+    $(".action-button").each(function() {
+        var $this = $(this);
+
+        $this.on("click", function() {
+            $("#student-id").val($this.data("student"));
+        });
+    });
+
+    $("#update-data-form").on("submit", function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'users:update_staging_data' %}",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                student_id: $("#student-id").val(),
+                device_bin: $("#update-bin").val(),
+                device_bpi: $("#update-bpi").val()
+            },
+            success: function() {
+                $('#update-data-form').trigger('reset');
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+            },
+            complete: function() {
+                $('#calendly-data').load(location.href + ' #calendly-data>*', '');
+                UIkit.modal('#update-data-modal').hide();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

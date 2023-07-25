@@ -1,0 +1,92 @@
+<!--{% include 'dlmr/sections/contactvalidation.html' %}
+<hr>
+{% include 'dlmr/sections/emergency_contact_info.html' %}
+<br>
+<br>
+<hr>
+{% include 'dlmr/sections/medical_needs.html' %}
+<br>
+<br>
+<hr>
+{% include 'dlmr/sections/school_clinic_services.html' %}
+<br>
+<br>
+<hr>
+{% include 'dlmr/sections/school_health_screenings.html' %}
+<br>
+<br>
+<hr> -->
+{% include 'dlmr/sections/media_parent_choice.html' %}
+<br>
+<br>
+<hr>
+<H3>Digital Learning Movement Registration</H3>
+{{sid}}
+<ul class="uk-child-width-expand" uk-tab>
+    <li id="oto-tab"><a>1:1</a></li>
+    <li id="du-tab"><a>Day User</a></li>
+</ul>
+<ul class="uk-switcher uk-margin">
+    <li id="oto-tab-content">
+        <div id="oto-label" class="uk-alert-success" uk-alert>
+            <p>By selecting <b>1:1 | Take Home</b>, it allows students to take their assigned device home. A Technology Usage Fee is required which reduces fines assessed if damage should occur.</p>
+        </div>
+        <form id="oto-form" method="POST" class="uk-form-stacked">
+            {% csrf_token %}
+            <div class="item-container uk-margin uk-width-1-1">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <span class="uk-text-bold">Due Today</span>
+                        <br /><span class="uk-text-meta">Non-refundable usage fee</span>
+                    </div>
+                    <div class="uk-width-expand uk-text-right">
+                        <span id="due_today" class="uk-text-large">$0 (<span style="opacity: 0.5">-$25</span>)</span>
+                    </div>
+                </div>
+                <div class="uk-margin-small">
+                    <div class="uk-grid-small uk-flex-center" uk-grid>
+                        <div class="uk-width-auto">
+                            <label class="uk-form-label" style="line-height: 30px;">Promotional Code</label>
+                        </div>
+                        <div class="uk-width-expand">
+                             <input class="uk-input uk-form-small" type="text" name="promo_code" value="FCSB2023" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'dlmr/sections/fields.html' %}
+            <div class="uk-margin uk-text-center">
+                <button type="button" class="oto-submit uk-button uk-button-primary uk-width-1-1">Submit<i class="fas fa-check-double uk-margin-small-left"></i></button>
+            </div>
+        </form>
+    </li>
+    <li id="du-tab-content">
+        <div id="du-label" class="uk-alert-warning" uk-alert>
+            <p>By selecting <b>DU | Day User</b>, you are opting out of the program and a device can be issued for daily use and returned at the end of each day. Fines still apply and will follow the three tiered fine fee schedule.</p>
+        </div>
+        <form id="du-form" method="POST" class="uk-form-stacked">
+            {% csrf_token %}
+            <div class="item-container uk-margin uk-width-1-1">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <span class="uk-text-bold">Due Today</span>
+                        <br /><span class="uk-text-meta">Non-refundable usage fee</span>
+                    </div>
+                    <div class="uk-width-expand uk-text-right">
+                        <span id="du-due-today" class="uk-text-large">$0</span>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div class="uk-margin">
+                <input class="uk-checkbox" type="checkbox" id="du-optin" name="du_optin" disabled>
+                <label for="du-optin">Opt-in to the <a>three tiered fine fee schedule</a></label>
+            </div>
+            -->
+            {% include 'dlmr/sections/fields.html' %}
+            <div class="uk-margin uk-text-center">
+                <button type="button" class="du-submit uk-button uk-button-primary uk-width-1-1">Submit<i class="fas fa-check-double uk-margin-small-left"></i></button>
+            </div>
+        </form>
+    </li>
+</ul>

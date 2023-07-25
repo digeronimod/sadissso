@@ -1,0 +1,26 @@
+{% load static minify %}{% lineless %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+        <title>SADIS | {% block title %}Reports Base{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/honegumi.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/sadis.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/daterangepicker.css' %}" />
+        {% block extra_css %}{% endblock %}
+        <script type="text/javascript" src="{% static 'js/uikit.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/daterangepicker.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/fontawesome6b1.js' %}" defer></script>
+        {% block extra_js %}{% endblock %}
+    </head>
+    <body class="uk-height-1-1">
+        {% include 'sections/navbar.html' %}
+        {% block content %}{% endblock %}
+        {% include 'sections/footer.html' %}
+        <script> </script>
+    </body>
+</html>{% endlineless %}

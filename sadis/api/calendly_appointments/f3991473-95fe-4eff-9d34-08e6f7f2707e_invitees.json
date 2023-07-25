@@ -1,0 +1,63 @@
+{
+    "collection": [
+        {
+            "cancel_url": "https://calendly.com/cancellations/f0f24520-0bbe-4b7f-8986-b882f1e9b67a",
+            "created_at": "2023-06-19T12:11:34.229967Z",
+            "email": "none@all.com",
+            "event": "https://api.calendly.com/scheduled_events/f3991473-95fe-4eff-9d34-08e6f7f2707e",
+            "first_name": "Test",
+            "last_name": "DiGeronimo",
+            "name": "Test DiGeronimo",
+            "new_invitee": null,
+            "no_show": null,
+            "old_invitee": null,
+            "payment": null,
+            "questions_and_answers": [
+                {
+                    "answer": "1813002311",
+                    "position": 0,
+                    "question": "Student ID# (Please leave pre filled information BELOW AS IS)"
+                },
+                {
+                    "answer": "Adam",
+                    "position": 1,
+                    "question": "Students First Name:"
+                },
+                {
+                    "answer": "Ringhiser",
+                    "position": 2,
+                    "question": "Students Last Name:"
+                },
+                {
+                    "answer": "07/07/2008",
+                    "position": 3,
+                    "question": "Students Birthdate:"
+                }
+            ],
+            "reconfirmation": null,
+            "reschedule_url": "https://calendly.com/reschedulings/f0f24520-0bbe-4b7f-8986-b882f1e9b67a",
+            "rescheduled": false,
+            "routing_form_submission": null,
+            "status": "active",
+            "text_reminder_number": null,
+            "timezone": "America/New_York",
+            "tracking": {
+                "utm_campaign": null,
+                "utm_source": null,
+                "utm_medium": null,
+                "utm_content": null,
+                "utm_term": null,
+                "salesforce_uuid": null
+            },
+            "updated_at": "2023-06-19T12:11:34.229967Z",
+            "uri": "https://api.calendly.com/scheduled_events/f3991473-95fe-4eff-9d34-08e6f7f2707e/invitees/f0f24520-0bbe-4b7f-8986-b882f1e9b67a"
+        }
+    ],
+    "pagination": {
+        "count": 1,
+        "next_page": null,
+        "next_page_token": null,
+        "previous_page": null,
+        "previous_page_token": null
+    }
+}

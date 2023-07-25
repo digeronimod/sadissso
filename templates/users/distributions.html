@@ -1,0 +1,446 @@
+{% extends 'base.html' %}
+{% load allowance humanize qurl static assign %}
+{% block title %}Users Dashboard{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-body">
+                    <form class="uk-grid-collapse uk-flex uk-flex-center" method="GET" data-uk-grid>
+                        <div class="uk-inline uk-width-expand">
+                            <a class="uk-form-icon uk-form-icon-flip uk-width-auto" href="{% qurl request.get_full_path search=None %}" style="right:10px;opacity:30%" data-uk-tooltip="Reset Search">
+                                <i class="fas fa-times" style="font-size:18px"></i>
+                            </a>
+                            <input class="uk-input uk-width-1-1" type="search" name="search" value="{{ request.GET.search }}" placeholder="Search by school ID, name, or username" style="border-top-right-radius:0;border-bottom-right-radius:0;border-right:0px">
+                        </div>
+                        <div class="uk-width-auto">
+                            <button class="uk-button uk-button-primary" style="border-top-left-radius:0;border-bottom-left-radius:0">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-small">
+                <div class="uk-card-body">
+                    <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fas fa-tools fa-3x"></i>
+                        </div>
+                        <div class="uk-width-expand">
+                            <span class="uk-card-title">Distributions Tool</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if distributions_expired %}
+        <div>
+            <div class="uk-alert-warning" data-uk-alert>
+                <p>The <b>Distribution Tool</b> is currently disabled. You can view or search the data, but you cannot assign devices from this tool until distributions resume.</p>
+            </div>
+        </div>
+        {% endif %}
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-footer uk-text-small filterlist-header">
+                    <div class="uk-grid-small" data-uk-grid>
+                        <div class="uk-width-auto">Assigned Today:</div>
+                        <div class="uk-width-expand"><span class="uk-text-primary">{{ devices_assigned_today }}</span></div>
+                        <div class="uk-width-auto">MacBook Total:</div>
+                        <div class="uk-width-auto"><span class="uk-text-primary">{{ macbook_assigned_total }}</span></div>
+                        <div class="uk-width-auto">iPad Total:</div>
+                        <div class="uk-width-auto"><span class="uk-text-primary">{{ ipad_assigned_total }}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th class="uk-width-auto">Location</th>
+                            <th class="uk-width-auto">Form</th>
+                            <th class="uk-width-auto">Payment</th>
+                            <th>Appointment</th>
+                            <th class="uk-width-auto">Bin</th>
+                            <th class="uk-width-auto">BPI</th>
+                            <th class="uk-width-auto">Charger(s)</th>
+                            <th class="uk-width-auto"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in entries %}
+                        <tr>
+                            <td>
+                                <a class="uk-link-reset" href="{% url 'users:detail_students' user.id %}">
+                                    <span class="uk-text-bold">{{ user.name }}</span>
+                                    <div class="uk-text-small">
+                                        <i class="fas fa-user"></i> {{ user.username}}
+                                    </div>
+                                </a>
+                            </td>
+                            <td class="uk-text-small">
+                                <span class="uk-text-bold">{{ user.location.name }}</span>
+                                <div class="uk-text-meta">
+                                    {% if user.get_grade_full %}
+                                    <div class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span class="uk-hidden@m">&nbsp;{{ user.get_grade }}</span>
+                                        <span class="uk-visible@m">&nbsp;{{ user.get_grade_full }}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if user.role %}
+                                    <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="{{ user.get_role_name }}">
+                                        {% if user.role.id == 'OTO' %}1:1{% else %}{{ user.role.id }}{% endif %}
+                                    </span>
+                                    {% endif %}
+                                    {% if user.get_remote_status == 'Yes' %}
+                                    <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="Remote Student">R</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="uk-text-large">
+                            {% for top_key, top_value in form_payment.items %}
+                                {% if top_key == user.id %}
+                                {% for sub_key, sub_value in top_value.items %}
+                                    {% if sub_key == 'form_date' and sub_value == '23-24' %}
+                                    <span class="uk-text-success">23-24</span>
+                                    {% elif sub_key == 'form_date' and sub_value == '22-23' %}
+                                    <span class="uk-text-warning">22-23</span>
+                                    {% elif sub_key == 'form_date' and sub_value == False %}
+                                    <i class="fas fa-times uk-text-bold uk-text-danger"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                            <td class="uk-text-bold uk-text-large">
+                            {% for top_key, top_value in form_payment.items %}
+                                {% if top_key == user.id %}
+                                {% for sub_key, sub_value in top_value.items %}
+                                    {% if sub_key == 'paid' and sub_value == True %}
+                                    <i class="fas fa-check uk-text-success"></i>
+                                    {% elif sub_key == 'paid' and sub_value == False %}
+                                    <i class="fas fa-times uk-text-danger"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                            <td>
+                            {% for key, value in appointments.items %}
+                                {% if key == user.id %}
+                                {% if value != None %}
+                                {{ value|date:"m/d/Y" }}
+                                <br />{{ value|date:"h:i A"}}
+                                {% else %}
+                                &mdash;
+                                {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                            <td>
+                            {% for top_key, top_value in bpi_bin.items %}
+                                {% if top_key == user.id %}
+                                {% for sub_key, sub_value in top_value.items %}
+                                    {% if sub_key == 'bin' %}
+                                    {{ sub_value }}
+                                    {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                            <td>
+                            {% for top_key, top_value in bpi_bin.items %}
+                                {% if top_key == user.id %}
+                                {% for sub_key, sub_value in top_value.items %}
+                                    {% if sub_key == 'bpi' %}
+                                    {{ sub_value }}
+                                    {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                            <td>
+                            {% for key, value in chargers.items %}
+                                {% if key == user.id %}
+                                    {% for item in value %}
+                                    {% if forloop.first %}{% else%}<br />{% endif %}<span class="uk-badge uk-padding-remove-vertical" style="width:100px">{{ item }}</span>
+                                    {% empty %}
+                                    <span class="uk-badge uk-padding-remove-vertical" style="border:#dedede 1px solid;background-color:transparent;color:#aeaeae;width:100px">0</span>
+                                    {% endfor %}
+                                {% endif %}
+                            {% empty %}
+                            Empty
+                            {% endfor %}
+                            </td>
+                            <td>
+                            {% for top_key, top_value in form_payment.items %}
+                                {% if top_key == user.id %}
+                                    {% for sub_key, sub_value in top_value.items %}
+                                        {% if sub_key == 'form' and sub_value == True %}
+                                            {% for top_key, top_value in bpi_bin.items %}
+                                                {% if top_key == user.id %}
+                                                {% for sub_key, sub_value in top_value.items %}
+                                                    {% if sub_key == 'owned' and sub_value == True %}
+                                                        <span class="uk-text-muted">Assigned</span>
+                                                    {% elif sub_key == 'owned' and sub_value == False %}
+                                                        {% for sub_key, sub_value in top_value.items %}
+                                                            {% if sub_key == 'bpi' and sub_value != None %}
+                                                                {% if user.iiq_id %}
+                                                                    {% if distributions_expired %}
+                                                                    <button class="assign uk-button uk-button-small uk-button-danger" disabled>Assign</button>
+                                                                    {% else %}
+                                                                    <button data-id="{{ sub_value }}" data-student="{{ user.id }}" data-case="{{ allow_case }}" class="assign uk-button uk-button-small uk-button-danger">Assign</button>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                <span class="uk-text-muted">No UUID</span>
+                                                                {% endif %}
+                                                            {% elif sub_key == 'bpi' and sub_value == None %}
+                                                            <span class="uk-text-muted">No Bin/BPI</span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elif sub_key == 'form' and sub_value == False %}
+                                        <span class="uk-text-muted">No Form</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-small">
+                {% if entries.has_other_pages %}
+                <ul class="uk-pagination uk-flex uk-flex-center uk-margin-remove-vertical">
+                    {% if entries.has_previous %}
+                    <li><a href="{% qurl request.get_full_path page=entries.previous_page_number %}"><span data-uk-pagination-previous></span></a></li>
+                    {% else %}
+                    <li class="uk-disabled" style="padding-top: 8px"><span data-uk-pagination-previous></span></li>
+                    {% endif %}
+                    {% if entries.number|add:'-4' > 1 %}
+                    <li><a href="{% qurl request.get_full_path page=entries.number|add:'-5' %}">&hellip;</a></li>
+                    {% endif %}
+                    {% for i in entries.paginator.page_range %}
+                        {% if entries.number == i %}
+                        <li class="uk-active" style="padding: 5px 8px 0 8px;">{{ i }}</li>
+                        {% elif i > entries.number|add:'-5' and i < entries.number|add:'5' %}
+                        <li><a href="{% qurl request.get_full_path page=i %}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if entries.paginator.num_pages > entries.number|add:'4' %}
+                    <li><a href="{% qurl request.get_full_path page=entries.number|add:'5' %}">&hellip;</a></li>
+                    {% endif %}
+                    {% if entries.has_next %}
+                    <li><a href="{% qurl request.get_full_path page=entries.next_page_number %}"><span data-uk-pagination-next></span></a></li>
+                    {% else %}
+                    <li class="uk-disabled" style="padding-top: 8px"><span data-uk-pagination-next></span></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- START: Assign Device -->
+<div id="assign-device-modal" data-uk-modal>
+    <div class="uk-modal-dialog">
+        <form id="assign-device-form" class="uk-margin-large" method="POST">
+            {% csrf_token %}
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Confirm Assignment</h2>
+            </div>
+            <div id="assign-device-body" class="uk-modal-body">
+                <div class="uk-margin">
+                    <div class="uk-form-label uk-text-bold">Device BPI:</div>
+                    <div class="uk-form-controls uk-form-controls-text">
+                        <input id="confirm-bpi-number" name="confirm_bpi_number" class="uk-input uk-width-1-1" type="text" required="" />
+                        <div id="confirm-bpi-readout" class="uk-text-meta" style="margin-top:3px"></div>
+                    </div>
+                </div>
+                <hr />
+                <div class="uk-margin uk-grid-small" data-uk-grid>
+                    <div class="uk-width-1-2">
+                        <label class="uk-form-label">
+                            <input id="assign-charger" name="assign-charger" type="checkbox" class="uk-checkbox" /> Assign Charger with Device
+                        </label>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                            <div>
+                                <select id="assign-charger-type" name="assign-charger-type" class="uk-select" disabled="">
+                                    <option value="">-</option>
+                                    {% for type in charger_types %}
+                                    <option value="{{ type.id }}">{{ type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <div class="uk-grid-small" data-uk-grid>
+                                    {% for condition in charger_conditions %}
+                                    <label class="uk-form-label">
+                                        <input id="assign-charger-condition" type="radio" name="charger-condition" value="{{ condition.id }}" class="uk-radio" disabled="" /> {% if condition.id == 'UG' %}Used{% else %}{{ condition.name }}{% endif %}
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="assign-case-selection" class="uk-margin uk-grid-small" data-uk-grid>
+                    <div class="uk-width-1-2">
+                        <label class="uk-form-label">
+                            <input id="assign-case" name="assign-case" type="checkbox" class="uk-checkbox" /> Assign device WITHOUT case
+                        </label>
+                    </div>
+                </div>
+                <script>
+                    var assign_charger = document.getElementById("assign-charger");
+                    var assign_charger_type = document.getElementById("assign-charger-type");
+
+                    var assign_charger_condition_node = document.querySelectorAll("input[name=charger-condition]");
+                    var assign_charger_condition = [...assign_charger_condition_node];
+
+                    assign_charger.addEventListener('change', function() {
+                        if (this.checked) {
+                            assign_charger_type.removeAttribute("disabled");
+                            assign_charger_type.setAttribute("required", "");
+
+                            assign_charger_condition.forEach((condition, index) => {
+                                condition.removeAttribute("disabled");
+
+                                if (index == 0) {
+                                    condition.setAttribute("required", "");
+                                }
+                            });
+                        } else {
+                            assign_charger_type.removeAttribute("required");
+                            assign_charger_type.setAttribute("disabled", "");
+
+                            assign_charger_condition.forEach(condition => {
+                                condition.checked = false;
+                                condition.removeAttribute("required");
+                                condition.setAttribute("disabled", "");
+                            });
+                        }
+                    });
+                </script>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button id="assign-device-submit" type="submit" class="uk-button uk-button-danger" disabled="">Confirm</button>
+                <a class="uk-button uk-button-default uk-modal-close">Close</a>
+                <div class="uk-margin meta-container uk-text-left">
+                    <div>
+                        <div class="uk-form-label uk-text-bold uk-text-uppercase">Meta information:</div>
+                        <div class="uk-form-controls uk-form-controls-text">
+                            <b>Author:</b> {{ request.user.get_full_name }} &centerdot; <b>Timestamp:</b> {{ current_datetime|date:'m-d-Y H:i A' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    var bpi_to_match, student_assigned_to_bpi;
+
+    $(document).on("click", ".assign", function(event) {
+        event.preventDefault();
+
+        $(".uk-alert-success").remove();
+        $(".uk-alert-danger").remove();
+        $("input[name=confirm_bpi_number]").val("");
+        $("input[name=confirm_bpi_number]").removeAttr("disabled");
+
+        bpi_to_match = $(this).data('id');
+        student_assigned_to_bpi = $(this).data('student');
+
+        document.getElementById("confirm-bpi-readout").innerHTML = "The BPI should be <b>" + bpi_to_match + "</b>.";
+
+        UIkit.modal('#assign-device-modal').show();
+        document.getElementById("confirm-bpi-number").focus();
+    });
+
+    $(document).on("keydown", "#assign-device-form", function(event) {
+        return event.key != "Enter";
+    });
+
+    $(document).on("keyup", "#confirm-bpi-number", function() {
+        var bpi_input_value = $(this).val();
+
+        if (bpi_input_value == bpi_to_match) {
+            $("#assign-device-submit").removeAttr("disabled");
+        } else {
+            $("#assign-device-submit").attr("disabled", "");
+        }
+    });
+
+    $(document).on("submit", "#assign-device-form", function(event) {
+        event.preventDefault();
+
+        if (bpi_to_match == $("input[name=confirm_bpi_number]").val()) {
+            $('#assign-device-submit').replaceWith('<span id="assign-device-working" data-uk-spinner></span>')
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                    action: "assign-bpi-to-student",
+                    bpi_to_assign: bpi_to_match,
+                    student_to_assign: student_assigned_to_bpi,
+                    assign_charger: $("input[name=assign-charger]").prop("checked"),
+                    assign_charger_type: $("#assign-charger-type").val(),
+                    assign_charger_condition: $("#assign-charger-condition").val(),
+                    assign_case: $("input[name=assign-case]").prop("checked")
+                },
+                success: function(json) {
+                    if (json.assign_response == true) {
+                        $("#assign-device-body").prepend(
+                            '<div class="uk-alert-success" uk-alert>' +
+                                '<p>Device was successfully assigned! You can now close this window.</p>' +
+                            '</div>'
+                        );
+
+                        $("input[name=confirm_bpi_number]").attr("disabled", "true");
+                        $("#assign-device-working").replaceWith('<button id="assign-device-submit" type="submit" class="uk-button uk-button-danger" disabled="">Confirm</button>');
+                    } else {
+                        $("#assign-device-body").prepend(
+                            '<div class="uk-alert-danger" uk-alert>' +
+                                '<a class="uk-alert-close" uk-close></a>' +
+                                '<p><b>ERROR:</b> IncidentIQ rejected the assignment with an error code of 409; there is likely no IIQ UUID for the student.</p>' +
+                            '</div>'
+                        );
+                    }
+
+                    document.getElementById("assign-device-form").reset();
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        } else {
+            $("#assign-device-body").prepend(
+                '<div class="uk-alert-danger" uk-alert>' +
+                    '<a class="uk-alert-close" uk-close></a>' +
+                    '<p><b>ERROR:</b> The BPI you entered does not match the assignment given in the database. Please double check the BPI you are entering.</p>' +
+                '</div>'
+            );
+        }
+    });
+});
+</script>
+<!-- END: Assign Device -->
+{% endblock %}

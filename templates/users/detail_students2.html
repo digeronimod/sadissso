@@ -1,0 +1,1446 @@
+{% extends 'base-fa6.html' %}
+{% load asset_tags humanize numbers qurl static %}
+{% block title %}User Detail | {{ student.id }} {% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/select2.css' %}" />
+<style>
+@media print {
+    .student-tempid-dymo, #student-infolabel-print {
+        width: 101.6mm;
+        height: 50.925mm;
+        padding: 0.5mm;
+    }
+    .student-tempid-dymo img {
+        image-rendering: pixelated;
+    }
+}
+</style>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/clipboard.js' %}"></script>
+<script src="{% static 'js/select2.js' %}"></script>
+<script src="{% static 'js/barcode.code39.min.js' %}"></script>
+<script src="{% static 'dymo/dymo-framework.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+        <!-- SEARCH -->
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-body">
+                    <form class="uk-grid-collapse uk-flex uk-flex-center" action="{% url 'users:home_students' %}" method="POST" data-uk-grid>
+                        {% csrf_token %}
+                        <div class="uk-button-group uk-width-1-1">
+                            <input class="uk-input uk-form-small uk-width-1-1" type="search" name="search" value="{{ request.GET.search }}" placeholder="Search by student school ID, FLEID, name, or username" style="border-right:0">
+                            <button class="uk-button uk-button-primary uk-button-small">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /SEARCH -->
+        <!-- STUDENT HEADER -->
+        <div>
+            <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                <div class="uk-card uk-card-small uk-margin-small">
+                    <div class="uk-card-body uk-background-muted" data-uk-sticky="offset:80" style="z-index:900">
+                        <div id="user-header" class="uk-grid-small uk-flex uk-flex-middle" data-uk-grid>              
+                            <div class="uk-width-auto">
+                                <i class="fas fa-user fa-3x"></i>
+                            </div>
+                            <div class="uk-width-expand">
+                                <div class="uk-card-title">
+                                    <span class="clipboard" data-uk-tooltip="Click2Copy" data-clipboard-action="copy" data-clipboard-text="{{ student.name }}">{{ student.name }}</span>
+                                    {% if is_admin %}
+                                    <a class="uk-badge uk-badge-success uk-padding-small uk-padding-remove-vertical uk-link-reset" data-uk-tooltip="{{ student.get_role }}">
+                                        {% if student.get_role_id == 'OTO' %}1:1{% else %}{{ student.get_role_id }}{% endif %}<i class="fas fa-caret-down" style="margin-left: 5px"></i>
+                                    </a>
+                                    <div data-uk-dropdown="mode: click; pos: bottom-justify; offset: 5; animation: uk-animation-slide-top-small; duration: 200">
+                                        <ul class="uk-dropdown-nav" data-uk-nav>
+                                            <li class="uk-nav-header" style="padding-top: 0">Change EC</li>
+                                            <li class="uk-nav-divider"></li>
+                                            {% for role in roles %}
+                                            {% if role.id != student.role.id %}
+                                            <li><a id="change-ec" data-id="{{ role.id }}" style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}">{{ role.name }}</a></li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% else %}
+                                    <span class="uk-badge uk-badge-success uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="{{ student.get_role }}">
+                                        {% if student.get_role_id == 'OTO' %}1:1{% else %}{{ student.get_role_id }}{% endif %}
+                                    </span>
+                                    {% endif %}
+                                    {% if is_super_admin %}
+                                    <a class="uk-badge{% if student.status.id == 'IT' %} uk-badge-warning{% else %} uk-badge-white{% endif %} uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="{{ student.status }}">
+                                        {{ student.status.id }}<i class="fas fa-caret-down" style="margin-left:5px"></i>
+                                    </a>
+                                    <div data-uk-dropdown="mode: click; pos: bottom-justify; offset: 5; animation: uk-animation-slide-top-small; duration: 200">
+                                        <ul class="uk-dropdown-nav" data-uk-nav>
+                                            <li class="uk-nav-header" style="padding-top: 0">Change Status</li>
+                                            <li class="uk-nav-divider"></li>
+                                            {% for status in statuses %}
+                                            {% if status.id != student.status.id %}
+                                            <li>
+                                                <a id="change-status" data-id="{{ status.id }}" style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}">{{ status.name }}</a>
+                                            </li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% else %}
+                                    <span class="uk-badge{% if student.status.id == 'IT' %} uk-badge-warning{% else %} uk-badge-white{% endif %} uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="{{ student.status }}">
+                                        {{ student.status.id }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div class="uk-grid-small uk-flex uk-flex-middle uk-text-meta" data-uk-grid>
+                                    <div>
+                                        <span class="clipboard" uk-tooltip="Click2Copy" data-clipboard-action="copy" data-clipboard-text="{{ student.id }}" >
+                                            <i class="fas fa-hashtag"></i> {{ student.id }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="clipboard" uk-tooltip="Click2Copy" data-clipboard-action="copy" data-clipboard-text="{{ student.username }}">
+                                            <i class="fa-solid fa-user-tag"></i> {{ student.username }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-width-auto">
+                                <a class="uk-link-reset clipboard" href="https://flaglerskyward.nefec.org/scripts/wsisa.dll/WService=wsStu/seplog01.w" target="_blank" data-clipboard-action="copy" data-clipboard-text="{{ student.id }}">
+                                    <span data-uk-tooltip="View user in SKYWARD">
+                                        <img src="{% static 'img/icons/skyward-logo.png' %}" alt=“SKYWARD” width="50" height="50">
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /STUDENT HEADER -->
+        <!-- STUDENT INFORMATION -->
+        <div>
+            <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
+                                <div class="uk-width-expand">
+                                    <span class="uk-text-large">
+                                        Student Profile
+                                    </span>
+                                </div>
+                                <div class="uk-width-auto">
+                                    Device Registration:
+                                    {% if ddata and ddata_date %}
+                                    <!-- <a class="{% if ddata_date == '22-23' %}uk-text-success{% elif ddata_date == '21-22' %}uk-text-warning{% endif %}" data-uk-toggle="target: #dlm-details">{{ ddata_date }}</a> -->
+                                    <a class="{% if ddata_date == '23-24' %}uk-text-success{% elif ddata_date == '22-23' %}uk-text-warning{% endif %}" data-uk-toggle="target: #dlm-details">{{ ddata_date }}</a>
+                                    {% else %}
+                                    <i class="fa-regular fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="uk-width-auto">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body">
+                            <div id="profile-data">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="uk-text-bold">Status:</td>
+                                            <td>
+                                                {{ student.status }}{% if student.status_id == 'IT' %} ({{ transfer_record.transfer_to.name }}){% endif %}
+                                                {% if student.status_id == 'SP' %}
+                                                {% if summer_program_record %}({{ summer_program_record.program.id }}){% else %}(Unknown){% endif %}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="uk-text-bold">Location:</td>
+                                            <td>
+                                                <span uk-tooltip="{{ student.location.id }}">
+                                                    {{ student.location.name }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="uk-text-bold">Grade:</td>
+                                            <td>{{ student.get_grade_full }}</td>
+                                        </tr>
+                                        {% if student.graduation_date != None %}
+                                        <tr>
+                                            <td class="uk-text-bold">Graduation:</td>
+                                            <td>{{ student.graduation_date|date:'Y' }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% if student.birthdate != None %}
+                                        <tr>
+                                            <td class="uk-text-bold">Birthdate:</td>
+                                            <td>{{ student.birthdate|date:'F jS, Y' }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <td>
+                                                <hr class="uk-margin-top" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="uk-text-bold">Password: </td>
+                                            <td>
+                                                <span class="clipboard" uk-tooltip="Click2Copy" data-clipboard-action="copy" data-clipboard-text="{{ student.password }}">{{ student.password }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                        <div>
+                            <div id="asset-data" class="uk-card uk-card-default uk-card-small">
+                                <div class="uk-card-header">
+                                    <div class="uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
+                                        <div class="uk-width-expand">
+                                            <span class="uk-text-large">Info Tab:</span>
+                                        </div>
+                                        <div class="uk-width-auto">
+                                            Med/Consent:
+                                            {% if scsdata.clinic_services_checkbox %}
+                                            <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                            {% else %}
+                                            <i class="far fa-times-circle uk-text-danger"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="uk-width-auto">
+                                            Contact:
+                                            {% if ecidata.fam_1_parent_1_name %}
+                                            <a data-uk-toggle="target: #form-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                            {% else %}
+                                            <i class="far fa-times-circle uk-text-danger"></i>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-card-body">
+                                    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                                        <div>
+                                            <div class="uk-grid-collapse uk-heading-divider" style="padding-bottom:4px" data-uk-grid>
+                                                <div class="uk-text-bold uk-width-expand">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="uk-text-bold">Parent/Guardian Contact:</td>
+                                                                <td>
+                                                                    {% if ecidata.fam_1_parent_1_name %}
+                                                                    <a data-uk-toggle="target: #form-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                                                    {% else %}
+                                                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="uk-text-bold">Alternate Contact(s):</td>
+                                                                <td>
+                                                                    {% if ecidata.fam_1_parent_1_name %}
+                                                                    <a data-uk-toggle="target: #form-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                                                    {% else %}
+                                                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="uk-text-bold">Medical Information:</td>
+                                                                <td>
+                                                                    {% if scsdata.clinic_services_checkbox %}
+                                                                    <a data-uk-toggle="target: #form-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                                                    {% else %}
+                                                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="uk-text-bold">Consent to Clinical Services:</td>
+                                                                <td>
+                                                                    {% if scsdata.clinic_services_checkbox %}
+                                                                    <a data-uk-toggle="target: #form-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                                                    {% else %}
+                                                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <hr class="uk-margin-top" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="uk-text-bold">Media Parent Choice: </td>
+                                                                <td>
+                                                                    <span >
+                                                                        <!-- Check if mpcdata.media_choice_level is null -->
+                                                                        {% if mpcdata.media_choice_level is null %}
+                                                                        <span>Level not set</span>
+                                                                        {% else %}
+                                                                        LEVEL {{ mpcdata.media_choice_level }}
+                                                                        {% endif %}
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- DLM DETAILS -->
+<div id="dlm-details" data-uk-offcanvas="flip: true; overlay: true;">
+    <div class="uk-offcanvas-bar">
+        <button class="uk-offcanvas-close" type="button" data-uk-close></button>
+        <!-- REGISTRATION INFORMATION -->
+        <div id="registration-data">
+            <h3>Registration Details</h3>
+            {% if ddata %}
+            <table>
+                <tr>
+                    <td class="uk-text-bold">
+                        Complete:
+                    </td>
+                    <td>
+                        <i class="far fa-check-circle uk-text-success"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="uk-text-bold">
+                        Timestamp:
+                    </td>
+                    <td>
+                        {{ ddata.created|date:"m-d-Y" }} <span class="uk-text-meta">{{ ddata.created|date:"h:m A" }}</span>
+                    </td>
+                </tr>
+            </table>
+            <table id="parent-information" class="uk-margin-small-top">
+                <tr>
+                    <td class="uk-text-bold">
+                        Parent Name:
+                    </td>
+                    <td>
+                        {{ ddata.parent_name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="uk-text-bold">
+                        Parent Address:
+                    </td>
+                    <td>
+                        {{ ddata.parent_address }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="uk-text-bold">
+                        Parent Email:
+                    </td>
+                    <td>
+                        {{ ddata.parent_email }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="uk-text-bold">
+                        Parent Phone:
+                    </td>
+                    <td>
+                        {{ ddata.parent_phone }}
+                    </td>
+                </tr>
+            </table>
+            <div id="dlmr-info-actions" class="uk-grid-small uk-margin-top" data-uk-grid>
+                <div>
+                    <a class="uk-button uk-button-warning uk-button-small" data-uk-toggle="target: #resend-confirmation-modal">Resend Confirmation</a>
+                </div>
+                <div>
+                    <button type="button" id="archive-data-submit" class="uk-button uk-button-danger uk-button-small">Archive Data</button>
+                </div>
+            </div>
+            {% else %}
+            <div>
+                No registration data could be found.
+            </div>
+            {% endif %}
+        </div>
+        <!-- /REGISTRATION INFORMATION -->
+        <hr />
+        <!-- PAYMENT INFORMATION
+        <div id="payment-data">
+            <h3>Registration Payment</h3>
+            {% if ddata %}
+            <table>
+                <tr>
+                    <td class="uk-text-bold">
+                        Complete:
+                    </td>
+                    <td>
+                        <i class="far fa-check-circle uk-text-success"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="uk-text-bold">
+                        Timestamp:
+                    </td>
+                    <td>
+                        {{ ddata.created|date:"Y-m-d, h:m A" }}
+                    </td>
+                </tr>
+            </table>
+            {% else %}
+            <div>
+                No registration payment data could be found.
+            </div>
+            {% endif %}
+        </div>
+         /PAYMENT INFORMATION -->
+    </div>
+</div>
+<!-- /DLM DETAILS -->
+<!-- REGISTRATION CONFIRMATION -->
+<div id="resend-confirmation-modal" data-uk-modal>
+    <div class="uk-modal-dialog">
+        <form id="resend-confirmation-form" class="uk-form-vertical uk-margin-large" method="POST">
+            {% csrf_token %}
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Email Confirmation</h2>
+            </div>
+            <div class="uk-modal-body">
+                <div class="uk-margin-small">
+                    <div class="uk-form-label uk-text-bold">Email address:</div>
+                    <div class="uk-form-controls uk-form-controls-text">
+                        <input id="resend-email-address" type="text" class="uk-input" value="{{ ddata.parent_email }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button id="resend-confirmation-button" type="submit" class="uk-button uk-button-danger">Resend</button>
+                <a class="uk-button uk-button-default uk-modal-close">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /REGISTRATION CONFIRMATION -->
+<!-- Form Data -->
+<div id="form-details" data-uk-offcanvas="flip: true; overlay: true;">
+    <div class="uk-offcanvas-bar">
+        <button class="uk-offcanvas-close" type="button" data-uk-close></button>
+        <!-- Emergency Contact Information -->
+        <div id="form-data">
+            <h3>Contact Information</h3>
+            {% if ddata %}
+            <table>
+                <tr>               
+                    <p>Custody paperwork on file with the school?
+                    {% if ecidata.custody_paperwork == 'true' %}
+                    <i class="far fa-check-circle uk-text-success"></i>
+                    {% else %}
+                    <i class="fa-regular fa-times-circle uk-text-danger"></i>
+                    {% endif %}
+                    </p>
+                </tr>
+            </table>
+            {% endif %}
+            {% if ecidata %}
+            <table id="parent-information" class="uk-margin-small-top">
+                <tr>
+                    <ul class="uk-child-width-expand" uk-tab>
+                        <li id="ECI_family_one"><a>Family #1:</a></li>
+                        <li id="ECI_family_two"><a>Family #2:</a></li>
+                    </ul>
+                    <ul class="uk-switcher uk-margin">
+                        <li id="ECI_family_one_content">
+                            <div style="padding:10px">
+                                <p><b>Parent/Legal Guardian's Name:</b> {{ ecidata.fam_1_parent_1_name }}</p>
+                                <p><b>Cell Phone Number:</b> {{ ecidata.fam_1_parent_1_cell_phone }}</p>
+                                <p><b>Daytime Phone Number:</b> {{ ecidata.fam_1_parent_1_daytime_phone }}</p>
+                                <p><b>Parent/Legal Guardian's Email:</b> {{ ecidata.fam_1_parent_1_email }}</p>
+                                <p></p>
+                                <p><b>2nd Parent/Legal Guardian's Name:</b> {{ ecidata.fam_1_parent_2_name }}</p>
+                                <p><b>Cell Phone Number:</b> {{ ecidata.fam_1_parent_2_cell_phone }}</p>
+                                <p><b>Daytime Phone Number:</b> {{ ecidata.fam_1_parent_2_daytime_phone }}</p>
+                                <p><b>2nd Parent/Legal Guardian's Email:</b> {{ ecidata.fam_1_parent_2_email }}</p>
+                                <p></p>
+                                <p><b>Residence Address:</b> {{ ecidata.fam_1_residence }}</p>
+                                <p><b>Mailing Address:</b> {{ ecidata.fam_1_mailing }}</p>
+                            </div>
+                            <div class="uk-width-auto"><b>Completed on: </b> {{ ddata.created|date:"m-d-Y" }} <span class="uk-text-meta">{{ ddata.created|date:"h:m A" }}</span></div>
+                            <div id="dlmr-info-actions" class="uk-grid-small uk-margin-top" data-uk-grid>
+                                <div>
+                                    <a class="uk-button uk-button-warning uk-button-small" data-uk-toggle="target: #resend-emergency-contact-info-email-modal">Resend Confirmation</a>
+                                </div>
+                                <div>
+                                    <button type="button" id="update-cv-submit" class="uk-button uk-button-danger uk-button-small">Update Contact Validation</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="ECI_family_two_content">
+                            <div style="padding:10px">
+                                <p><b>Parent/Legal Guardian's Name:</b> </p>
+                                <p><b>Cell Phone Number:</b> {{ ecidata.fam_2_parent_1_cell_phone }}</p>
+                                <p><b>Daytime Phone Number:</b> {{ ecidata.fam_2_parent_1_daytime_phone }}</p>
+                                <p><b>Parent/Legal Guardian's Email:</b> {{ ecidata.fam_2_email }}</p>
+                                <p></p>
+                                <p><b>2nd Parent/Legal Guardian's Name:</b> {{ ecidata.fam_2_parent_2_name }}</p>
+                                <p><b>Cell Phone Number:</b> {{ ecidata.fam_2_parent_2_cell_phone }}</p>
+                                <p><b>Daytime Phone Number:</b> {{ ecidata.fam_2_parent_2_daytime_phone }}</p>
+                                <p></p>
+                                <p><b>Residence Address:</b> {{ ecidata.fam_2_residence }}</p>
+                                <p><b>Mailing Address:</b> {{ ecidata.fam_2_mailing }}</p>
+                            </div>
+                        </li>
+                    </ul>
+                        <hr>
+                        <h3>Student Pickup / Additional Emergency Contacts:</h3>
+                        <h5>Individual #1</h5>
+                        <p><b>Name:</b> {{ ecidata.pickup_5_name }}</p>
+                        <p><b>Cell Phone Number:</b> {{ ecidata.pickup_5_phone }}</p>
+                        <p><b>Relationship:</b> {{ ecidata.pickup_5_relationship }}</p>
+                        <h5>Individual #2</h5>
+                        <p><b>Name:</b> {{ ecidata.pickup_6_name }}</p>
+                        <p><b>Cell Phone Number:</b> {{ ecidata.pickup_6_phone }}</p>
+                        <p><b>Relationship:</b> {{ ecidata.pickup_6_relationship }}</p>
+                        <h5>Individual #3</h5>
+                        <p><b>Name:</b> {{ ecidata.pickup_7_name }}</p>
+                        <p><b>Cell Phone Number:</b> {{ ecidata.pickup_7_phone }}</p>
+                        <p><b>Relationship:</b> {{ ecidata.pickup_7_relationship }}</p>
+                        <hr>
+                    </div>
+                </tr>
+            </table>
+            <div id="dlmr-info-actions" class="uk-grid-small uk-margin-top" data-uk-grid>
+                <div>
+                    <a class="uk-button uk-button-warning uk-button-small" data-uk-toggle="target: #resend-confirmation-modal">Resend Confirmation</a>
+                </div>
+                <div>
+                    <button type="button" id="archive-data-submit" class="uk-button uk-button-danger uk-button-small">Archive Data</button>
+                </div>
+            </div>
+            {% else %}
+            <div>
+                No registration data could be found.
+            </div>
+            {% endif %}
+        </div>
+        <hr>
+    </div>
+</div>
+<!-- /Medical-SCS-DETAILS -->
+<div id="medical-scs-details" data-uk-offcanvas="flip: true; overlay: true;">
+    <div class="uk-offcanvas-bar">
+        <button class="uk-offcanvas-close" type="button" data-uk-close></button>
+        <!-- Medical & Consent Information -->
+        <!-- SCS INFORMATION -->
+        <div id="medical-scs-data">
+            <h3>Medical Needs</h3>
+            <table>
+                <tr>               
+                    <p>Does the student have allergies?
+                    {% if mndata.allergies == 'true' %}
+                    <i class="far fa-check-circle uk-text-success"></i>
+                    {% else %}
+                    <i class="fa-regular fa-times-circle uk-text-danger"></i>
+                    {% endif %}
+                    </p>
+                </tr>
+            </table>
+                        <p>What is the student allergic to?<i class="uk-text-danger"> {{ mndata.allergic_to }}</i></p>
+                        <p>Does the student wear glasses or contacts? {% if mndata.glasses_or_contacts == 'true' %}</p>
+                        <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                    {% else %}
+                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                        <p>Does the student wear hearing aids? {% if mndata.hearing_aids == 'true' %}</p>
+                        <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                    {% else %}
+                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                        <p>Physician Name? {{ mndata.physician_name }}</p>
+                        <p>Physician Phone Number? {{ mndata.physician_phone }}</p>
+                        <hr>
+            <h3>Annual Consent for School Clinic Services</h3>
+            {% if ddata %}
+            <table>
+                <!-- <h4>Healthcare Services:</h4>
+                    <ul style="list-style-type: none;">
+                            <li>{% if clinic_services_all == 'true' %}
+                                ☑ 
+                                {% else %}
+                                <span style="font-size: 25px;">☐</span>
+                                {% endif %} 
+                                I consent to ALL School-based Illness Assessments listed below.</li>
+                        </ul> -->
+                        <h4>Illness Assessment</h4>
+                        <ul style="list-style-type: none;">
+                            <li>
+                                {% if scsdata.basic_first_aid == 'true' %}
+                                <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                    {% else %}
+                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                                <b> Basic First Aid Services</b> (Nose, ear/throat check, blood pressure monitoring, temperature check)</li>
+                            <li>{% if scsdata.minor_wound_care == 'true' %}
+                                <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                    {% else %}
+                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                                <b> For Minor Wound Care</b> (cuts, scrapes, and abrasions)</li>
+                            <li>{% if scsdata.minor_eye_irritation == 'true' %}
+                                <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                    {% else %}
+                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                                <b> For Minor Eye Irritation </b></li>
+                            <li>{% if scsdata.minor_bites_and_stings == 'true' %}
+                                <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                    {% else %}
+                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                                <b> For Minor Bites and/or Stings </b></li>
+                            <li>{% if scsdata.minor_upset_stomach == 'true' %}
+                                <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                    {% else %}
+                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                                <b> For Minor Upset Stomach and/or Indigestion</li>
+                            <li> {% if scsdata.check_for_rashes == 'true' %}
+                                <a data-uk-toggle="target: #medical-scs-details"><i class="far fa-check-circle uk-text-success"></i></a>
+                                    {% else %}
+                                    <i class="far fa-times-circle uk-text-danger"></i>
+                                    {% endif %}
+                                <b> Skin check for rashes</b> (exposed areas and limbs only)</li>
+                        </ul>
+            </table>
+            {% else %}
+            <div>
+                No registration payment data could be found.
+            </div>
+            {% endif %}
+        </div>
+        <!-- /SCS INFORMATION -->
+        <hr>
+        <tr>
+            <td class="uk-text-bold">
+                Timestamp:
+            </td>
+            <td>
+                {{ ddata.created|date:"m-d-Y" }} <span class="uk-text-meta">{{ ddata.created|date:"h:m A" }}</span>
+            </td>
+        </tr>
+    </div>
+</div>
+<!-- /Medical-SCS-DETAILS -->
+<!-- REGISTRATION CONFIRMATION -->
+<div id="resend-confirmation-modal" data-uk-modal>
+    <div class="uk-modal-dialog">
+        <form id="resend-confirmation-form" class="uk-form-vertical uk-margin-large" method="POST">
+            {% csrf_token %}
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Email Confirmation</h2>
+            </div>
+            <div class="uk-modal-body">
+                <div class="uk-margin-small">
+                    <div class="uk-form-label uk-text-bold">Email address:</div>
+                    <div class="uk-form-controls uk-form-controls-text">
+                        <input id="resend-email-address" type="text" class="uk-input" value="{{ ddata.parent_email }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button id="resend-confirmation-button" type="submit" class="uk-button uk-button-danger">Resend</button>
+                <a class="uk-button uk-button-default uk-modal-close">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /REGISTRATION CONFIRMATION -->
+<script>
+// On Ready
+$(document).ready(function() {
+    var clipboard = new ClipboardJS('.clipboard');
+
+    $('#modify-assets-search').select2({
+        placeholder: 'Search for device...',
+        width: 'resolve',
+        minimumInputLength: 2,
+        ajax: {
+            delay: 500,
+            dataType: 'json',
+            type: 'POST',
+            data: function (params) {
+                return {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'modify-assets-search',
+                    search: params.term,
+                }
+            },
+            processResults: function(data, params) {
+                return {
+                    results: $.map(data, function(item) {
+                        return {
+                            id: item.id,
+                            text: item.text
+                        }
+                    })
+                };
+            }
+        }
+    });
+
+    $(document).on("click", "#get-iiq-id", function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: "get-iiq-id-submit"
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+
+                $("#profile-items").prepend(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>Something went wrong! Please try again and if the issue persists, please contact your technology support technician to troubleshoot the issue.</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            complete: function() {
+                $("#profile-data").load(location.href + " #profile-data>*", "");
+            }
+        });
+    });
+
+    $(document).on("submit", "#resend-confirmation-form", function(event) {
+        event.preventDefault();
+
+        $("#resend-confirmation-button").replaceWith('<div id="resend-confirmation-loading"><i class="fas fa-sync fa-spin"></i></div>');
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                action: "resend-registration-email",
+                resend_address: $("#resend-email-address").val()
+            },
+            success: function(json) {
+                document.getElementById("resend-confirmation-form").reset();
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+            },
+            complete: function() {
+                $("#resend-confirmation-loading").replaceWith('<button id="resend-confirmation-button" class="uk-button uk-button-small uk-button-danger">Resend Confirmation</button>');
+                $('#parent-information').load(location.href + ' #parent-information>*', '');
+                $('#resend-confirmation-modal').load(location.href + ' #resend-confirmation-modal>*', '');
+
+                UIkit.modal('#resend-confirmation-modal').hide();
+            }
+        });
+    });
+
+    $(document).on("submit", "#add-note-form", function(event) {
+        event.preventDefault();
+
+        $("#add-note-submit").replaceWith('<button id="add-note-submit" type="submit" class="uk-button uk-button-default uk-button-small uk-width-small" disabled><i class="fas fa-sync fa-spin"></i></button>');
+
+        $.ajax({
+            url: "{% url 'users:add_note' %}",
+            data: {
+                csrfmiddlewaretoken: $("#add-note-form input[name=csrfmiddlewaretoken]").val(),
+                student_id: "{{ student.id }}",
+                note_body: $("#add-note-body").val()
+            },
+            dataType: "json",
+            error: function(xhr) {
+                console.log(xhr.status + ": " + xhr.responseText);
+            },
+            complete: function(response_data) {
+                if (response_data.response_code == 404) {
+                    $("#add-note-form").prepend(
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>' + response_data.response_message + '</p>' +
+                        '</div>'
+                    );
+                } else {
+                    window.location.reload(true);
+                }
+            }
+        });
+    });
+
+    // Eligibility
+    $(document).on("click", "#change-ec", function(event) {
+        event.preventDefault();
+        var ec_id = $(this).data("id");
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'change-student-ec',
+                role_id: ec_id
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+
+    // Archive Data
+    $(document).on("click", "#archive-data-submit", function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'users:archive_dlmr_data' %}",
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                student_id: "{{ student.id }}"
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+
+    // Status
+    $(document).on("click", "#change-status", function(event) {
+        event.preventDefault();
+        var status_id = $(this).data("id");
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'change-student-status',
+                status_id: status_id
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+
+    // Transfer
+    $(document).on("click", "#profile-complete-transfer", function(event) {
+        event.preventDefault();
+
+        $('#student-profile-action').replaceWith(
+        '<button class="uk-button uk-button-default uk-button-small uk-width-small" disabled>' +
+            '<i class="fas fa-sync fa-spin"></i>' +
+        '</button>'
+        )
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'complete-student-transfer'
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+
+    // IncidentIQ
+    $(document).on('submit', '#get-iiq-id-form', function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'get-iiq-id-submit'
+            },
+            success: function(json) {
+                document.getElementById('get-iiq-id-form').reset();
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                $('#user-header').load(location.href + ' #user-header>*', '');
+                $('#profile-data').load(location.href + ' #profile-data>*', '');
+                $('#asset-data').load(location.href + ' #asset-data>*', '');
+            }
+        });
+    });
+
+    // Password
+    $(document).on('submit', '#update-password', function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "users:update_student_password" %}',
+            data: {
+                csrfmiddlewaretoken: $('#update-password input[name=csrfmiddlewaretoken]').val(),
+                student_id: '{{ student.id }}',
+                new_password: $("#updated-student-password").val()
+            },
+            success: function(json) {
+                window.location.reload(true);
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            }
+        });
+    });
+
+    $(document).on("click", "#profile-sync-iiq", function(event) {
+        event.preventDefault();
+
+        $('#student-profile-action').replaceWith('<div uk-spinner></div>')
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'sync-iiq-submit'
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+
+    // Notes
+    $(document).on("submit", "#delete-note-form", function(event) {
+        event.preventDefault();
+
+        var note_id = $(document.activeElement).prev().val()
+
+        UIkit.modal.confirm('Are you sure you want to delete this note?').then(function() {
+            $.ajax({
+               type: 'POST',
+               data: {
+                   csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                   action: 'delete-note-submit',
+                   to_delete: note_id
+               },
+               success: function(json) {
+                   document.getElementById('delete-note-form').reset();
+               },
+               error: function(xhr, errmsg, err) {
+                   console.log(xhr.status + ': ' + xhr.responseText);
+               },
+               complete: function() {
+                   $('#note-items').load(location.href + ' #note-items>*', '');
+                   $('#create-invoice').load(location.href + ' #create-invoice>*', '');
+                   $('#note-transactions').load(location.href + ' #note-transactions>*', '');
+               }
+            });
+
+            return true
+        }, function() {
+            return false
+        });
+    });
+
+    // Assets
+    $(document).on("click", "#assets-sync-iiq", function(event) {
+        event.preventDefault();
+
+        $('#student-assets-action').replaceWith('<div uk-spinner></div>');
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'sync-assets-submit'
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+
+    var add_assets_set = new Array();
+    var remove_assets_set = new Array();
+
+    $(document).on('click', '#modify-assets-add', function(event) {
+        event.preventDefault();
+
+        var asset_id = $('#modify-assets-search').val();
+        add_assets_set.push(asset_id);
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'get-internal-asset',
+                asset_id: asset_id
+            },
+            success: function(json) {
+                $('#modify-assets-added').append(
+                '<div>' +
+                    '<div class="item-container item-container-success">' +
+                        '<div class="uk-flex uk-flex-middle">' +
+                            '<div class="uk-padding-small uk-padding-remove-vertical">' +
+                                '<i class="fas fa-laptop fa-2x"></i>' +
+                            '</div>' +
+                            '<div class="uk-width-expand">' +
+                                '<span class="uk-text-bold">' + json.manufacturer + ' ' + json.model + '</span>' +
+                                '<div class="uk-text-small">' +
+                                    '<i class="fas fa-hashtag"></i>' + ' ' + json.id +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>'
+                );
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            }
+        });
+    });
+
+    $(document).on('click', '#modify-assets-remove', function(event) {
+        event.preventDefault();
+
+        var asset_id = $(this).data('id');
+        remove_assets_set.push(asset_id);
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'get-internal-asset',
+                asset_id: asset_id
+            },
+            success: function(json) {
+                $('#modify-assets-added').append(
+                    '<div>' +
+                        '<div class="item-container item-container-danger">' +
+                            '<div class="uk-flex uk-flex-middle">' +
+                                '<div class="uk-padding-small uk-padding-remove-vertical">' +
+                                    '<i class="fas fa-laptop fa-2x"></i>' +
+                                '</div>' +
+                                '<div class="uk-width-expand">' +
+                                    '<span class="uk-text-bold">' + json.manufacturer + ' ' + json.model + '</span>' +
+                                    '<div class="uk-text-small">' +
+                                        '<i class="fas fa-hashtag"></i>' + ' ' + json.id +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            }
+        });
+    });
+
+    $(document).on('submit', '#modify-assets-form', function(event) {
+        event.preventDefault();
+
+        $('#modify-assets-apply').replaceWith('<div uk-spinner></div>');
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'modify-assets-submit',
+                assign_assets_list: JSON.stringify(add_assets_set),
+                unassign_assets_list: JSON.stringify(remove_assets_set)
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+
+    // Fines
+    $(document).on('submit', '#add-fine-form', function(event) {
+        event.preventDefault();
+
+        $('#add-fine-submit').replaceWith('<div uk-spinner></div>');
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'users:add_fine' %}",
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                student_id: "{{ student.id }}",
+                fine_device_id: $('#fine-select-device').val(),
+                fine_type_id: $('#fine-select-finetype').val(),
+                fine_subtype_id: $('#fine-select-finesubtype').val(),
+                fine_note: $('#fine-select-note').val()
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+
+    // Kevin Bacon Data
+    $(document).on("submit", "#update-staging-form", function(event) {
+        event.preventDefault();
+
+        var iiq_ticket_number = $("#iiq-ticket-number").val();
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                action: "update-staging-data",
+                device_bin: $("#staging-bin").val(),
+                device_bpi: $("#staging-bpi").val(),
+                iiq_ticket_number: iiq_ticket_number
+            },
+            success: function(json) {
+                $('#staging-data').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-success" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>The information you entered has been successfully saved.</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+                $('#staging-data').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>Error! Something went wrong. Please try again or contact the app administrator.</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            }
+        });
+    });
+
+    // -- -- DYMO Label Framework -- -- //
+    var dymoLabel;
+    var dymoPrintersSelect = document.getElementById('dymo-printers-select');
+    var dymoPrintButton = document.getElementById('dymo-print-button');
+
+    dymoPrintButton.disabled = true;
+
+    function dymoUpdatePreivew() {
+        if (!dymoLabel) return;
+
+        var dymoLabelRender = dymoLabel.render();
+
+        dymoLabelPreview.src = 'data:image/png;base64,' + dymoLabelRender;
+    }
+
+    function dymoLoadPrinters() {
+        var dymoPrinters = dymo.label.framework.getPrinters();
+
+        for (var i = 0; i < dymoPrinters.length; i++) {
+            var printerName = dymoPrinters[i].name;
+            var printerOption = document.createElement('option');
+
+            printerOption.value = printerName;
+            printerOption.appendChild(document.createTextNode(printerName));
+
+            dymoPrintersSelect.appendChild(printerOption);
+        }
+    }
+
+    function dymoLoadLabel() {
+        if (dymoLabelSelect.value == 'small-label') {
+            dymoLabelXml = '<?xml version="1.0" encoding="utf-8"?>\
+<DieCutLabel Version="8.0" Units="twips" MediaType="Default">\
+  <PaperOrientation>Landscape</PaperOrientation>\
+  <Id>Address</Id>\
+  <PaperName>30252 Address</PaperName>\
+  <DrawCommands>\
+    <RoundRectangle X="0" Y="0" Width="1581" Height="5040" Rx="270" Ry="270"/>\
+  </DrawCommands>\
+  <ObjectInfo>\
+    <TextObject>\
+      <Name>StudentName</Name>\
+      <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+      <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>\
+      <LinkedObjectName></LinkedObjectName>\
+      <Rotation>Rotation0</Rotation>\
+      <IsMirrored>False</IsMirrored>\
+      <IsVariable>False</IsVariable>\
+      <HorizontalAlignment>Center</HorizontalAlignment>\
+      <VerticalAlignment>Middle</VerticalAlignment>\
+      <TextFitMode>AlwaysFit</TextFitMode>\
+      <UseFullFontHeight>True</UseFullFontHeight>\
+      <Verticalized>False</Verticalized>\
+      <StyledText>\
+        <Element>\
+          <String>Matthew Short</String>\
+          <Attributes>\
+            <Font Family="Helvetica" Size="13" Bold="True" Italic="False" Underline="False" Strikeout="False"/>\
+            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+          </Attributes>\
+        </Element>\
+      </StyledText>\
+    </TextObject>\
+    <Bounds X="331.2" Y="57.59995" Width="4622.4" Height="476.6844"/>\
+  </ObjectInfo>\
+  <ObjectInfo>\
+    <BarcodeObject>\
+      <Name>StudentId</Name>\
+      <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+      <BackColor Alpha="255" Red="255" Green="255" Blue="255"/>\
+      <LinkedObjectName></LinkedObjectName>\
+      <Rotation>Rotation0</Rotation>\
+      <IsMirrored>False</IsMirrored>\
+      <IsVariable>False</IsVariable>\
+      <Text>1234567890</Text>\
+      <Type>Code39</Type>\
+      <Size>Medium</Size>\
+      <TextPosition>Bottom</TextPosition>\
+      <TextFont Family="Helvetica" Size="10" Bold="False" Italic="False" Underline="False" Strikeout="False"/>\
+      <CheckSumFont Family="Helvetica" Size="10" Bold="False" Italic="False" Underline="False" Strikeout="False"/>\
+      <TextEmbedding>None</TextEmbedding>\
+      <ECLevel>0</ECLevel>\
+      <HorizontalAlignment>Center</HorizontalAlignment>\
+      <QuietZonesPadding Left="0" Right="0" Top="0" Bottom="0"/>\
+    </BarcodeObject>\
+    <Bounds X="331.2" Y="863.85" Width="4622.4" Height="600"/>\
+  </ObjectInfo>\
+  <ObjectInfo>\
+    <TextObject>\
+      <Name>StudentLocation</Name>\
+      <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+      <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>\
+      <LinkedObjectName></LinkedObjectName>\
+      <Rotation>Rotation0</Rotation>\
+      <IsMirrored>False</IsMirrored>\
+      <IsVariable>False</IsVariable>\
+      <HorizontalAlignment>Center</HorizontalAlignment>\
+      <VerticalAlignment>Middle</VerticalAlignment>\
+      <TextFitMode>ShrinkToFit</TextFitMode>\
+      <UseFullFontHeight>True</UseFullFontHeight>\
+      <Verticalized>False</Verticalized>\
+      <StyledText>\
+        <Element>\
+          <String>Matanzas High School</String>\
+          <Attributes>\
+            <Font Family="Helvetica" Size="13" Bold="False" Italic="False" Underline="False" Strikeout="False"/>\
+            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+          </Attributes>\
+        </Element>\
+      </StyledText>\
+    </TextObject>\
+    <Bounds X="331.2" Y="432.5999" Width="4622.4" Height="326.7188"/>\
+  </ObjectInfo>\
+</DieCutLabel>';
+            dymoLabel = dymo.label.framework.openLabelXml(dymoLabelXml);
+            dymoLabel.setObjectText('StudentName', '{{ student.name }}')
+            dymoLabel.setObjectText('StudentLocation', '{{ student.location.name }}')
+            dymoLabel.setObjectText('StudentId', '{{ student.id }}')
+
+            document.getElementById('dymo-label-preview').src = "{% static 'dymo/small-label-sample.png' %}";
+            dymoPrintButton.disabled = false;
+        } else {
+            dymoLabelXml = '<?xml version="1.0" encoding="utf-8"?>\
+<DieCutLabel Version="8.0" Units="twips" MediaType="Default">\
+  <PaperOrientation>Landscape</PaperOrientation>\
+  <Id>LargeShipping</Id>\
+  <PaperName>30256 Shipping</PaperName>\
+  <DrawCommands>\
+    <RoundRectangle X="0" Y="0" Width="3331" Height="5715" Rx="270" Ry="270"/>\
+  </DrawCommands>\
+  <ObjectInfo>\
+    <TextObject>\
+      <Name>StudentName</Name>\
+      <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+      <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>\
+      <LinkedObjectName></LinkedObjectName>\
+      <Rotation>Rotation0</Rotation>\
+      <IsMirrored>False</IsMirrored>\
+      <IsVariable>False</IsVariable>\
+      <HorizontalAlignment>Center</HorizontalAlignment>\
+      <VerticalAlignment>Middle</VerticalAlignment>\
+      <TextFitMode>AlwaysFit</TextFitMode>\
+      <UseFullFontHeight>True</UseFullFontHeight>\
+      <Verticalized>False</Verticalized>\
+      <StyledText>\
+        <Element>\
+          <String>Matthew Short</String>\
+          <Attributes>\
+            <Font Family="Helvetica" Size="13" Bold="True" Italic="False" Underline="False" Strikeout="False"/>\
+            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+          </Attributes>\
+        </Element>\
+      </StyledText>\
+    </TextObject>\
+    <Bounds X="335.9998" Y="57.6001" Width="5337.6" Height="953.0154"/>\
+  </ObjectInfo>\
+  <ObjectInfo>\
+    <TextObject>\
+      <Name>StudentLocation</Name>\
+      <ForeColor Alpha="255" Red="127" Green="134" Blue="136"/>\
+      <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>\
+      <LinkedObjectName></LinkedObjectName>\
+      <Rotation>Rotation0</Rotation>\
+      <IsMirrored>False</IsMirrored>\
+      <IsVariable>False</IsVariable>\
+      <HorizontalAlignment>Center</HorizontalAlignment>\
+      <VerticalAlignment>Middle</VerticalAlignment>\
+      <TextFitMode>AlwaysFit</TextFitMode>\
+      <UseFullFontHeight>True</UseFullFontHeight>\
+      <Verticalized>False</Verticalized>\
+      <StyledText>\
+        <Element>\
+          <String>Matanzas High School</String>\
+          <Attributes>\
+            <Font Family="Helvetica" Size="24" Bold="False" Italic="False" Underline="False" Strikeout="False"/>\
+            <ForeColor Alpha="255" Red="127" Green="134" Blue="136"/>\
+          </Attributes>\
+        </Element>\
+      </StyledText>\
+    </TextObject>\
+    <Bounds X="335.9998" Y="891.5625" Width="5337.6" Height="600"/>\
+  </ObjectInfo>\
+  <ObjectInfo>\
+    <BarcodeObject>\
+      <Name>StudentId</Name>\
+      <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+      <BackColor Alpha="255" Red="255" Green="255" Blue="255"/>\
+      <LinkedObjectName></LinkedObjectName>\
+      <Rotation>Rotation0</Rotation>\
+      <IsMirrored>False</IsMirrored>\
+      <IsVariable>False</IsVariable>\
+      <Text>1234567890</Text>\
+      <Type>Code39</Type>\
+      <Size>Medium</Size>\
+      <TextPosition>Bottom</TextPosition>\
+      <TextFont Family="Helvetica" Size="14" Bold="False" Italic="False" Underline="False" Strikeout="False"/>\
+      <CheckSumFont Family="Helvetica" Size="10" Bold="False" Italic="False" Underline="False" Strikeout="False"/>\
+      <TextEmbedding>None</TextEmbedding>\
+      <ECLevel>0</ECLevel>\
+      <HorizontalAlignment>Center</HorizontalAlignment>\
+      <QuietZonesPadding Left="0" Right="0" Top="0" Bottom="0"/>\
+    </BarcodeObject>\
+    <Bounds X="335.9998" Y="1523.125" Width="5337.6" Height="965.625"/>\
+  </ObjectInfo>\
+  <ObjectInfo>\
+    <DateTimeObject>\
+      <Name>DATE-TIME</Name>\
+      <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>\
+      <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>\
+      <LinkedObjectName></LinkedObjectName>\
+      <Rotation>Rotation0</Rotation>\
+      <IsMirrored>False</IsMirrored>\
+      <IsVariable>False</IsVariable>\
+      <HorizontalAlignment>Center</HorizontalAlignment>\
+      <VerticalAlignment>Middle</VerticalAlignment>\
+      <TextFitMode>ShrinkToFit</TextFitMode>\
+      <UseFullFontHeight>True</UseFullFontHeight>\
+      <Verticalized>False</Verticalized>\
+      <DateTimeFormat>WeekdayLongMonthDayLongYear</DateTimeFormat>\
+      <Font Family="Helvetica" Size="13" Bold="False" Italic="False" Underline="False" Strikeout="False"/>\
+      <PreText></PreText>\
+      <PostText></PostText>\
+      <IncludeTime>False</IncludeTime>\
+      <Use24HourFormat>False</Use24HourFormat>\
+    </DateTimeObject>\
+    <Bounds X="335.9998" Y="2592.022" Width="5337.6" Height="600"/>\
+  </ObjectInfo>\
+</DieCutLabel>';
+            dymoLabel = dymo.label.framework.openLabelXml(dymoLabelXml);
+            dymoLabel.setObjectText('StudentName', '{{ student.name }}')
+            dymoLabel.setObjectText('StudentLocation', '{{ student.location.name }}')
+            dymoLabel.setObjectText('StudentId', '{{ student.id }}')
+
+            document.getElementById('dymo-label-preview').src = "{% static 'dymo/large-label-sample.png' %}";
+            dymoPrintButton.disabled = false;
+        }
+    }
+
+    dymoLoadPrinters();
+
+    var dymoLabelSelect = document.getElementById('dymo-label-select');
+    dymoLoadLabel();
+
+    var dymoLabelPreview = document.getElementById('dymo-label-preview');
+    dymoUpdatePreivew();
+
+    dymoLabelSelect.addEventListener('change', function() {
+        dymoLoadLabel();
+        dymoUpdatePreivew();
+    });
+
+    dymoPrintButton.addEventListener('click', function() {
+        try {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'users:add_id_log' %}",
+                data: {
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                    student_id: '{{ student.id }}',
+                    label_size: dymoLabelSelect.value
+                },
+                success: function(json) {
+                    dymoLabel.print(dymoPrintersSelect.value);
+                    console.log(json);
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                },
+                complete: function() {
+                    window.location.reload(true);
+                }
+            });
+        } catch (printError) {
+            alert(printError.message || printError);
+        }
+    });
+    // -- -- DYMO Label Framework -- -- //
+});
+</script>
+{% endblock %}

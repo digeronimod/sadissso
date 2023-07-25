@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding">
+    <div class="uk-grid-small uk-child-width-1-1" style="margin: 0 auto;" data-uk-grid>
+        <div>
+            <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                <div id="iiq-section">
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                                <div class="uk-width-auto">
+                                    <i class="fas fa-desktop fa-2x"></i>
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">IncidentIQ</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-card-small">
+                            <div id="iiq-log" class="uk-width-1-1"></div>
+                            N/A
+                        </div>
+                    </div>
+                </div>
+                <div id="msb-section">
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                                <div class="uk-width-auto">
+                                    <i class="fas fa-desktop fa-2x"></i>
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">MySchoolBucks</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-card-small">
+                            <div id="msb-log" class="uk-width-1-1"></div>
+                            <form id="send-msb-fines" class="uk-form uk-form-small" method="POST">
+                                {% csrf_token %}
+                                <button id="send-msb-fines-submit" type="submit" class="uk-button uk-button-primary uk-button-small" disabled>Export Fines</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="sadis-section">
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                                <div class="uk-width-auto">
+                                    <i class="fas fa-desktop fa-2x"></i>
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">SADIS</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-card-small">
+                            <div id="sadis-log" class="uk-width-1-1"></div>
+                            <a href="{% url 'users:device_receipt' id=1234567890 %}">Collections Receipt (Preview)</a>, <a data-uk-toggle="#collections-bin-changer">Bin Changer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="collections-bin-changer" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Collections Bin Changer</h2>
+        </div>
+        <form id="collections-bin-change" method="post">
+            <div class="uk-modal-body">
+                <div class="uk-grid-small" data-uk-grid>
+                    <div class="uk-width-1-2">
+                        <label class="uk-form-label" for="collections-bin-device">Device BPI</label>
+                        <input id="collections-bin-device" class="uk-input uk-input-small">
+                    </div>
+                    <div class="uk-width-1-2">
+                        <label class="uk-form-label" for="collections-bin-bin">Bin Number</label>
+                        <input id="collections-bin-bin" class="uk-input uk-input-small">
+                    </div>
+                </div>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button id="collections-bin-change-submit" class="uk-button uk-button-danger" type="submit">Save</button>
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+$(document).on("submit", "#sync-faculty-form", function(event) {
+    event.preventDefault();
+
+    $("#sync-faculty-submit").replaceWith('<button id="sync-faculty-submit" type="button" class="uk-button uk-button-default uk-button-small uk-width-small" disabled><i class="fas fa-sync fa-spin"></i></button>');
+
+    $.ajax({
+        url: "{% url 'inventory:sync_faculty_devices' %}",
+        data: {
+            csrfmiddlewaretoken: $("#sync-faculty-form input[name=csrfmiddlewaretoken]").val()
+        },
+        dataType: "json",
+        error: function(xhr) {
+            console.log(xhr.status + ": " + xhr.responseText);
+        },
+        complete: function(data) {
+            if (data.response_code == 404) {
+                $("#sync-faculty-submit").replaceWith('<button id="sync-faculty-submit" type="submit" class="uk-button uk-button-primary uk-button-small uk-width-small">Pull Staff</button>');
+
+                $("#iiq-log").append(
+                    '<div class="uk-alert-danger" uk-alert>' +
+                        '<a class="uk-alert-close" uk-close></a>' +
+                        '<p>' + data.response_message + '</p>' +
+                    '</div>'
+                );
+            } else {
+                $("#sync-faculty-submit").replaceWith('<button id="sync-faculty-submit" type="submit" class="uk-button uk-button-primary uk-button-small uk-width-small">Pull Staff</button>');
+
+                $("#iiq-log").append(
+                    '<div class="uk-alert-success" uk-alert>' +
+                        '<a class="uk-alert-close" uk-close></a>' +
+                        '<p>Success!</p>' +
+                    '</div>'
+                );
+            }
+        }
+    });
+});
+
+$(document).on("submit", "#send-msb-fines", function(event) {
+    event.preventDefault();
+
+    $("#send-msb-fines-submit").replaceWith('<button id="send-msb-fines-submit" type="button" class="uk-button uk-button-default uk-button-small uk-width-small" disabled><i class="fas fa-sync fa-spin"></i></button>');
+
+    $.ajax({
+        url: "{% url 'inventory:post_all_msb_fines' %}",
+        data: {
+            csrfmiddlewaretoken: $("#send-msb-fines input[name=csrfmiddlewaretoken]").val()
+        },
+        dataType: "json",
+        error: function(xhr) {
+            console.log(xhr.status + ": " + xhr.responseText);
+        },
+        complete: function(data) {
+            if (data.response_code == 404) {
+                $("#msb-log").append(
+                    '<div class="uk-alert-danger" uk-alert>' +
+                        '<a class="uk-alert-close" uk-close></a>' +
+                        '<p>' + data.response_message + '</p>' +
+                    '</div>'
+                );
+            } else {
+                $("#send-msb-fines-submit").replaceWith('<button id="send-msb-fines-submit" type="submit" class="uk-button uk-button-primary uk-button-small">POST All Fines</button>');
+
+                $("#msb-log").append(
+                    '<div class="uk-alert-success" uk-alert>' +
+                        '<a class="uk-alert-close" uk-close></a>' +
+                        '<p>Success!</p>' +
+                    '</div>'
+                );
+            }
+        }
+    });
+});
+
+$(document).on("submit", "#collections-bin-change", function(event) {
+    event.preventDefault();
+
+    $("#collections-bin-change-submit").replaceWith('<span data-uk-spinner></span>');
+
+    $.ajax({
+        url: "{% url 'inventory:collections_bin_change' %}",
+        type: "POST",
+        data: {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            device: $("#collections-bin-device").val(),
+            bin: $("#collections-bin-bin").val()
+        },
+        dataType: "json",
+        error: function(xhr) {
+            console.log(xhr.status + ": " + xhr.responseText);
+        },
+        complete: function(data) {
+            window.location.reload(true);
+        }
+    });
+});
+</script>
+{% endblock %}

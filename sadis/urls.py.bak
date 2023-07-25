@@ -1,0 +1,28 @@
+# Django
+from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import include, path, re_path
+
+admin.site.site_header = "SADIS Administration"
+admin.site.site_title = "Admin Portal"
+admin.site.index_title = "SADIS Administration Portal"
+
+urlpatterns = [
+    # Django
+    path("accounts/", include("allauth.urls")),
+    #path('accounts/', include('django.contrib.auth.urls')),
+    path('admin/', admin.site.urls),
+    # SADIS
+    path('', include('inventory.urls')),
+    re_path(r'api/(?P<version>[v1|v2]+)/', include('api.urls')),
+    path('assets/', include('assets.urls')),
+    path('dlmr/', include('dlmr.urls', namespace = 'dlmr')),
+    path('reports/', include('reports.urls')),
+    path('users/', include('users.urls')),
+    # SADIS 2.0
+    path('modes/', include('modes.urls')),
+]
+
+if settings.DEBUG:
+    urlpatterns + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -1,0 +1,216 @@
+{% extends 'base-fa6.html' %}
+{% load humanize %}
+{% block title %}Distribution | Runner Queue{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding">
+    <div class="uk-grid-small" data-uk-grid>
+        <!-- Runner Queue -->
+        <div class="uk-width-1-1">
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header filterlist-header">
+                    <i class="fa-light fa-sitemap"></i>
+                    <span class="uk-text-bold" style="margin-left:5px">Runner Queue: <span class="uk-text-warning">{{ request.user.last_name }}</span></span>
+                </div>
+                <div id="runner-queue" class="uk-card-body uk-text-small filterlist-body">
+                    <div class="uk-grid-small" data-uk-grid>
+                        {% for device, data in runner_entries.items %}
+                        <div>
+                            <div style="border-width:1px;border-style:solid;border-color:#1e87f0;border-top-width:3px;border-radius:6px;padding:6px 12px">
+                                <div>
+                                    <span class="uk-text-bold">BPI:</span> {{ data.requested_bpi }} &middot; <span class="uk-text-bold">Bin:</span> {{ data.requested_bin }}
+                                </div>
+                                <div>
+                                    <span class="uk-text-bold">{{ data.requestor_lane }}:</span> {{ data.requestor_author }}
+                                    <br /><span class="uk-text-bold">Student:</span> {{ data.student_name }}
+                                </div>
+                                {% if data.entry_status == 'C' %}
+                                <hr style="border-color: #1e87f0" />
+                                {% endif %}
+                                <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m uk-margin-small-bottom uk-text-center" data-uk-grid>
+                                    {% if data.entry_status == 'C' %}
+                                    <div>
+                                        <a class="device-found uk-button uk-button-small uk-button-danger uk-width-1-1" data-entry-id="{{ data.entry_id }}">Found</a>
+                                    </div>
+                                    <div>
+                                        <a class="device-missing uk-button uk-button-small uk-button-danger uk-width-1-1" data-entry-id="{{ data.entry_id }}">Missing</a>
+                                    </div>
+                                    {% elif data.entry_status == 'F' %}
+                                    <div class="uk-width-1-1">
+                                        <button class="uk-button uk-button-small uk-button-danger uk-width-1-1" style="margin-top:8px" disabled="">Found</button>
+                                    </div>
+                                    {% elif data.entry_status == 'NF' %}
+                                    <div class="uk-width-1-1">
+                                        <button class="uk-button uk-button-small uk-button-danger uk-width-1-1" style="margin-top:8px" disabled="">Missing</button>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div>
+                            No items are currently in your queue.
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Runner Queue -->
+
+        <!-- Queue Entries -->
+        <div class="uk-width-1-1">
+            <div class="uk-card uk-card-default uk-card-small">
+                <table id="requestor-queue" class="uk-table uk-table-small uk-table-middle uk-table-striped uk-table-hover">
+                    <thead>
+                        <tr>
+                            <th>Lane</th>
+                            <th>Requestor</th>
+                            <th>Student</th>
+                            <th>BPI</th>
+                            <th>Bin</th>
+                            <th>Charger(s)</th>
+                            <th class="uk-width-small"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for device, data in requested_entries.items %}
+                        <tr>
+                            <td>
+                                {{ data.requested_lane }}
+                            </td>
+                            <td>
+                                {{ data.requested_author }}
+                            </td>
+                            <td>
+                                {{ data.student_name }}
+                                <br /><span class="uk-text-meta">{{ data.student_location_name }}</span>
+                            </td>
+                            <td>
+                                {{ data.requested_bpi }}
+                            </td>
+                            <td>
+                                {{ data.requested_bin }}
+                            </td>
+                            <td>
+                                {% for charger in data.chargers_owned %}
+                                {% if not forloop.first %}<br />{% endif %}<span class="uk-badge uk-padding-remove-vertical" style="width:100px">{{ charger }}</span>
+                                {% empty %}
+                                &mdash;
+                                {% endfor %}
+                            </td>
+                            <td class="uk-text-center">
+                                <button class="claim-device uk-button uk-button-small uk-button-danger" data-entry-id="{{ data.entry_id }}">Claim</button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="uk-text-center">There are no requested items in the queue.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /Queue Entries -->
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        setInterval(function() {
+            $('#requestor-queue').load(location.href + ' #requestor-queue>*', '');
+        }, 2000);
+
+        var entry_id;
+
+        $(document).on("click", ".claim-device", function(event) {
+            event.preventDefault();
+
+            $this = $(this);
+
+            entry_id = $this.data("entry-id");
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "claim-device",
+                    entry_id: entry_id
+                },
+                success: function(json) {
+                    if (json.code >= 200 && json.code < 400) {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'success'});
+                    } else {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'danger'});
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                },
+                complete: function() {
+                    $('#runner-queue').load(location.href + ' #runner-queue>*', '');
+                }
+            });
+        });
+
+        $(document).on("click", ".device-found", function(event) {
+            event.preventDefault();
+
+            $this = $(this);
+
+            entry_id = $this.data("entry-id");
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "device-found",
+                    entry_id: entry_id
+                },
+                success: function(json) {
+                    if (json.code >= 200 && json.code < 400) {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'success'});
+                    } else {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'danger'});
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                },
+                complete: function() {
+                    $('#runner-queue').load(location.href + ' #runner-queue>*', '');
+                }
+            });
+        });
+
+        $(document).on("click", ".device-missing", function(event) {
+            event.preventDefault();
+
+            $this = $(this);
+
+            entry_id = $this.data("entry-id");
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "device-missing",
+                    entry_id: entry_id
+                },
+                success: function(json) {
+                    if (json.code >= 200 && json.code < 400) {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'success'});
+                    } else {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'danger'});
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                },
+                complete: function() {
+                    $('#runner-queue').load(location.href + ' #runner-queue>*', '');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

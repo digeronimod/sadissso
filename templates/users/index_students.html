@@ -1,0 +1,466 @@
+{% extends 'base.html' %}
+{% load humanize qurl static tz %}
+{% block title %}Users Dashboard{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/select2.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-datetime.css' %}" />
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/jquery-mask.js' %}"></script>
+<script src="{% static 'js/select2.js' %}"></script>
+<script src="{% static 'js/jquery-datetime.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-body">
+                    <form class="uk-grid-collapse uk-flex uk-flex-center" method="GET" data-uk-grid>
+                        <div class="uk-button-group uk-width-1-1">
+                            <input class="uk-input uk-width-1-1" type="search" name="search" value="{{ request.GET.search }}" placeholder="Search by student school ID, FLEID, name, or username" />
+                            <button class="uk-button uk-button-primary">Find</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-small">
+                <div class="uk-card-body">
+                    <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fas fa-users fa-3x"></i>
+                        </div>
+                        <div class="uk-width-expand">
+                            <span class="uk-card-title">Users Dashboard</span>
+                            <div class="uk-text-meta">
+                                Last Sync Completed: {{ edfi_sync_datetime|localtime|date:'F d, Y h:m A' }}
+                            </div>
+                        </div>
+                        {% if not id_only %}
+                        <div class="uk-width-auto">
+                            <a class="uk-button uk-button-default uk-width-small">
+                                Action <i class="fas fa-angle-down" style="margin-left:5px"></i>
+                            </a>
+                            <div class="uk-text-left uk-dropdown-close" data-uk-dropdown="mode: click; offset: 2; pos: bottom-right; animation: uk-animation-slide-top-small; duration: 200">
+                                <ul class="student-dropdown uk-dropdown-nav" data-uk-nav>
+                                    <li>
+                                        <a class="uk-text-primary" data-uk-toggle="#sideload-student"><i class="fas fa-plus fa-fw uk-margin-small-right"></i>Add Student</a>
+                                    </li>
+                                    <li>
+                                        <a class="uk-text-warning" data-uk-toggle="#transfer-student"><i class="fas fa-dolly fa-fw uk-margin-small-right"></i>Transfer Student</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped uk-table-expand">
+                    <thead>
+                        <tr>
+                            <th class="uk-width-large">User</th>
+                            <th class="uk-width-large">Location</th>
+                            <th class="uk-width-small">Status</th>
+                            <th class="uk-width-auto">Registration</th>
+                            <th class="uk-width-small">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in entries %}
+                        <tr>
+                            <td class="uk-table-link">
+                                <a class="uk-link-reset" href="{% url 'users:detail_students' user.id %}">
+                                    <span class="uk-text-bold">{{ user.name }}</span>
+                                    <div class="uk-text-small">
+                                        <i class="fas fa-user"></i> {{ user.username}}
+                                    </div>
+                                </a>
+                            </td>
+                            <td class="uk-text-small">
+                                <span class="uk-text-bold">{{ user.location.name }}</span>
+                                <div class="uk-text-meta">
+                                    {% if user.get_grade_full %}
+                                    <div class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span class="uk-hidden@m">&nbsp;{{ user.get_grade }}</span>
+                                        <span class="uk-visible@m">&nbsp;{{ user.get_grade_full }}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if user.role %}
+                                    <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="{{ user.get_role_name }}">
+                                        {% if user.role.id == 'OTO' %}1:1{% else %}{{ user.role.id }}{% endif %}
+                                    </span>
+                                    {% endif %}
+                                    {% if user.get_remote_status == 'Yes' %}
+                                    <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="Remote Student">R</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                {{ user.status.name }}
+                                <div class="uk-text-meta">
+                                    {% if user.status.id == 'IA' or user.status.id == 'W' or user.status.id == 'GD' %}
+                                        {% if user.withdraw_date == None %}Unknown{% else %}{{ user.withdraw_date|date:'m-d-Y' }}{% endif %}
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                {% for key, value in dlm_registration.items %}
+                                {% if key == user.id %}
+                                    {% if value == True %}
+                                    <i class="fas fa-fw fa-check fa-2x uk-text-success"></i>
+                                    {% else %}
+                                    <i class="fas fa-fw fa-times fa-2x uk-text-danger"></i>
+                                    {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="uk-text-small uk-table-expand">
+                               {{ user.updated }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="uk-text-center">There are no results for your search query.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-small">
+                {% if entries.has_other_pages %}
+                <ul class="uk-pagination uk-flex uk-flex-center uk-margin-remove-vertical">
+                    {% if entries.has_previous %}
+                    <li><a href="{% qurl request.get_full_path page=entries.previous_page_number %}"><span data-uk-pagination-previous></span></a></li>
+                    {% else %}
+                    <li class="uk-disabled" style="padding-top: 8px"><span data-uk-pagination-previous></span></li>
+                    {% endif %}
+                    {% if entries.number|add:'-4' > 1 %}
+                    <li><a href="{% qurl request.get_full_path page=entries.number|add:'-5' %}">&hellip;</a></li>
+                    {% endif %}
+                    {% for i in entries.paginator.page_range %}
+                        {% if entries.number == i %}
+                        <li class="uk-active" style="padding: 5px 8px 0 8px;">{{ i }}</li>
+                        {% elif i > entries.number|add:'-5' and i < entries.number|add:'5' %}
+                        <li><a href="{% qurl request.get_full_path page=i %}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if entries.paginator.num_pages > entries.number|add:'4' %}
+                    <li><a href="{% qurl request.get_full_path page=entries.number|add:'5' %}">&hellip;</a></li>
+                    {% endif %}
+                    {% if entries.has_next %}
+                    <li><a href="{% qurl request.get_full_path page=entries.next_page_number %}"><span data-uk-pagination-next></span></a></li>
+                    {% else %}
+                    <li class="uk-disabled" style="padding-top: 8px"><span data-uk-pagination-next></span></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SIDELOAD STUDENT -->
+<div id="sideload-student" data-uk-offcanvas="flip: true; overlay: true;">
+    <div class="uk-offcanvas-bar">
+        <button class="uk-offcanvas-close" type="button" data-uk-close></button>
+        <form id="sideload-student-form" class="uk-form-vertical" method="POST">
+            {% csrf_token %}
+            <span class="uk-text-large">Sideload New Student</span>
+            <div id="sideload-student-body" class="uk-margin-top">
+                <div class="uk-margin">
+                    <div class="uk-form-controls uk-form-controls-text">
+                        <div class="uk-grid-small uk-child-width-1-2@m" data-uk-grid>
+                            <div>
+                                <label class="uk-form-label" for="student-first-name">Legal First Name
+                                <input id="student-first-name" class="uk-input" placeholder="John" required></label>
+                            </div>
+                            <div>
+                                <label  class="uk-form-label" for="student-last-name">Legal Last Name
+                                <input id="student-last-name" class="uk-input" placeholder="Doe" required></label>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small uk-child-width-1-2@m" data-uk-grid>
+                            <div>
+                                <label class="uk-form-label" for="student-other-id">Other ID
+                                <input id="student-other-id" class="uk-input" placeholder="1812345678" required></label>
+                            </div>
+                            <div>
+                                <label class="uk-form-label" for="student-username">Username
+                                <input id="student-username" class="uk-input" placeholder="johndoe5678" required></label>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small uk-child-width-1-2@m" data-uk-grid>
+                            <div>
+                                <label class="uk-form-label" for="student-location-id">School Attending
+                                <select id="student-location-id" class="uk-select" required>
+                                {% for location in locations_sideload %}
+                                    <option value="{{ location.id }}">{{ location.name }}</option>
+                                {% endfor %}
+                                </select></label>
+                            </div>
+                            <div>
+                                <label class="uk-form-label" for="student-grade">Grade Level
+                                <select id="student-grade" class="uk-select" required>
+                                {% for grade in grades_sideload %}
+                                    {% if grade == 'KG' %}
+                                    <option value="{{ grade }}">Kindergarten</option>
+                                    {% else %}
+                                    <option value="{{ grade }}">{{ grade|ordinal }} Grade</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small uk-child-width-1-2@m" data-uk-grid>
+                            <div>
+                                <label class="uk-form-label" for="student-birthdate">Student Birthdate
+                                <input id="student-birthdate" name="student-birthdate" class="uk-input" />
+                            </div>
+                            <script>
+                            $("#student-birthdate").datetimepicker({
+                                format: "m/d/Y",
+                                mask: true,
+                                timepicker: false
+                            });
+                            </script>
+                        </div>
+                        <hr />
+                        <div class="uk-grid-small uk-child-width-1-2@m" data-uk-grid>
+                            <div>
+                                <label class="uk-form-label" for="student-counselor">Student Counselor Email
+                                <input id="student-counselor" type="email" class="uk-input" placeholder="counselor@flaglerschools.com"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <input class="uk-checkbox" type="checkbox" id="parent-present" name="parent_present">
+                    <label for="parent-present">Send welcome email to parent?</label>
+                </div>
+                <div id="dlm-email-offer" class="uk-margin uk-hidden">
+                    <p class="uk-text-primary">If the parent wishes to provide their email address, we can send them a Digital Learning Movement email that details the process of obtaining a device for their student(s).</p>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                        <div>
+                            <label class="uk-form-label" for="parent-email">Parent Email Address
+                            <input id="parent-email" type="email" class="uk-input" name="parent_email" placeholder="johndoe@gmail.com"></label>
+                        </div>
+                        <div>
+                            <label class="uk-form-label" for="parent-phone">Parent Phone Number
+                            <input id="parent-phone" type="tel" class="uk-input" name="parent_phone" placeholder="(345) 123-4567"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="uk-text-right">
+                <button id="sideload-student-submit" type="submit" class="uk-button uk-button-danger">Add Student</button>
+                <a href="#sideload-student" class="uk-button uk-button-default" data-uk-toggle>Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /SIDELOAD STUDENT -->
+<!-- TRANSFER STUDENT -->
+<div id="transfer-student" data-uk-offcanvas="flip: true; overlay: true;">
+    <div class="uk-offcanvas-bar">
+        <button class="uk-offcanvas-close" type="button" data-uk-close></button>
+        <form id="transfer-student-form" class="uk-form-vertical" method="POST">
+            {% csrf_token %}
+            <span class="uk-text-large">Transfer Student</span>
+            <div id="transfer-student-body" class="uk-margin-top">
+                <div class="uk-margin">
+                    <div class="uk-form-controls uk-form-controls-text">
+                        <label class="uk-form-label" for="select-student-search">Select the student transferring:
+                            <select id="select-student-search" style="width: 100%">
+                                <option></option>
+                            </select>
+                        </label>
+                        <div class="uk-margin-small uk-grid-small uk-child-width-1-2@m" data-uk-grid>
+                            <div>
+                                <label class="uk-form-label" for="student-current-location-id">Current school:
+                                    <select id="student-current-location-id" class="uk-select" required>
+                                    {% for location in locations_sideload %}
+                                        <option value="{{ location.id }}">{{ location.name }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="uk-form-label" for="student-transfer-location-id">Transfer school:
+                                <select id="student-transfer-location-id" class="uk-select" required>
+                                {% for location in locations_sideload %}
+                                    <option value="{{ location.id }}">{{ location.name }}</option>
+                                {% endfor %}
+                                </select></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label><input id="transfer-student-notify" class="uk-checkbox" type="checkbox" checked /> Notify registrar and IS agent</label>
+                </div>
+            </div>
+            <hr />
+            <div class="uk-text-right">
+                <button id="transfer-student-submit" type="submit" class="uk-button uk-button-danger">Transfer Student</button>
+                <a href="#transfer-student" class="uk-button uk-button-default" data-uk-toggle>Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /TRANSFER STUDENT -->
+
+<script>
+$(document).ready(function() {
+    $("#parent-phone").mask("(000) 000-0000");
+
+    $("input[name=parent_present]").on('change', function() {
+        if ($(this).prop("checked") == true) {
+            $("#dlm-email-offer").removeClass("uk-hidden");
+            $("#parent-email").attr("required", "true");
+            $("#parent-phone").attr("required", "true");
+        } else if ($(this).prop("checked") == false) {
+            $("#dlm-email-offer").addClass("uk-hidden");
+            $("#parent-email").removeAttr("required");
+            $("#parent-phone").removeAttr("required");
+        }
+    })
+
+    $('#select-student-search').select2({
+        theme: 'uikit3',
+        placeholder: 'Search for a student...',
+        allowClear: true,
+        width: 'resolve',
+        minimumInputLength: 3,
+        ajax: {
+            delay: 500,
+            dataType: 'json',
+            type: 'POST',
+            data: function (params) {
+                return {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'student-transfer-search',
+                    transfer_search: params.term,
+                }
+            },
+            processResults: function(data, params) {
+                return {
+                    results: $.map(data, function(item) {
+                        return {
+                            id: item.id,
+                            text: item.text
+                        }
+                    })
+                };
+            }
+        }
+    });
+
+    $(document).on("submit", "#sideload-student-form", function(event) {
+        event.preventDefault();
+
+        $('#sideload-student-submit').replaceWith('<div id="sideload-student-loading" uk-spinner></div>')
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                action: "sideload-student-submit",
+                student_first_name: $("#student-first-name").val(),
+                student_last_name: $("#student-last-name").val(),
+                student_other_id: $("#student-other-id").val(),
+                student_username: $("#student-username").val(),
+                student_location_id: $("#student-location-id").val(),
+                student_grade: $("#student-grade").val(),
+                student_birthdate: $("#student-birthdate").val(),
+                student_counselor: $("#student-counselor").val(),
+                parent_present: $("input[name=parent_present]").prop("checked"),
+                parent_email: $("input[name=parent_email]").val(),
+                parent_phone: $("input[name=parent_phone]").val()
+            },
+            success: function(json) {
+                document.getElementById("sideload-student-form").reset();
+
+                $('#sideload-student-body').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-success" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>The student <b>' + json.student_name + '</b> has been successfully sideloaded!</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+
+                $('#sideload-student-body').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>Something went wrong! Most likely the student has already been entered into our system; please verify by searching for the student name or Other ID. If the issue persist and the student is not in the system, please contact your school technology support technician.</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            complete: function() {
+                $('#sideload-student-loading').replaceWith('<button id="sideload-student-submit" type="submit" class="uk-button uk-button-danger">Add Student</button>');
+            }
+        });
+    });
+
+    $(document).on("submit", "#transfer-student-form", function(event) {
+        event.preventDefault();
+
+        $('#transfer-student-submit').replaceWith('<button id="transfer-student-loading" type="button" class="uk-button uk-button-default" disabled><i class="fas fa-sync fa-spin"></i></button>');
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                action: "transfer-student-submit",
+                student_id: $("#select-student-search").val(),
+                transfer_from_id: $("#student-current-location-id").val(),
+                transfer_to_id: $("#student-transfer-location-id").val(),
+                notify_admin: $("#transfer-student-notify").prop("checked")
+            },
+            success: function(json) {
+                document.getElementById("transfer-student-form").reset();
+
+                $('#transfer-student-body').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-success" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>The student <b>' + json.student_name + '</b> has been successfully placed in transfer!</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+
+                $('#sideload-student-body').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>Something went wrong! Please try again and if the issue persists, please contact your technology support technician to troubleshoot the issue.</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            complete: function() {
+                $('#transfer-student-loading').replaceWith('<button id="transfer-student-submit" type="submit" class="uk-button uk-button-danger">Transfer Student</button>');
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

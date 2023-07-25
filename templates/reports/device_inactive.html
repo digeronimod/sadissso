@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load qurl humanize static %}
+{% block title %}CL Data{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-width-1-1" style="margin-left: auto; margin-right: auto">
+        <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+            <div class="uk-margin-small-top">
+                <div class="uk-card uk-card-small">
+                    <div class="uk-card-body">
+                        <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fa-solid fa-ban fa-2x"></i>
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">Inactive with Devices</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                    <div>
+                        <div class="uk-grid-small uk-child-width-1-3" data-uk-grid>
+                            <div>
+                                <div class="uk-card uk-card-default uk-card-small">
+                                    <div class="uk-card-header uk-text-small filterlist-header">
+                                        Filter Options
+                                    </div>
+                                    <div class="uk-card-body uk-text-small filterlist-body">
+                                        <a class="uk-button uk-button-default uk-button-small">
+                                            Location:
+                                            {% if request.GET.location is None %}
+                                                All
+                                            {% else %}
+                                            {% for location in locations %}
+                                                {% if location.id in request.GET.location %}
+                                                {{ location.alias }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                            <i class="fa-solid fa-angle-down uk-margin-small-left"></i>
+                                        </a>
+                                        <div uk-dropdown="mode: click; offset: 2; animation: uk-animation-slide-top-small; duration: 200">
+                                            <ul class="uk-dropdown-nav" uk-nav>
+                                                <li><a class="uk-button uk-button-small uk-button-default uk-width-1-1 uk-margin-small-bottom" href="{% qurl request.get_full_path location=None %}" style="padding:0">Clear Filter</a></li>
+                                            {% for location in locations %}
+                                                <li{% if location.id in request.GET.location %} class="uk-active"{% endif %}><a style="padding: 1px{% if forloop.last %}; padding-bottom: 5px{% endif %}" href="{% qurl request.get_full_path location=location.id %}">{{ location.name }}</a></li>
+                                            {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-card uk-card-default uk-card-small">
+                                    <div class="uk-card-header uk-text-small filterlist-header">
+                                        Export Options
+                                    </div>
+                                    <div class="uk-card-body uk-text-small filterlist-body">
+                                        There are no export options available at this time.
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-card uk-card-default uk-card-small">
+                                    <div class="uk-card-header uk-text-small filterlist-header">
+                                        Total Records
+                                    </div>
+                                    <div class="uk-card-body uk-text-small filterlist-body">
+                                        {{ entries_count }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Location</th>
+                                        <th>Current Status</th>
+                                        <th>Eligibility Class</th>
+                                        <th>Device Assigned</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for entry in entries %}
+                                    <tr>
+                                        <td>
+                                            <a class="uk-block uk-link-reset" href="{% url 'users:detail_students' entry.student.id %}">
+                                                <div class="uk-width-1-1">
+                                                    {{ entry.student.name }}
+                                                    <br /><span class="uk-text-meta"><i class="fa-light fa-user"></i> {{ entry.student.username }}</span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="uk-text-meta">
+                                                <div class="uk-text-bold">
+                                                    <span class="uk-visible@m">
+                                                        {{ entry.student.location.name }}
+                                                    </span>
+                                                    <span class="uk-hidden@m">
+                                                        {{ entry.student.location.alias }}
+                                                    </span>
+                                                </div>
+                                                <div class="uk-flex">
+                                                    <div class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical">
+                                                        <i class="fa-light fa-graduation-cap"></i> &nbsp;{% if entry.student.grade %}{{ entry.student.grade|ordinal }}{% else %}None{% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{ entry.student.status.name }}
+                                            <div class="uk-text-meta">
+                                                {% if entry.student.status.id == 'IA' or entry.student.status.id == 'W' or entry.student.status.id == 'GD' %}
+                                                    {% if entry.student.withdraw_date == None %}Unknown{% else %}{{ entry.student.withdraw_date|date:'m-d-Y' }}{% endif %}
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="uk-text-meta">
+                                                <div class="uk-text-bold">
+                                                    {{ entry.student.role.name }}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'assets:detail' entry.device.id %}" target="_blank">{{ entry.device.id }}</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="uk-text-center">No results.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% include 'sections/pagination.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

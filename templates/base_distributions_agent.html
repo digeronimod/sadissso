@@ -1,0 +1,22 @@
+<!DOCTYPE html>{% load static minify %}{% lineless %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SADIS | {% block title %}Agent Distribution Base{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/sadis.css' %}" />
+        {% block extra_css %}{% endblock %}
+        <script src="{% static 'js/uikit.js' %}"></script>
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/fontawesome.js' %}" defer></script>
+        {% block extra_js %}{% endblock %}
+    </head>
+    <body class="uk-height-1-1">
+    <div class="uk-visible@l">
+    {% include 'sections/navbar.html' %}
+    </div>
+    {% block content %}{% endblock %}
+    {% include 'sections/footer.html' %}
+    </body>
+</html>{% endlineless %}

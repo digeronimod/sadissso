@@ -1,0 +1,16 @@
+{% extends 'base_email_iiq.html' %}
+{% load static humanize %}
+{% block content%}
+<p> &nbsp; </p>
+<p style="font-weight:bold;text-decoration:underline">Student Information</p>
+<p>
+    <span style="font-weight:bold">Student's Name:</span> {{ student_name }}
+    <br /><span style="font-weight:bold">Student's ID:</span> {{ student_id }}
+    <br /><span style="font-weight:bold">Student's Username:</span> {{ student_username }}
+    <br /><span style="font-weight:bold">Student's School:</span> {{ student_location }}
+    <br /><span style="font-weight:bold">Student's Grade:</span> {% if student_grade == 'KG' %}Kindergarten{% else %}{{ student_grade|ordinal }} Grade{% endif %}
+    <br /> &nbsp;
+    <br /><span style="font-weight:bold">Parent Email:</span> {{ parent_email }}
+    <br /><span style="font-weight:bold">Parent Phone:</span> {{ parent_phone }}
+</p>
+{% endblock %}

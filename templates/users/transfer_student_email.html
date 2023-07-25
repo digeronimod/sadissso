@@ -1,0 +1,88 @@
+{% extends 'base_email.html' %}
+{% load static %}
+{% block content%}
+<table border="0" cellpadding="0" cellspacing="0" class="body" role="presentation">
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td class="align-center">
+                                        <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="84px" />
+                                        <h2 style="color:#aeaeae;text-transform:uppercase">Digital Learning Movement</h2>
+                                        <hr />
+                                        <div>
+                                            <span style="font-weight:bold">Greetings,</span>
+                                            <p style="margin-top:24px">This is an automated email sent to inform you that the following student has transferred schools according the Technology department's Digital Learning Movement database:</p>
+                                            <div style="text-align:left;border: #000 1px solid;border-radius:20px;padding:20px">
+                                                <span style="font-size:3em;font-weight:bold">{{ student_name }}</span>
+                                                <table style="text-align:left">
+                                                    <thead>
+                                                        <th width="50%"></th>
+                                                        <th width="50%"></th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr style="font-weight:bold">
+                                                            <td>Other ID</td>
+                                                            <td>Username</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>{{ student_id }}</td>
+                                                            <td>{{ student_username }}</td>
+                                                        </tr>
+                                                        <tr style="font-weight:bold">
+                                                            <td>Transferring From</td>
+                                                            <td>Transferring To</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>{{ student_from_location }}</td>
+                                                            <td>{{ student_to_location }}</td>
+                                                        </tr>
+                                                        <tr style="font-weight:bold">
+                                                            <td>Grade</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>{{ student_grade }}</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:24px">
+                                            <p>At this time an IncidentIQ ticket has been created and assigned to your school's technology team. If the student is transferring with a device, they must take their device to the Technology department located at your school in order for the device to be renamed.</p>
+                                            <p>The student can be viewed at the Digital Learning Movement web address blow:</p>
+                                            <p><a href="https://sadis.flaglerschools.com/users/{{ student_id }}/" target="_blank">https://sadis.flaglerschools.com/users/{{ student_id }}/</a></p>
+                                            <p>If you have any questions or concerns, please contact your school's Technology Support Technician.</p>
+                                        </div>
+                                        <hr />
+                                        <p>
+                                            <a href="http://fcsb.link/dlmhandbook" target="_blank">FCSB Digital Learning Movement Handbook</a>
+                                            <br /><a href="http://www.flaglerschools.com" target="_blank">www.flaglerschools.com</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div class="footer">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                        <tr>
+                            <td class="content-block">
+                                <span class="apple-link">&copy; 2020 Flagler County Public Schools</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+{% endblock %}

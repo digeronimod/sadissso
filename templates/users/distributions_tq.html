@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load humanize qurl static %}
+{% block title %}L5 Tech Queue{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-width-1-1" style="margin-left: auto; margin-right: auto">
+        <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+            <div class="uk-margin-small-top">
+                <div class="uk-card uk-card-small">
+                    <div class="uk-card-body">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-project-diagram fa-2x"></i>
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">Distributions: Tech Queue</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="uk-width-auto">Location</th>
+                                        <th class="uk-wdith-auto">Request</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="queued-students-list">
+                                {% for user in entries %}
+                                    <tr class="uk-table-link">
+                                        <td class="uk-table-link">
+                                            <a class="uk-link-reset" href="{% url 'users:detail_students' user.student.id %}" target="_blank">
+                                                <div class="uk-width-1-1 uk-text-bold">{{ user.student.name }}</div>
+                                                <div class="uk-width-1-1 uk-text-meta"><i class="fas fa-user"></i> {{ user.student.username}}</div>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="uk-text-bold">{{ user.student.location.name }}</span>
+                                            <div class="uk-text-meta">
+                                                <i class="fa-solid fa-graduation-cap" style="margin-right:2px"></i>
+                                                {% if user.student.grade == 'GD' %}
+                                                Graduated
+                                                {% elif user.student.grade == 'PK' %}
+                                                Pre-Kindergarten
+                                                {% elif user.student.grade == 'KG' %}
+                                                Kindergarten
+                                                {% else %}
+                                                {{ user.student.grade|ordinal }} Grade
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>{{ user.get_issue_type_display }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td style="text-align:center" colspan="4">No students are currently in the queue.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    setInterval(function() {
+        $('#queued-students-list').load(location.href + ' #queued-students-list>*', '');
+    }, 5000);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load static minify %}{% lineless %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>SADIS | {% block title %}Monospaced Base{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}" />
+        <script src="{% static 'js/uikit.js' %}"></script>
+        <style>
+            .invoice-wrapper {
+                color: #555;
+                font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+                font-size: 16px;
+                line-height: 24px;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        {% block content %}{% endblock %}
+    </body>
+</html>{% endlineless %}

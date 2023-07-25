@@ -1,0 +1,45 @@
+<div class="uk-margin">
+    <label class="uk-form-label" for="parent_name">Parent/Legal Guardian Name <span class="uk-text-danger">*</span></label>
+    <div class="uk-form-controls">
+        <input id="parent-name" class="uk-input" name="parent_name" type="text" placeholder="John Doe" data-parsley-required="true" autocomplete="name">
+    </div>
+</div>
+<div class="uk-margin">
+    <label class="uk-form-label" for="parent_name">Parent/Legal Guardian Email <span class="uk-text-danger">*</span></label>
+    <div class="uk-form-controls">
+        <input id="parent-email" class="uk-input" name="parent_email" type="email" placeholder="johndoe@domain.com" data-parsley-required="true" autocomplete="email">
+    </div>
+</div>
+<div class="uk-margin">
+    <label class="uk-form-label" for="parent_phone">Parent/Legal Guardian Phone Number <span class="uk-text-danger">*</span></label>
+    <div class="uk-form-controls">
+        <input id="parent-phone" class="uk-input phone" name="parent_phone" type="tel" placeholder="(234) 567-8910" data-parsley-required="true" autocomplete="tel">
+    </div>
+</div>
+<div class="uk-margin">
+    <label class="uk-form-label" for="parent_address">Parent/Legal Guardian Full Address <span class="uk-text-danger">*</span></label>
+    <div class="uk-form-controls">
+        <input id="parent-address" class="location uk-input" name="parent_address" type="text" placeholder="500 E Moody Blvd, Bunnell, FL 32110" data-parsley-required="true" autocomplete="street-address">
+    </div>
+</div>
+<div class="uk-margin">
+    {% comment %} Updated: 05-03-2023 {% endcomment %}
+    <p>By submitting this form, you are acknowledging that you have read and agree to the <a href="https://drive.google.com/file/d/1qz9aFHWqNU60G4lJKPE1uqujOZbpX9u2/view" target="_blank">Digital Learning Movement Handbook</a>, <a href="https://docs.google.com/document/d/1u6wJq8KSo_PN7Fl4giPlj5KTiePduUM-rLOXKZ74RAw/view" target="_blank">Technology Repair and Replacement Fee Schedule</a>, and the <a href="https://go.boarddocs.com/fla/flcsd/Board.nsf/goto?open&id=9ABQDF68C5F5" target="_blank">School Board Policy 321: Electronic Systems Responsible Use</a> documentation.
+</div>
+<hr />
+<div class="uk-margin">
+    <label class="uk-form-label" for="parent_signature">Electronic Signature <span class="uk-text-danger">*</span></label>
+    <div class="uk-form-controls">
+        <input id="parent-signature" class="uk-input" name="parent_signature" type="text" placeholder="John Jacob Doe" data-parsley-required="true" autocomplete="name">
+    </div>
+</div>
+<div class="uk-margin">
+    <div class="uk-grid-small" data-uk-grid>
+        <div class="uk-width-auto" style="line-height: 75px">
+            <input id="parent-agreement" class="uk-checkbox" type="checkbox" name="parent_signature_agreement" data-parsley-required="true">
+        </div>
+        <div class="uk-width-expand">
+            <p>I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.</p>
+        </div>
+    </div>
+</div>

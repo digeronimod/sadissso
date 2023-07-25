@@ -1,0 +1,46 @@
+{% extends 'base_registration.html' %}
+{% load static %}
+{% load socialaccount %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="uk-background-cover uk-background-center-center" style="background-image: url({% get_static_prefix %}img/login.jpg);" data-uk-height-viewport>
+    <div class="uk-panel uk-width-1-1 uk-flex uk-flex-center uk-flex-middle" style="background-color: rgba(0, 0, 0, 0.5);" data-uk-height-viewport>
+                <div class="login-container uk-width-large uk-padding-small uk-margin-auto uk-box-shadow-large">
+                        <div class="uk-text-center">
+                <img src="{% get_static_prefix %}img/sadis_logo.png" width="80" />
+            </div>
+            {% if form.errors %}
+            <div class="uk-alert-warning" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>That username and password does not exist. Please try again.</p>
+            </div>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <div class="uk-alert-danger" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>Your account doesn't have access to this page. Please login with an account that has access.</p>
+            </div>
+            {% endif %}
+                        <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                                <div class="uk-margin">
+                                        <div class="uk-inline uk-width-1-1">
+                                                <i class="uk-text-primary uk-form-icon uk-form-icon-flip fas fa-user fa-fw fa-2x" style="right:10px;top:11px;opacity:20%"></i>
+                        <input class="uk-input uk-form-large" type="text" name="username" autocomplete="username" id="id_username" required>
+                                        </div>
+                                </div>
+                                <div class="uk-margin">
+                                        <div class="uk-inline uk-width-1-1">
+                                                <i class="uk-text-primary uk-form-icon uk-form-icon-flip fas fa-lock fa-fw fa-2x" style="right:10px;top:11px;opacity:20%"></i>
+                        <input class="uk-input uk-form-large" type="password" name="password" autocomplete="current-password" id="id_password" required>
+                                        </div>
+                                </div>
+                                <div class="uk-margin">
+                                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Log In</button>
+                    <input type="hidden" name="next" value="{{ next }}">
+                                </div>
+                        </form>
+                </div>
+    </div>
+</div>
+{% endblock %}

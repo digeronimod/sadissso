@@ -1,0 +1,1550 @@
+{% extends 'base.html' %}
+{% load static qurl humanize %}
+{% block title %}Collections Dashboard{% endblock %}
+{% block extra_css %}<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-datetime.css' %}" />{% endblock %}
+{% block extra_js %}<script src="{% static 'js/jquery-datetime.js' %}"></script>{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding">
+    <div class="uk-card uk-card-default uk-card-small uk-margin-bottom">
+        <div class="uk-card-body uk-text-small filterlist-body">
+            <form class="uk-width-medium uk-flex uk-flex-middle">
+                <input id="report-date" name="date" class="uk-input uk-form-small" value="{{ request.GET.date }}" />
+                <button id="report-date-submit" type="submit" class="uk-button uk-button-small uk-button-primary" style="margin-left:4px">Go</button>
+                <a href="{% qurl request.get_full_path date=None %}" class="uk-button uk-button-small uk-button-default" style="margin-left:4px">Reset</a>
+            </form>
+        </div>
+    </div>
+    <div class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@m" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0090: MHS</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-mhs" class="uk-card-body">
+                    Active Students: {{ mhs_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="mhs_active_wdevices">{{ mhs_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">12th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ mhs_12_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="mhs_12_wdevices">{{ mhs_12_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if mhs_12_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="mhs_12_collected">{{ mhs_12_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">11th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ mhs_11_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" target="_blank" data-model="mhs_11_wdevices">{{ mhs_11_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if mhs_11_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="mhs_11_collected">{{ mhs_11_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">10th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ mhs_10_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" target="_blank" data-model="mhs_10_wdevices">{{ mhs_10_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if mhs_10_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="mhs_10_collected">{{ mhs_10_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">9th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ mhs_09_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" target="_blank" data-model="mhs_09_wdevices">{{ mhs_09_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if mhs_09_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="mhs_09_collected">{{ mhs_09_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0091: FPCHS</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-fpc" class="uk-card-body">
+                    Active Students: {{ fpc_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="fpc_active_wdevices">{{ fpc_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">12th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ fpc_12_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="fpc_12_wdevices">{{ fpc_12_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if fpc_12_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="fpc_12_collected">{{ fpc_12_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">11th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ fpc_11_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="fpc_11_wdevices">{{ fpc_11_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if fpc_11_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="fpc_11_collected">{{ fpc_11_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">10th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ fpc_10_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="fpc_10_wdevices">{{ fpc_10_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if fpc_10_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="fpc_10_collected">{{ fpc_10_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">9th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ fpc_09_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="fpc_09_wdevices">{{ fpc_09_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if fpc_09_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="fpc_09_collected">{{ fpc_09_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-3@m" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0011: BTMS</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-btms" class="uk-card-body">
+                    Active Students: {{ btms_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="btms_active_wdevices">{{ btms_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">8th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btms_08_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btms_08_wdevices">{{ btms_08_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btms_08_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btms_08_collected">{{ btms_08_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">7th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btms_07_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btms_07_wdevices">{{ btms_07_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btms_07_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btms_07_collected">{{ btms_07_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">6th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btms_06_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btms_06_wdevices">{{ btms_06_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btms_06_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btms_07_collected">{{ btms_06_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0401: ITMS</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-itms" class="uk-card-body">
+                    Active Students: {{ itms_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="itms_active_wdevices">{{ itms_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">8th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ itms_08_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="itms_08_wdevices">{{ itms_08_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if itms_08_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="itms_08_collected">{{ itms_08_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">7th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ itms_07_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="itms_07_wdevices">{{ itms_07_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if itms_07_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="itms_07_collected">{{ itms_07_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">6th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ itms_06_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="itms_06_wdevices">{{ itms_06_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if itms_06_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="itms_06_collected">{{ itms_06_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-3@m" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0022: BES</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-bes" class="uk-card-body">
+                    Active Students: {{ bes_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="bes_active_wdevices">{{ bes_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">5th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ bes_05_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="bes_05_wdevices">{{ bes_05_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if bes_05_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="bes_05_collected">{{ bes_05_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">4th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ bes_04_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="bes_04_wdevices">{{ bes_04_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if bes_04_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="bes_04_collected">{{ bes_04_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">3rd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ bes_03_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="bes_03_wdevices">{{ bes_03_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if bes_03_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="bes_03_collected">{{ bes_03_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">2nd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ bes_06_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="bes_02_wdevices">{{ bes_02_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if bes_02_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="bes_02_collected">{{ bes_02_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">1st Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ bes_01_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="bes_01_wdevices">{{ bes_01_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if bes_01_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="bes_01_collected">{{ bes_01_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">Kindergarteners</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ bes_kg_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="bes_kg_wdevices">{{ bes_kg_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if bes_kg_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="bes_kg_collected">{{ bes_kg_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0051: RES</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-res" class="uk-card-body">
+                    Active Students: {{ res_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="res_active_wdevices">{{ res_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">5th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ res_05_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="res_05_wdevices">{{ res_05_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if res_05_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="res_05_collected">{{ res_05_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">4th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ res_04_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="res_04_wdevices">{{ res_04_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if res_04_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="res_04_collected">{{ res_04_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">3rd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ res_03_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="res_03_wdevices">{{ res_03_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if res_03_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="res_03_collected">{{ res_03_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">2nd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ res_06_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="res_02_wdevices">{{ res_02_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if res_02_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="res_02_collected">{{ res_02_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">1st Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ res_01_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="res_01_wdevices">{{ res_01_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if res_01_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="res_01_collected">{{ res_01_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">Kindergarteners</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ res_kg_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="res_kg_wdevices">{{ res_kg_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if res_kg_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="res_kg_collected">{{ res_kg_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0131: WES</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-wes" class="uk-card-body">
+                    Active Students: {{ wes_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="wes_active_wdevices">{{ wes_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">5th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ wes_05_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="wes_05_wdevices">{{ wes_05_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if wes_05_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="wes_05_collected">{{ wes_05_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">4th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ wes_04_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="wes_04_wdevices">{{ wes_04_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if wes_04_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="wes_04_collected">{{ wes_04_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">3rd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ wes_03_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="wes_03_wdevices">{{ wes_03_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if wes_03_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="wes_03_collected">{{ wes_03_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">2nd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ wes_06_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="wes_02_wdevices">{{ wes_02_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if wes_02_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="wes_02_collected">{{ wes_02_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">1st Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ wes_01_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="wes_01_wdevices">{{ wes_01_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if wes_01_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="wes_01_collected">{{ wes_01_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">Kindergarteners</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ wes_kg_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="wes_kg_wdevices">{{ wes_kg_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if wes_kg_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="wes_kg_collected">{{ wes_kg_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0201: OKES</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-okes" class="uk-card-body">
+                    Active Students: {{ okes_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="okes_active_wdevices">{{ okes_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">5th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ okes_05_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="okes_05_wdevices">{{ okes_05_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if okes_05_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="okes_05_collected">{{ okes_05_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">4th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ okes_04_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="okes_04_wdevices">{{ okes_04_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if okes_04_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="okes_04_collected">{{ okes_04_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">3rd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ okes_03_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="okes_03_wdevices">{{ okes_03_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if okes_03_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="okes_03_collected">{{ okes_03_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">2nd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ okes_06_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="okes_02_wdevices">{{ okes_02_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if okes_02_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="okes_02_collected">{{ okes_02_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">1st Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ okes_01_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="okes_01_wdevices">{{ okes_01_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if okes_01_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="okes_01_collected">{{ okes_01_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">Kindergarteners</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ okes_kg_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="okes_kg_wdevices">{{ okes_kg_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if okes_kg_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="okes_kg_collected">{{ okes_kg_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">0301: BTES</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-btes" class="uk-card-body">
+                    Active Students: {{ btes_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="btes_active_wdevices">{{ btes_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">5th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btes_05_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btes_05_wdevices">{{ btes_05_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btes_05_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btes_05_collected">{{ btes_05_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">4th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btes_04_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btes_04_wdevices">{{ btes_04_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btes_04_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btes_04_collected">{{ btes_04_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">3rd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btes_03_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btes_03_wdevices">{{ btes_03_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btes_03_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btes_03_collected">{{ btes_03_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">2nd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btes_06_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btes_02_wdevices">{{ btes_02_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btes_02_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btes_02_collected">{{ btes_02_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">1st Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btes_01_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btes_01_wdevices">{{ btes_01_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btes_01_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btes_01_collected">{{ btes_01_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">Kindergarteners</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ btes_kg_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="btes_kg_wdevices">{{ btes_kg_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if btes_kg_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="btes_kg_collected">{{ btes_kg_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fad fa-chalkboard-teacher fa-2x"></i>
+                        </div>
+                        <div class="uk-width-auto">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">7004: IF</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="collection-data-if" class="uk-card-body">
+                    Active Students: {{ if_active_students.count }}
+                    <br />Active Students with Devices: <a class="get-report-detail" data-model="if_active_wdevices">{{ if_active_wdevices.count }}</a>
+                    <div class="uk-grid-small uk-child-width-1-3 uk-margin-small" data-uk-grid>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">12th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_12_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_12_wdevices">{{ if_12_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_12_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_12_collected">{{ if_12_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">11th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_11_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_11_wdevices">{{ if_11_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_11_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_11_collected">{{ if_11_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">10th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_10_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_10_wdevices">{{ if_10_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_10_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_10_collected">{{ if_10_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">9th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_09_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_09_wdevices">{{ if_09_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_09_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_09_collected">{{ if_09_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">8th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_08_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_08_wdevices">{{ if_08_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_08_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_08_collected">{{ if_08_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">7th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_07_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_07_wdevices">{{ if_07_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_07_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_07_collected">{{ if_07_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">6th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_06_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_06_wdevices">{{ if_06_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_06_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_06_collected">{{ if_06_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">5th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_05_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_05_wdevices">{{ if_05_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_05_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_05_collected">{{ if_05_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">4th Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_04_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_04_wdevices">{{ if_04_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_04_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_04_collected">{{ if_04_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">3rd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_03_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_03_wdevices">{{ if_03_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_03_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_03_collected">{{ if_03_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">2nd Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_02_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_02_wdevices">{{ if_02_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_02_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_02_collected">{{ if_02_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">1st Graders</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_01_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_01_wdevices">{{ if_01_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_01_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_01_collected">{{ if_01_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <table class="uk-table uk-table-divider uk-table-small">
+                                <thead class="uk-background-muted">
+                                    <th class="uk-width-medium"><span class="uk-text-bold uk-text-emphasis">Kindergarteners</span></th>
+                                    <th><span class="uk-text-bold uk-text-emphasis">{{ if_kg_active.count }}</span></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>With Devices</td>
+                                        <td><a class="get-report-detail" data-model="if_kg_wdevices">{{ if_kg_wdevices.count }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collected</td>
+                                        {% if if_kg_collected.count > 0 %}
+                                        <td><a class="get-collection-detail" data-model="if_kg_collected">{{ if_kg_collected.count }}</a></td>
+                                        {% else %}
+                                        <td>0</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="report-details" class="uk-modal-container" uk-modal>
+    <div id="report-details-body" class="uk-modal-dialog uk-modal-body">
+        <div id="report-details-content"></div>
+    </div>
+</div>
+<script>
+$(function () {
+    $("#report-date").datetimepicker({
+        format: "Y-m-d",
+        mask: true,
+        timepicker: false
+    });
+
+    $(".get-report-detail").each(function() {
+        var $this = $(this);
+
+        $this.on("click", function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "get-report-detail",
+                    model: $this.data("model")
+                },
+                success: function(response) {
+                    openModal(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+
+            function openModal(data) {
+                $("#report-details-content").replaceWith(data);
+                UIkit.modal("#report-details").show();
+            }
+        });
+    });
+
+    $(".get-collection-detail").each(function() {
+        var $this = $(this);
+
+        $this.on("click", function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "get-collection-detail",
+                    model: $this.data("model")
+                },
+                success: function(response) {
+                    openModal(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+
+            function openModal(data) {
+                $("#report-details-content").replaceWith(data);
+                UIkit.modal("#report-details").show();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

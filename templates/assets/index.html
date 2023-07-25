@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load qurl %}
+{% block title %}Assets Dashboard{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-body">
+                    <form class="uk-grid-collapse uk-flex uk-flex-center" method="GET" data-uk-grid>
+                        <div class="uk-button-group uk-width-expand">
+                            <input class="uk-input uk-width-1-1" type="search" name="search" value="{{ request.GET.search }}" placeholder="Search by asset ID or serial" style="border-right:0">
+                                <a class="uk-form-icon uk-form-icon-flip uk-width-auto" href="{% qurl request.get_full_path search=None %}" style="right:115px;opacity:30%" data-uk-tooltip="Reset Search">
+                                    <i class="fas fa-times" style="font-size:18px"></i>
+                                </a>
+                            </input>
+                            <button class="uk-button uk-button-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-small">
+                <div class="uk-card-body">
+                    <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fas fa-desktop fa-3x"></i>
+                        </div>
+                        <div class="uk-width-expand">
+                            <span class="uk-card-title">Devices Dashboard</span>
+                            <div class="uk-text-meta">
+                                Last Sync: N/A
+                            </div>
+                        </div>
+                        <div class="uk-width-auto">
+                            <a class="uk-button uk-button-default uk-width-small">
+                                Action <i class="fas fa-angle-down" style="margin-left:5px"></i>
+                            </a>
+                            <div class="uk-text-left uk-dropdown-close" data-uk-dropdown="mode: click; offset: 2; pos: bottom-right; animation: uk-animation-slide-top-small; duration: 200">
+                                <ul class="student-dropdown uk-dropdown-nav" data-uk-nav>
+                                    <li>
+                                        <span class="uk-text-muted"><i class="fas fa-plus fa-fw uk-margin-small-right"></i>Add Device</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th class="uk-width-medium">Asset</th>
+                            <th class="uk-width-large">Location</th>
+                            <th class="uk-width-small">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for device in entries %}
+                        <tr>
+                            <td class="uk-table-link">
+                                <a class="uk-link-reset" href="{% url 'assets:detail' device.id %}">
+                                    <span class="uk-text-bold">{{ device.make }} {{ device.foreign_model.name }}</span>
+                                    <div class="uk-text-small">
+                                        <i class="fas fa-hashtag"></i> {{ device.id }}
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <span class="uk-text-bold">{{ device.location.name }}</span>
+                                <div class="uk-text-meta">
+                                    <div class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical">
+                                        <i class="fas fa-info-circle"></i> &nbsp;{{ device.get_status_display }}
+                                    </div>
+                                    {% if device.owner %}
+                                    <div class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical">
+                                        <i class="fas fa-user"></i> &nbsp;{{ device.owner.name }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>{{ device.sadis_updated|date:'m-d-Y' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

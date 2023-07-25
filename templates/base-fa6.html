@@ -1,0 +1,23 @@
+{% load static minify %}
+<!DOCTYPE html>
+<html>{% lineless %}
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+        <title>SADIS | {% block title %}Normal Base{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/honegumi.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/sadis.css' %}" />
+        {% block extra_css %}{% endblock %}
+        <script src="{% static 'js/uikit.js' %}"></script>
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/fontawesome6b1.js' %}" data-observe-mutations></script>
+        {% block extra_js %}{% endblock %}
+    </head>
+    <body class="uk-height-1-1">
+        {% include 'sections/navbar.html' %}
+        {% block content %}{% endblock %}
+        {% include 'sections/footer.html' %}
+        <script> </script>
+    </body>
+{% endlineless %}</html>

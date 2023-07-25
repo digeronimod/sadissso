@@ -1,0 +1,28 @@
+<ul class="uk-child-width-expand" uk-tab>
+    <li id="icvl-tab"><a>ICVL</a></li>
+</ul>
+<ul class="uk-switcher uk-margin">
+    <li id="icvl-tab-content">
+        <div id="icvl-label" method="POST" class="uk-alert-warning" uk-alert>
+            <p>By selecting the <b>In Class *</b> option, you are acknowledging that an in class student will not be taking a device home. See DLMR handbook for additional details.</p>
+        </div>
+        <form id="icvl-form" class="uk-form-stacked">
+            {% csrf_token %}
+            <div class="item-container uk-margin uk-width-1-1">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <span class="uk-text-bold">Due Today</span>
+                        <br /><span class="uk-text-meta">Non-refundable usage fee</span>
+                    </div>
+                    <div class="uk-width-expand uk-text-right">
+                        <span id="du-due-today" class="uk-text-large">$0</span>
+                    </div>
+                </div>
+            </div>
+            {% include 'dlmr/sections/fields.html' %}
+            <div class="uk-margin uk-text-center">
+                <button type="button" class="icvl-submit uk-button uk-button-primary uk-width-1-1">Submit<i class="fas fa-check-double uk-margin-small-left"></i></button>
+            </div>
+        </form>
+    </li>
+</ul>

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load qurl humanize static %}
+{% block title %}Device Location / Bin Information{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-width-1-1" style="margin-left: auto; margin-right: auto">
+        <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+            <div class="uk-margin-small-top">
+                <div class="uk-card uk-card-small">
+                    <div class="uk-card-body">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fab fa-angellist fa-2x"></i>
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">Device Location / Bin Information</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-width-1-1 uk-margin-small-top">
+                <form class="uk-grid-collapse uk-flex uk-flex-center" method="GET" data-uk-grid>
+                    <div class="uk-button-group">
+                        <input class="uk-input uk-width-large" type="search" name="search" {% if 'search' in request.GET %}value="{{ request.GET.search }}"{% endif %} placeholder="Search by asset tag, serial, or bin number" autofocus>
+                            <a class="uk-form-icon uk-form-icon-flip uk-width-auto" href="{% qurl request.get_full_path search=None %}" style="right:115px;opacity:30%" data-uk-tooltip="Reset Search">
+                                <i class="fas fa-times" style="font-size:18px"></i>
+                            </a>
+                        </input>
+                        <button class="uk-button uk-button-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="uk-width-1-1 uk-margin-small-top">
+                <span class="uk-text-danger">This report is currently a work in progress. Please validate the information, if possible.</span>
+            </div>
+            <div>
+                <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Device</th>
+                                        <th>Location</th>
+                                        <th>Collections</th>
+                                        <th>Staged</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for device, property in entries.items %}
+                                    <tr>
+                                        <td>
+                                            <a class="uk-link-reset" href="">
+                                                <div class="uk-width-1-1">
+                                                    {{ property.device_model }}
+                                                    <br /><span class="uk-text-meta"><i class="fas fa-tag"></i> {{ property.device_id }}<i class="fas fa-hashtag uk-margin-small-left"></i> {{ property.device_serial }}</span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>{{ property.device_bin }}</td>
+                                        <td>
+                                            {% if property.collections %}
+                                            {{ property.collections.collect_bin }}
+                                            <br /><span class="uk-text-meta"><i class="fas fa-calendar"></i> {{ property.collections.collect_date }}<i class="fas fa-user uk-margin-small-left"></i> {{ property.collections.collect_author }}</span>
+                                            {% else %}
+                                            No information.
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if property.staging != None %}
+                                            {{ property.staging.staged_bin }}
+                                            <br /><span class="uk-text-meta"><i class="fas fa-calendar"></i> {{ property.staging.staged_date }}</span>
+                                            {% else %}
+                                            No information.
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="uk-text-center">No results.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            {% include 'sections/pagination.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

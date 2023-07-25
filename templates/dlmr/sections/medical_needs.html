@@ -1,0 +1,37 @@
+<div class="uk-margin">
+    <H3>Medical Needs</H3>
+    <div class="uk-margin">
+        <label class="uk-form-label">Does student have <span class="uk-text-danger"><b>allergies?</b></span></label>  <input class="uk-radio" type="radio" name="allergy_yn"><b> Yes</b></label>  <label><input class="uk-radio" type="radio" name="allergy_yn"><b> No</b></label>
+    </div>
+    <div class="uk-margin">
+        <label class="uk-form-label" for="MN_allergy">To what is the student allergic? </label>
+        <div class="uk-form-controls">
+            <input id="MN-allergy" class="uk-input" name="MN_allergy" type="text" placeholder="Please list all know alergies here" data-parsley-required="true" autocomplete="name">
+        </div>
+    </div>
+    <br>
+    <div class="uk-margin">
+        <label class="uk-form-label">Does student have wear glasses or contacts?</span></label>  <input class="uk-radio" type="radio" name="MN_goc_yn"><b> Yes</b></label>  <label><input class="uk-radio" type="radio" name="MN_goc_yn"><b> No</b></label>
+    </div>
+    <div class="uk-margin">
+        <label class="uk-form-label">Does student have wear hearing aids?</span></label>  <input class="uk-radio" type="radio" name="MN_haids_yn"><b> Yes</b></label>  <label><input class="uk-radio" type="radio" name="MN_haids_yn"><b> No</b></label>
+    </div>
+    <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+        <div>
+            <label class="uk-form-label" for="MN_physician_name">Physicians's Name <span class="uk-text-danger">*</span></label>
+            <div class="uk-form-controls">
+                <input id="MN_physician-name" class="uk-input phone" name="MN_physician_name" type="text" placeholder="enter name here" data-parsley-required="false" autocomplete="relate">
+            </div>
+        </div>
+        <div>
+            <label class="uk-form-label" for="physician_phone">Phone Number <span class="uk-text-danger">*</span></label>
+            <div class="uk-form-controls">
+                <input id="physician-phone" class="uk-input phone" name="physician_phone" type="tel" placeholder="(234) 567-8910" data-parsley-required="false" autocomplete="tel">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="uk-margin uk-text-center">
+    <button type="button" class="previous uk-button uk-button-primary"><i class="fas fa-angle-left uk-margin-small-right"></i>Previous</button>
+    <button type="button" class="next uk-button uk-button-primary">Next<i class="fas fa-angle-right uk-margin-small-left"></i></button>
+</div>

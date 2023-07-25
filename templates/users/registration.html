@@ -1,0 +1,1652 @@
+{% extends 'base_form.html' %}
+{% load humanize static %}
+{% block title %}FCSB | Digital Learning Movement Registration{% endblock %}
+{% block content %}
+<div class="uk-grid-collapse uk-child-width-1-1" data-uk-grid>
+    <div class="uk-width-2-3@m" style="z-index:999">
+        <div class="uk-cover-container uk-light">
+            <!--<img data-src="{% get_static_prefix %}img/devices/form_macbook.jpg" alt="" data-uk-cover data-uk-img> -->
+            <!--<img data-src="{% get_static_prefix %}img/devices/background_student.jpg" alt="" data-uk-cover data-uk-img> -->
+            <img data-src="{% get_static_prefix %}img/devices/tech-edu.png" alt="" data-uk-cover data-uk-img>
+            <div class="uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-position-relative"
+                style="background-color: rgba(0, 0, 0, 0.5);">
+                <div class="device-form-header uk-container uk-container-small uk-flex-auto">
+                    <div class="uk-text-center uk-margin-small-top">
+                        <img src="{% get_static_prefix %}img/flagler_logo-white.png" width="96px" />
+                    </div>
+                    <h2 class="uk-heading-line uk-text-center uk-margin-small-top uk-margin-remove-bottom"><span>Digital
+                            Learning Movement Registration, Emergency Contact Information & Student Choice
+                            Options</span></h2>
+                    <h2 class="uk-text-center uk-margin-remove-top"></h2>
+                    <div class="uk-width-4-5@m uk-margin-auto uk-text-justify">
+                        <p>Student learning is at the heart of all we do in Flagler County Public Schools. It is our
+                            belief that student learning is enhanced through the integration of technology with a strong
+                            curriculum, led by excellent teachers. Technology allows students and teachers to use an
+                            approach which is “hands on” and relevant to today’s learning. By approving the Half Penny
+                            Sales Tax, the community has given Flagler County Public Schools the opportunity to provide
+                            our students with digital tools to help actively engage them in their learning.</p>
+                        <p>All students, Kindergarten to 12th Grade, will be required to register for the Flagler County
+                            Public Schools Digital Learning Movement.</p>
+                        <p>As with the previous two years, the 1:1 | Take Home technology usage fee will be waived for
+                            ALL students during the 2023-2024 school year.<sup style="font-weight:700">*</sup></p>
+                        <p><b><sup>*</sup> This does not waive or remove any assessed fines</b>.</p>
+                        <div class="uk-margin-large-top uk-margin-small-bottom uk-text-center uk-text-bold">
+                            <i class="fas fa-arrow-circle-down fa-3x uk-hidden@m"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-3@m">
+        <div class="uk-panel uk-panel-scrollable uk-height-viewport uk-padding no-resize">
+            <div class="section-one-label uk-alert-primary uk-text-justify" style="opacity: 0;" uk-alert>
+                <p>Please fill in the information below, as accurately as possible, so that we can attempt to locate
+                    your student in our database.</p>
+            </div>
+            <form class="form-wizard uk-form-stacked">
+                {% csrf_token %}
+                <div id="page-one" class="page current">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="student_firstname">Student's Legal First Name <span
+                                class="uk-text-danger">*</span></label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" name="student_firstname" type="text" placeholder="John"
+                                data-parsley-required="true">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="student_lastname">Student's Legal Last Name <span
+                                class="uk-text-danger">*</span></label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" name="student_lastname" type="text" placeholder="Doe"
+                                data-parsley-required="true">
+                        </div>
+                    </div>
+                    <div class="uk-margin uk-text-center">
+                        <button type="button" class="next uk-button uk-button-primary">Next<i
+                                class="fas fa-angle-right uk-margin-small-left"></i></button>
+                    </div>
+                </div>
+                <div id="page-two" class="page">
+                    <label class="uk-form-label" for="student_locationid">Student's Current School <span
+                            class="uk-text-danger">*</span></label>
+                    <div class="uk-form-controls">
+                        {% for location in locations %}
+                        {% if not forloop.first %}<br />{% endif %}
+                        <input class="uk-radio" type="radio" name="student_locationid" value="{{ location.id }}" {% if forloop.first %} data-parsley-required="true" {% endif %}>
+                        {{ location.name }}
+                        {% endfor %}
+                    </div>
+                    <div class="uk-margin uk-text-center">
+                        <button type="button" class="previous uk-button uk-button-primary"><i
+                                class="fas fa-angle-left uk-margin-small-right"></i>Previous</button>
+                        <button type="button" class="next uk-button uk-button-primary">Next<i
+                                class="fas fa-angle-right uk-margin-small-left"></i></button>
+                    </div>
+                </div>
+                <div id="page-three" class="page">
+                    <label class="uk-form-label" for="student_grade">Student's Birthdate (MM/DD/YYYY)</label>
+                    <div class="uk-form-controls">
+                        <input id="student-birthdate" name="student_birthdate" class="uk-input uk-form-small"
+                            data-parsley-required="true">
+                    </div>
+                    <div class="uk-margin uk-text-center">
+                        <button type="button" class="previous uk-button uk-button-primary"><i
+                                class="fas fa-angle-left uk-margin-small-right"></i>Previous</button>
+                        <button type="button" class="request uk-button uk-button-primary">Submit<i
+                                class="fas fa-check uk-margin-small-left"></i></button>
+                    </div>
+                </div>
+                <div id="page-four" class="page uk-text-primary uk-text-center">
+                    <span class="uk-text-primary" uk-spinner="ratio: 4"></span>
+                    <p>Retrieving data, please wait...</p>
+                </div>
+            </form>
+            <div id="page-five" class="page">
+                <div class="uk-alert-danger uk-text-justify" data-uk-alert>
+                    <p>We were unable to locate your student in our database. <br><b class="uk-text-danger">Error Code:
+                            "404"</b></p>
+                    <p>Please use the Previous button to navigate back and confirm that the information you entered is
+                        correct.</p>
+                    <p>If the issue persists after verifying all the information and you would like for US to
+                        investigate the issue you are having, please complete & submit the following:</p>
+                    <p><br><a
+                            href="https://docs.google.com/forms/d/e/1FAIpQLScVcUCKmp5QY0S-oT_da99xAljQtdHv__8nL3jQ8T7gBqxYFQ/viewform?usp=pp_url&entry.990965928=404"
+                            target="_blank">Support Form link</a>.</p>
+                    <div class="uk-text-right">
+                        <a class="uk-button uk-button-primary"
+                            onClick="window.location.replace('https://dlmrsso.flaglerschools.com/');"><i
+                                class="fas fa-undo uk-margin-small-right"></i>Restart</a>
+                    </div>
+                </div>
+            </div>
+            <div id="page-six" class="page">
+                <div id="contact-validation" class="uk-margin">
+                    <H3>Contact Validation</H3>
+                    <p>The following information will be used to validate that you are the legal parent/guardian who has
+                        registered your child in our system and will <b>ONLY</b> be used to unlock some of the forms so
+                        that they can be updated by you, as needed.</p>
+                    <p><b>NOTE: Parent/guardian must have a state issued driver’s license or ID to register. </b></p>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="parent_name">Your full legal name <span
+                                class="uk-text-danger">*</span></label>
+                        <div class="uk-form-controls">
+                            <input autocomplete="off" id="parent_name" class="uk-input" name="CV_name_on_form" type="text"
+                                placeholder="parent/legal guardian" data-parsley-required="true" autocomplete="name">
+                        </div>
+                    </div>
+                    <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                        <div>
+                            <label class="uk-form-label" for="parent_email">Email Address: <span
+                                    class="uk-text-danger">*</span></label>
+                            <div class="uk-form-controls">
+                                <input autocomplete="off"  id="parent_email" class="uk-input" name="parent_email" type="email"
+                                    placeholder="parentorguardian@email.com" data-parsley-required="true"
+                                    autocomplete="email">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="uk-form-label" for="parent_phone">Cell Phone Number <span
+                                    class="uk-text-danger">*</span></label>
+                            <div class="uk-form-controls">
+                                <input  autocomplete="off" id="parent_phone" class="uk-input phone" name="parent_cphone"
+                                    type="tel" placeholder="(234) 567-8910" data-parsley-required="false"
+                                    autocomplete="tel">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                        <div>
+                            <label class="uk-form-label" for="parent_id_state">State License or ID issued from: <span
+                                    class="uk-text-danger">*</span></label>
+                            <div class="uk-form-controls">
+                                <select id="parent_id_state" class="uk-select" name="parent_id_state" type="state"
+                                    placeholder="5" data-parsley-required="true" autocomplete="FL">
+                                    <option value="NA">-</option>
+                                    <option value="FL">FL</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AK">AK</option>
+                                    <option value="AR">AR</option>
+                                    <option value="AZ">AZ</option>
+                                    <option value="CA">CA</option>
+                                    <option value="CO">CO</option>
+                                    <option value="CT">CT</option>
+                                    <option value="DC">DC</option>
+                                    <option value="DE">DE</option>
+                                    <option value="FL">FL</option>
+                                    <option value="GA">GA</option>
+                                    <option value="HI">HI</option>
+                                    <option value="IA">IA</option>
+                                    <option value="ID">ID</option>
+                                    <option value="IL">IL</option>
+                                    <option value="IN">IN</option>
+                                    <option value="KS">KS</option>
+                                    <option value="KY">KY</option>
+                                    <option value="LA">LA</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MD">MD</option>
+                                    <option value="ME">ME</option>
+                                    <option value="MI">MI</option>
+                                    <option value="MN">MN</option>
+                                    <option value="MO">MO</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MT">MT</option>
+                                    <option value="NC">NC</option>
+                                    <option value="NE">NE</option>
+                                    <option value="NH">NH</option>
+                                    <option value="NJ">NJ</option>
+                                    <option value="NM">NM</option>
+                                    <option value="NV">NV</option>
+                                    <option value="NY">NY</option>
+                                    <option value="ND">ND</option>
+                                    <option value="OH">OH</option>
+                                    <option value="OK">OK</option>
+                                    <option value="OR">OR</option>
+                                    <option value="PA">PA</option>
+                                    <option value="RI">RI</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SD">SD</option>
+                                    <option value="TN">TN</option>
+                                    <option value="TX">TX</option>
+                                    <option value="UT">UT</option>
+                                    <option value="VT">VT</option>
+                                    <option value="VA">VA</option>
+                                    <option value="WA">WA</option>
+                                    <option value="WI">WI</option>
+                                    <option value="WV">WV</option>
+                                    <option value="WY">WY</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="uk-form-label" for="parent_id_number">Drivers License/ID Number: <span
+                                    class="uk-text-danger">*</span></label>
+                            <div class="uk-form-controls">
+                                <input  autocomplete="off" id="parent_id_number" class="uk-input number" name="parent_id_number" type="text"
+                                    placeholder="XXXXXXXXXXXX" data-parsley-required="false" autocomplete="tel">
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="uk-margin contact-validation uk-text-center">
+                    <a class="uk-button uk-button-primary" id="contact-validation-button" href="#target">Submit Information</a>
+                    <!-- <a class="uk-button uk-button-primary" onclick="submitInfoClick()">Submit Information</a> -->
+                </div>                </div>
+                <div id="emergency-contact" style="display: none;">
+                    <div>
+                        <H3>Emergency Contact Information</H3>
+                        <!-- <p>Please provide the following information for your child: </p> -->
+                        <ul class="uk-child-width-expand" uk-tab>
+                            <li id="ECI_family_one"><a>Family #1:</a></li>
+                            <li id="ECI_family_two"><a>Family #2:</a></li>
+                        </ul>
+                        <ul class="uk-switcher uk-margin">
+                            <li id="ECI_family_one_content">
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_1_parent_1_name">Parent/Legal Guardian's Name
+                                        <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_1_parent_1_name" class="uk-input" name="fam_1_parent_1_name"
+                                            type="text" placeholder="Family 1: Parent or Legal Guardian"
+                                            data-parsley-required="false" autocomplete="name">
+                                    </div>
+                                </div>
+                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                    <div>
+                                        <label class="uk-form-label" for="fam_1_parent_1_cell_phone">Cell Phone Number <span
+                                                class="uk-text-danger">*</span></label>
+                                        <div class="uk-form-controls">
+                                            <input  autocomplete="off" id="fam_1_parent_1_cell_phone" class="uk-input phone"
+                                                name="fam_1_parent_1_cell_phone" type="tel" placeholder="(234) 567-8910"
+                                                data-parsley-required="false" autocomplete="tel">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="uk-form-label" for="fam_1_parent_1_daytime_phone">Daytime Phone Number
+                                            <span class="uk-text-danger">*</span></label>
+                                        <div class="uk-form-controls">
+                                            <input  autocomplete="off" id="fam_1_parent_1_daytime_phone" class="uk-input phone"
+                                                name="fam_1_parent_1_daytime_phone" type="tel" placeholder="(234) 567-8910"
+                                                data-parsley-required="false" autocomplete="tel">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_1_parent_1_email">Parent/Legal Guardian's Email
+                                        <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_1_parent_1_email" class="uk-input" name="fam_1_parent_1_email"
+                                            type="email" placeholder="parentOne@domain.com"
+                                            data-parsley-required="false" autocomplete="email">
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_1_parent_2_name">Parent/Legal Guardian's Name
+                                        <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_1_parent_2_name" class="uk-input" name="fam_1_parent_2_name"
+                                            type="text" placeholder="Family 1: Parent or Legal Guardian"
+                                            data-parsley-required="false" autocomplete="name">
+                                    </div>
+                                </div>
+                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                    <div>
+                                        <label class="uk-form-label" for="fam_1_parent_2_cell_phone">Cell Phone Number <span
+                                                class="uk-text-danger">*</span></label>
+                                        <div class="uk-form-controls">
+                                            <input  autocomplete="off" id="fam_1_parent_2_cell_phone" class="uk-input phone"
+                                                name="fam_1_parent_2_cell_phone" type="tel" placeholder="(234) 567-8910"
+                                                data-parsley-required="true" autocomplete="tel">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="uk-form-label" for="fam_1_parent_2_daytime_phone">Daytime Phone Number
+                                            <span class="uk-text-danger">*</span></label>
+                                        <div class="uk-form-controls">
+                                            <input  autocomplete="off" id="fam_1_parent_2_daytime_phone" class="uk-input phone"
+                                                name="fam_1_parent_2_daytime_phone" type="tel" placeholder="(234) 567-8910"
+                                                data-parsley-required="false" autocomplete="tel">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_1_parent_2_email">Parent/Legal Guardian's Email
+                                        <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_1_parent_2_email" class="uk-input" name="fam_1_parent_2_email"
+                                            type="email" placeholder="parentTwo@domain.com"
+                                            data-parsley-required="false" autocomplete="email">
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_1_residence">Residence Address <span
+                                            class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_1_residence" class="location uk-input"
+                                            name="fam_1_residence" type="text"
+                                            placeholder="500 E Moody Blvd, Bunnell, FL 32110"
+                                            data-parsley-required="false" autocomplete="street-address">
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_1_mailing">Mailing Address(if
+                                        different from above) <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_1_mailing" class="location uk-input"
+                                            name="fam_1_mailing" type="text"
+                                            placeholder="500 E Moody Blvd, Bunnell, FL 32110"
+                                            data-parsley-required="false" autocomplete="street-address">
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="ECI_family_two_content">
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_2_parent_1_name">Parent/Legal Guardian's Name
+                                        <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_2_parent_1_name" class="uk-input" name="fam_2_parent_1_name"
+                                            type="text" placeholder="Family 2: Parent or Legal Guardian"
+                                            data-parsley-required="false" autocomplete="name">
+                                    </div>
+                                </div>
+                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                    <div>
+                                        <label class="uk-form-label" for="fam_2_parent_1_cell_phone">Cell Phone Number <span
+                                                class="uk-text-danger">*</span></label>
+                                        <div class="uk-form-controls">
+                                            <input  autocomplete="off" id="fam_2_parent_1_cell_phone" class="uk-input phone"
+                                                name="fam_2_parent_1_cell_phone" type="tel" placeholder="(234) 567-8910"
+                                                data-parsley-required="false" autocomplete="tel">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="uk-form-label" for="fam_2_parent_1_daytime_phone">Daytime Phone Number
+                                            <span class="uk-text-danger">*</span></label>
+                                        <div class="uk-form-controls">
+                                            <input autocomplete="off"  id="fam_2_parent_1_cell_phone" class="uk-input phone"
+                                                name="fam_2_parent_1_cell_phone" type="tel" placeholder="(234) 567-8910"
+                                                data-parsley-required="false" autocomplete="tel">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_2_parent_2_name">Parent/Legal Guardian's Name
+                                        <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_2_parent_2_name" class="uk-input" name="fam_2_parent_2_name"
+                                            type="text" placeholder="Family 2: Parent or Legal Guardian"
+                                            data-parsley-required="false" autocomplete="name">
+                                    </div>
+                                </div>
+                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                    <div>
+                                        <label class="uk-form-label" for="fam_2_parent_2_cell_phone">Cell Phone Number <span
+                                                class="uk-text-danger">*</span></label>
+                                        <div class="uk-form-controls">
+                                            <input autocomplete="off"  id="fam_2_parent_2_cell_phone" class="uk-input phone"
+                                                name="fam_2_parent_2_cell_phone" type="tel" placeholder="(234) 567-8910"
+                                                data-parsley-required="false" autocomplete="tel">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="uk-form-label" for="fam_2_parent_2_daytime_phone">Daytime Phone Number
+                                            <span class="uk-text-danger">*</span></label>
+                                        <div class="uk-form-controls">
+                                            <input autocomplete="off"  id="fam_2_parent_2_daytime_phone" class="uk-input phone"
+                                                name="fam_2_parent_2_daytime_phone" type="tel" placeholder="(234) 567-8910"
+                                                data-parsley-required="false" autocomplete="tel">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_2_email">Parent/Legal Guardian's Email
+                                        <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_2_email" class="uk-input" name="fam_2_email"
+                                            type="email" placeholder="familyTwo@domain.com"
+                                            data-parsley-required="false" autocomplete="email">
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_2_residence">Residence Address <span
+                                            class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_2_residence" class="location uk-input"
+                                            name="fam_2_residence" type="text"
+                                            placeholder="500 E Moody Blvd, Bunnell, FL 32110"
+                                            data-parsley-required="false" autocomplete="street-address">
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <label class="uk-form-label" for="fam_2_mailing">Mailing Address(if
+                                        different from above) <span class="uk-text-danger">*</span></label>
+                                    <div class="uk-form-controls">
+                                        <input  autocomplete="off" id="fam_2_mailing" class="location uk-input"
+                                            name="fam_2_mailing" type="text"
+                                            placeholder="500 E Moody Blvd, Bunnell, FL 32110"
+                                            data-parsley-required="false" autocomplete="street-address">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <br>
+                        <div class="uk-margin uk-text-center">
+                            <!-- <button type="button" id="emergency-contact-button" class="next uk-button uk-button-primary">Next<i -->
+                            <button type="button" id="emergency-contact-button" class="uk-button uk-button-primary">Next<i
+                                    class="fas fa-angle-right uk-margin-small-left"></i></button>
+                        </div>
+                        </div>
+                    </div>
+                        <!-- <hr> -->
+                        <div id="custody-issues" style="display: none;">
+                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                            <h3>Custody Issues:</h3>
+                            <p>It is the parent/guardian’s responsibility to notify the school of any special custody
+                                arrangements and any changes to the information contained on this form.</p>
+                            <p></p>
+                            <p><b>Custody paperwork must be on file with your school.</b></p>
+                            <p></p>
+                            <p><input class="uk-checkbox" id="custody-checkbox" type="checkbox"> Please check the box if custody paperwork is
+                                on file with the school.</p>
+                        </div>
+                        <div class="uk-margin uk-text-center">
+                            <!-- <button type="button" id="emergency-contact-button" class="next uk-button uk-button-primary">Next<i -->
+                            <button type="button" id="custody-issues-button" class="uk-button uk-button-primary">Next<i
+                                    class="fas fa-angle-right uk-margin-small-left"></i></button>
+                        </div>
+                        </div>
+                        <!-- <hr> -->
+                        <div id="student-pickup" style="display: none;">
+                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid"></div>
+                        <div>
+                            <h3>Student Pickup</h3>
+                            <p>Persons other than a parent/guardian who may check your student out of school or who will care
+                                for the student in case parent/guardian cannot be reached.</p>
+                            <p><b>Only parents/guardians and these individuals may check a student out of school with an
+                                    ID.</b></p>
+                            <ul uk-accordion="multiple: true">
+                                <li class="uk-open">
+                                    <a class="uk-accordion-title" href="#">Add individual</a>
+                                    <div class="uk-accordion-content">
+                                        <div class="uk-margin">
+                                            <label class="uk-form-label" for="pickup_5_name">Full Name <span
+                                                    class="uk-text-danger">*</span></label>
+                                            <div class="uk-form-controls">
+                                                <input   autocomplete="off" id="pickup_5_name" class="uk-input" name="pickup_5_name"
+                                                    type="text" placeholder="Individual 5" data-parsley-required="false"
+                                                    autocomplete="name">
+                                            </div>
+                                        </div>
+                                        <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                            <div>
+                                                <label class="uk-form-label" for="pickup_5_phone">Phone Number <span
+                                                        class="uk-text-danger">*</span></label>
+                                                <div class="uk-form-controls">
+                                                    <input  autocomplete="off"  id="pickup_5_phone" class="uk-input phone"
+                                                        name="pickup_5_phone" type="tel" placeholder="(234) 567-8910"
+                                                        data-parsley-required="false" autocomplete="tel">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="uk-form-label" for="pickup_5_relationship">Relationship <span
+                                                        class="uk-text-danger">*</span></label>
+                                                <div class="uk-form-controls">
+                                                    <input   autocomplete="off" id="pickup_5_relationship" class="uk-input"
+                                                        name="pickup_5_relationship" type="text"
+                                                        placeholder="enter relationship here"
+                                                        data-parsley-required="false" autocomplete="relate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="uk-accordion-title" href="#">Add individual</a>
+                                    <div class="uk-accordion-content">
+                                        <div class="uk-margin">
+                                            <label class="uk-form-label" for="pickup_6_name">Full Name<span
+                                                    class="uk-text-danger">*</span></label>
+                                            <div class="uk-form-controls">
+                                                <input   autocomplete="off" id="pickup_6_name" class="uk-input" name="pickup_6_name"
+                                                    type="text" placeholder="Individual 6" data-parsley-required="false"
+                                                    autocomplete="name">
+                                            </div>
+                                        </div>
+                                        <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                            <div>
+                                                <label class="uk-form-label" for="pickup_6_phone">Phone Number <span
+                                                        class="uk-text-danger">*</span></label>
+                                                <div class="uk-form-controls">
+                                                    <input   autocomplete="off" id="pickup_6_phone" class="uk-input phone"
+                                                        name="pickup_6_phone" type="tel" placeholder="(234) 567-8910"
+                                                        data-parsley-required="false" autocomplete="tel">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="uk-form-label" for="pickup_6_relationship">Relationship <span
+                                                        class="uk-text-danger">*</span></label>
+                                                <div class="uk-form-controls">
+                                                    <input   autocomplete="off" id="pickup_6_relationship" class="uk-input"
+                                                        name="pickup_6_relationship" type="text"
+                                                        placeholder="enter relationship here"
+                                                        data-parsley-required="false" autocomplete="relate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="uk-accordion-title" href="#">Add individual</a>
+                                    <div class="uk-accordion-content">
+                                        <div class="uk-margin">
+                                            <label class="uk-form-label" for="pickup_7_name">Full Name <span
+                                                    class="uk-text-danger">*</span></label>
+                                            <div class="uk-form-controls">
+                                                <input   autocomplete="off" id="pickup_7_name" class="uk-input" name="pickup_7_name"
+                                                    type="text" placeholder="Individual 7" data-parsley-required="false"
+                                                    autocomplete="name">
+                                            </div>
+                                        </div>
+                                        <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                            <div>
+                                                <label class="uk-form-label" for="pickup_7_phone">Phone Number <span
+                                                        class="uk-text-danger">*</span></label>
+                                                <div class="uk-form-controls">
+                                                    <input   autocomplete="off" id="pickup_7_phone" class="uk-input phone"
+                                                        name="pickup_7_phone" type="tel" placeholder="(234) 567-8910"
+                                                        data-parsley-required="false" autocomplete="tel">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="uk-form-label" for="pickup_7_relationship">Relationship <span
+                                                        class="uk-text-danger">*</span></label>
+                                                <div class="uk-form-controls">
+                                                    <input   autocomplete="off" id="pickup_7_relationship" class="uk-input"
+                                                        name="pickup_7_relationship" type="text"
+                                                        placeholder="enter relationship here"
+                                                        data-parsley-required="false" autocomplete="relate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                            <div class="uk-margin uk-text-center">
+                                <!-- <button type="button" id="emergency-contact-button" class="next uk-button uk-button-primary">Next<i -->
+                                <button type="button" id="student-pickup-button" class="uk-button uk-button-primary">Next<i
+                                        class="fas fa-angle-right uk-margin-small-left"></i></button>
+
+                        </div>
+                    </div>
+            </div>
+                <div id="medical-needs" style="display: none;">
+                <div class="uk-margin">
+                    <H3>Medical Needs</H3>
+                    <div class="uk-margin">
+                        <label class="uk-form-label">Does student have <span
+                                class="uk-text-danger"><b>allergies?</b></span></label> 
+                                <input class="uk-radio" type="radio" name="allergy_yn" value="true"><b> Yes</b>
+                                <input class="uk-radio" type="radio" name="allergy_yn" value="false"><b> No</b>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="MN_allergy">To what is the student allergic? </label>
+                        <div class="uk-form-controls">
+                            <input id="MN-allergy" class="uk-input" name="MN_allergy" type="text"
+                                placeholder="Please list all known allergies here" data-parsley-required="true"
+                                autocomplete="name">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="uk-margin">
+                        <label class="uk-form-label">Does student wear glasses or contacts?</span></label> 
+                        <input class="uk-radio" type="radio" name="MN_goc_yn" value="true"><b> Yes</b>
+                        <input class="uk-radio" type="radio" name="MN_goc_yn" value="false"><b> No</b>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label">Does student wear hearing aids?</span></label>
+                        <input class="uk-radio" type="radio" name="MN_haids_yn" value="true"><b> Yes</b>
+                        <input class="uk-radio" type="radio" name="MN_haids_yn" value="false"><b> No</b>
+                    </div>
+                    <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                        <div>
+                            <label class="uk-form-label" for="MN_physician_name">Physician's Name <span
+                                    class="uk-text-danger">*</span></label>
+                            <div class="uk-form-controls">
+                                <input id="MN_physician-name" class="uk-input" name="MN_physician_name"
+                                    type="text" placeholder="enter name here" data-parsley-required="false"
+                                    autocomplete="relate">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="uk-form-label" for="physician_phone">Phone Number <span
+                                    class="uk-text-danger">*</span></label>
+                            <div class="uk-form-controls">
+                                <input id="physician-phone" class="uk-input phone" name="physician_phone" type="tel"
+                                    placeholder="(234) 567-8910" data-parsley-required="false" autocomplete="tel">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-margin uk-text-center">
+                    <!-- <button type="button" id="emergency-contact-button" class="next uk-button uk-button-primary">Next<i -->
+                    <button type="button" id="medical-needs-button" class="uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+
+            </div>
+                <!-- <div class="uk-margin uk-text-center">
+                    <button type="button" class="previous uk-button uk-button-primary"><i
+                            class="fas fa-angle-left uk-margin-small-right"></i>Previous</button>
+                    <button type="button" class="next uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+                </div>             -->
+            </div>
+                <div id="clinic-opt-out" style="display: none;">
+                    <div class="uk-margin">
+                        <H3>SCHOOL CLINIC SERVICES</H3>
+                        <!-- <H5>ANNUAL CONSENT</H5> -->
+                        <hr>
+                        <p>Per state statute, parental consent is required for the following healthcare services listed below. If you agree to allow your student to receive any or all of the services below if/when they are needed, please check the appropriate boxes in each section. </p>
+                        <p></p>
+                        <p>Emergency services will be provided to all students according to the standards found in the Florida Emergency Guidelines for Schools. <a href="https://www.floridahealth.gov/programs-and-services/childrens-health/school-health/_documents/emergency-guidelines-for-schools-2019.pdf" target="_blank">Florida Health Emergency School Guidelines</a></p>
+                        <p></p>
+                        <p><b>As required by statute, a new form must be completed each year for each student.</b></p>
+                        <p></p>
+                        <hr>
+                        <p><b>Healthcare Services:</b></p>
+                        <p>Check the boxes below to consent to the individual healthcare services your student is to receive if/when needed:</p>
+                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                            <label><input class="uk-checkbox" type="checkbox" name="scs_opt_1"><b> Basic First Aid Services</b> (Nose, ear/throat check, blood pressure monitoring, temperature check)</label><br>
+                            <label><input class="uk-checkbox" type="checkbox" name="scs_opt_2"><b> For Minor Wound Care</b>  (cuts, scrapes, and abrasions)</label><br>
+                            <label><input class="uk-checkbox" type="checkbox" name="scs_opt_3"><b> For Minor Eye Irritation</b>  </label><br>
+                            <label><input class="uk-checkbox" type="checkbox" name="scs_opt_4"><b> For Minor Bites and/or Stings</b>  </label><br>
+                            <label><input class="uk-checkbox" type="checkbox" name="scs_opt_5"><b> For Minor Upset Stomach and/or Indigestion</b>  </label><br>
+                            <label><input class="uk-checkbox" type="checkbox" name="scs_opt_6"><b> Skin check for rashes</b>  (exposed areas and limbs only)</label><br>
+                        </div>
+                        <p><b>OR</b></p>
+                        <p></p>
+                        <p>Check the box below to consent to ALL School-based Illness Assessment services.</p>
+                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                            <label><input class="uk-checkbox" type="checkbox" name="scs_opt_all"><b> I consent to <b>All</b> School-based Illness Assessments listed above.</label><br>
+                        </div>
+                        <p></p>
+                        <!--
+                        <hr>
+                        <p></p>
+                        <p>The following is for Informational Purposes Only</p>
+                        <H5><b>RE: Health Assessments</b></H5>
+                        <p>Separate written consent forms will be furnished when these screenings and/or services are made available at each school. </p>
+                        <p>
+                            <ul>
+                                <li>Vision screening (grades KG, 1, 3, and 6 including new K-6 students)</li>
+                                <li>Hearing screening (grades KG, 1, and 6 including new K-6 students)</li>
+                                <li>Height/Weight BMI screening (grade KG, 1, 3 and 6 including new K-6 students)</li>
+                                <li>Scoliosis (grade 6 only)</li>
+                                <li>Specific Health Screening (By request or as needed PK through 12 grades)</li>
+                            </ul>
+                        </p>
+                        -->
+                        <hr>
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="parent_signature">Electronic Signature <span class="uk-text-danger">*</span></label>
+                            <div class="uk-form-controls">
+                                <input id="parent-signature" class="uk-input" name="parent_signature" type="text" placeholder="John Jacob Doe" data-parsley-required="true" autocomplete="name">
+                            </div>
+                        </div>
+                        <div class="uk-margin">
+                            <div class="uk-grid-small" data-uk-grid>
+                                <div class="uk-width-auto" style="line-height: 75px">
+                                    <input id="parent-agreement" class="uk-checkbox" type="checkbox" name="parent_signature_agreement" data-parsley-required="true">
+                                </div>
+                                <div class="uk-width-expand">
+                                    <p>I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="uk-margin uk-text-center">
+                    <button type="button" id="clinic-opt-out-button" class="uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+
+                    <!-- <div class="uk-margin uk-text-center">
+                    <button type="button" class="previous uk-button uk-button-primary"><i
+                            class="fas fa-angle-left uk-margin-small-right"></i>Previous</button>
+                    <button type="button" class="next uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+                    </div> -->
+                </div>
+        </div>
+        
+        <!-- <div id="screening-opt-out" style="display: none;">
+                <div class="uk-margin">
+                    <H3>DECLINE OF SCHOOL HEALTH SCREENINGS</H3>
+                    <p>Florida Statute 381.0056(7)(d), mandates regular health screenings to public school students.</p>
+                    <p>The screenings include: </p>
+                    <p>Vision Screening Mandatory for Grades K, 1, 3, and 6 and all new students K-6.</p>
+                    <p>Hearing Screening Mandatory for Grades K, 1, and 6 and all new students K-6.</p>
+                    <p>Height and Weight Mandatory for Grades 1, 3, and 6 and all new students K-6.</p>
+                    <p>Scoliosis Mandatory for Grade 6 Specific Health Screening By request or as needed for Grades
+                        PK-12</p>
+                    <p>Behavioral health well-being questionnaire Students 12 years & older</p>
+                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                        <label><input class="uk-checkbox" id="screening-opt-out-checkbox" type="checkbox" name="shs_decline"><b> I DO NOT</b> WANT MY
+                            STUDENT TO RECEIVE THE HEALTH SCREENINGS LISTED ABOVE, AND BY CHECKING THE BOX I HAVE
+                            DECLINED THESE SCREENINGS. </label><br>
+                    </div>
+                </div>
+                 <div class="uk-margin uk-text-center">
+                    <button type="button" class="previous uk-button uk-button-primary"><i
+                            class="fas fa-angle-left uk-margin-small-right"></i>Previous</button>
+                    <button type="button" class="next uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+                </div> 
+                <div class="uk-margin uk-text-center">
+                    <button type="button" id="screening-opt-out-button" class="uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+                            </div>
+            </div> -->
+                <!-- <div id="screening-opt-out" style="display: none;">
+                <div class="uk-margin">
+                    <H3>DECLINE OF SCHOOL HEALTH SCREENINGS</H3>
+                    <p>Florida Statute 381.0056(7)(d), mandates regular health screenings to public school students.</p>
+                    <p>The screenings include: </p>
+                    <p>Vision Screening Mandatory for Grades K, 1, 3, and 6 and all new students K-6.</p>
+                    <p>Hearing Screening Mandatory for Grades K, 1, and 6 and all new students K-6.</p>
+                    <p>Height and Weight Mandatory for Grades 1, 3, and 6 and all new students K-6.</p>
+                    <p>Scoliosis Mandatory for Grade 6 Specific Health Screening By request or as needed for Grades
+                        PK-12</p>
+                    <p>Behavioral health well-being questionnaire Students 12 years & older</p>
+                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                        <label><input class="uk-checkbox" id="screening-opt-out-checkbox" type="checkbox" name="shs_decline"><b> I DO NOT</b> WANT MY
+                            STUDENT TO RECEIVE THE HEALTH SCREENINGS LISTED ABOVE, AND BY CHECKING THE BOX I HAVE
+                            DECLINED THESE SCREENINGS. </label><br>
+                    </div>
+                </div>
+                 <div class="uk-margin uk-text-center">
+                    <button type="button" class="previous uk-button uk-button-primary"><i
+                            class="fas fa-angle-left uk-margin-small-right"></i>Previous</button>
+                    <button type="button" class="next uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+                </div> 
+                <div class="uk-margin uk-text-center">
+                    <button type="button" id="screening-opt-out-button" class="uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+                            </div>
+            </div> -->
+            <div id="media-choice" style="display: none;">
+                <div class="uk-margin">
+                    <H3>Media Parent Choice</H3>
+                    <p>The district understands parents and guardians play a major role in guiding their child’s reading
+                        and media center use. It is important that each family has the right to determine which library
+                        resources are acceptable for its children and that we afford that right to each family. The
+                        district strives to provide appropriate educational, intellectual and physical access to
+                        resources that provide for a wide range of abilities and differing points of view. This process
+                        in no way negates our responsibility to ensure that the materials that are in our media centers
+                        align to state statutes but provides families with additional choice around all available media
+                        materials. </p>
+                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                        <label><input class="uk-radio" type="radio" name="mclevel" value="1"> <b> Level 1: Open Access:</b>
+                            Students are able to select books at their discretion. There are some levels of books that
+                            require parent permission before a student can check them out..</label><br>
+                        <label><input class="uk-radio" type="radio" name="mclevel" value="2"> <b> Level 2: Limited Access:</b>
+                            Families may submit a list of up to 5 books that students are NOT allowed to check-out.
+                            Outside of the 5 books that students are NOT allowed to check-out, students have the same
+                            access to Level 1.</label><br>
+                        <label><input class="uk-radio" type="radio" name="mclevel" value="3"> <b> Level 3: Pre-Approval:</b> A
+                            parent/guardian will pre-approve all books before a student checks them out.</label>
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="parent_signature">Electronic Signature <span class="uk-text-danger">*</span></label>
+                    <div class="uk-form-controls">
+                        <input id="parent-signature" class="uk-input" name="parent_signature" type="text" placeholder="John Jacob Doe" data-parsley-required="true" autocomplete="name">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <div class="uk-grid-small" data-uk-grid>
+                        <div class="uk-width-auto" style="line-height: 75px">
+                            <input id="parent-agreement" class="uk-checkbox" type="checkbox" name="parent_signature_agreement" data-parsley-required="true">
+                        </div>
+                        <div class="uk-width-expand">
+                            <p>I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-margin uk-text-center">
+                    <button type="button" id="media-choice-button" class="uk-button uk-button-primary">Next<i
+                            class="fas fa-angle-right uk-margin-small-left"></i></button>
+                </div>
+            </div>
+<div id="dlmr" style="display: none;">
+    <H3>Digital Learning Movement Registration</H3>
+<ul class="uk-child-width-expand" uk-tab>
+    <li id="oto-tab"><a>1:1</a></li>
+    <li id="du-tab"><a>Day User</a></li>
+</ul>
+<ul class="uk-switcher uk-margin">
+    <li id="oto-tab-content">
+        <div id="oto-label" class="uk-alert-success" uk-alert>
+            <p>By selecting <b>1:1 | Take Home</b>, it allows students to take their assigned device home. A Technology Usage Fee is required which reduces fines assessed if damage should occur.</p>
+        </div>
+        <form id="oto-form" method="POST" class="uk-form-stacked">
+            {% csrf_token %}
+            <div class="item-container uk-margin uk-width-1-1">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <span class="uk-text-bold">Due Today</span>
+                        <br /><span class="uk-text-meta">Non-refundable usage fee</span>
+                    </div>
+                    <div class="uk-width-expand uk-text-right">
+                        <span id="due_today" class="uk-text-large">$0 (<span style="opacity: 0.5">-$25</span>)</span>
+                    </div>
+                </div>
+                <div class="uk-margin-small">
+                    <div class="uk-grid-small uk-flex-center" uk-grid>
+                        <div class="uk-width-auto">
+                            <label class="uk-form-label" style="line-height: 30px;">Promotional Code</label>
+                        </div>
+                        <div class="uk-width-expand">
+                             <input class="uk-input uk-form-small" type="text" name="promo_code" value="FCSB2023" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="parent_name">Parent/Legal Guardian Name <span class="uk-text-danger">*</span></label>
+                <div class="uk-form-controls">
+                    <input id="parent-name" class="uk-input" name="parent_name" type="text" placeholder="John Doe" data-parsley-required="true" autocomplete="name">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="parent_name">Parent/Legal Guardian Email <span class="uk-text-danger">*</span></label>
+                <div class="uk-form-controls">
+                    <input id="parent-email" class="uk-input" name="parent_email" type="email" placeholder="johndoe@domain.com" data-parsley-required="true" autocomplete="email">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="parent_phone">Parent/Legal Guardian Phone Number <span class="uk-text-danger">*</span></label>
+                <div class="uk-form-controls">
+                    <input id="parent-phone" class="uk-input phone" name="parent_phone" type="tel" placeholder="(234) 567-8910" data-parsley-required="true" autocomplete="tel">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="parent_address">Parent/Legal Guardian Full Address <span class="uk-text-danger">*</span></label>
+                <div class="uk-form-controls">
+                    <input id="parent-address" class="location uk-input" name="parent_address" type="text" placeholder="500 E Moody Blvd, Bunnell, FL 32110" data-parsley-required="true" autocomplete="street-address">
+                </div>
+            </div>
+            <div class="uk-margin">
+                {% comment %} Updated: 05-03-2023 {% endcomment %}
+                <p>By submitting this form, you are acknowledging that you have read and agree to the <a href="https://drive.google.com/file/d/1qz9aFHWqNU60G4lJKPE1uqujOZbpX9u2/view" target="_blank">Digital Learning Movement Handbook</a>, <a href="https://docs.google.com/document/d/1u6wJq8KSo_PN7Fl4giPlj5KTiePduUM-rLOXKZ74RAw/view" target="_blank">Technology Repair and Replacement Fee Schedule</a>, and the <a href="https://go.boarddocs.com/fla/flcsd/Board.nsf/goto?open&id=9ABQDF68C5F5" target="_blank">School Board Policy 321: Electronic Systems Responsible Use</a> documentation.
+            </div>
+            <hr />
+            <div class="uk-margin">
+                <label class="uk-form-label" for="parent_signature">Electronic Signature <span class="uk-text-danger">*</span></label>
+                <div class="uk-form-controls">
+                    <input id="parent-signature" class="uk-input" name="parent_signature" type="text" placeholder="John Jacob Doe" data-parsley-required="true" autocomplete="name">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <div class="uk-grid-small" data-uk-grid>
+                    <div class="uk-width-auto" style="line-height: 75px">
+                        <input id="parent-agreement" class="uk-checkbox" type="checkbox" name="parent_signature_agreement" data-parsley-required="true">
+                    </div>
+                    <div class="uk-width-expand">
+                        <p>I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-margin uk-text-center">
+                <button type="button" class="oto-submit uk-button uk-button-primary uk-width-1-1">Submit<i class="fas fa-check-double uk-margin-small-left"></i></button>
+            </div>
+        </form>
+    </li>
+    <li id="du-tab-content">
+        <div id="du-label" class="uk-alert-warning" uk-alert>
+            <p>By selecting <b>DU | Day User</b>, you are opting out of the program and a device can be issued for daily use and returned at the end of each day. Fines still apply and will follow the three tiered fine fee schedule.</p>
+        </div>
+        <form id="du-form" method="POST" class="uk-form-stacked">
+            {% csrf_token %}
+            <div class="item-container uk-margin uk-width-1-1">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <span class="uk-text-bold">Due Today</span>
+                        <br /><span class="uk-text-meta">Non-refundable usage fee</span>
+                    </div>
+                    <div class="uk-width-expand uk-text-right">
+                        <span id="du-due-today" class="uk-text-large">$0</span>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div class="uk-margin">
+                <input class="uk-checkbox" type="checkbox" id="du-optin" name="du_optin" disabled>
+                <label for="du-optin">Opt-in to the <a>three tiered fine fee schedule</a></label>
+            </div>
+            -->
+            {% include 'dlmr/sections/fields.html' %}
+            <div class="uk-margin uk-text-center">
+                <button type="button" class="du-submit uk-button uk-button-primary uk-width-1-1">Submit<i class="fas fa-check-double uk-margin-small-left"></i></button>
+            </div>
+        </form>
+    </li>
+</ul>
+
+</div>
+            <div id="page-seven" class="page">
+                {% include 'dlmr/sections/duf.html' %}
+            </div>
+            <div id="page-eight" class="page">
+                {% include 'dlmr/sections/icvl.html' %}
+            </div>
+            <div id="page-nine" class="page uk-text-primary uk-text-center">
+                <span class="uk-text-primary" uk-spinner="ratio: 4"></span>
+                <p>Submitting data, please wait...</p>
+            </div>
+            <div id="page-ten" class="page uk-text-justify">
+                <p>Thank you for submitting your registration for the <b>2023-2024 </b>school year! <br></p>
+                <p>A confirmation email of your registration, along with all associated documents, has been sent to the
+                    email address that you provided.</p>
+                <!-- <p>Once school begins, your student will receive their associated device (iPad or MacBook) at their school.</p> -->
+                <p>Any other questions pertaining to the Digital Learning Movement and the upcoming student device
+                    distributions can be answered on our <a
+                        href="https://www.flaglerschools.com/students-families/student-devices" target="_blank">FAQ
+                        page</a>.</p>
+                <p>Should you have any specific school related questions, please contact the schools directly.</p>
+                <p class="uk-text-primary">Please remember that you will need to complete this form for each of your
+                    students. If you have another student that you would like to register, please click the below button
+                    to restart the registration process.</p>
+                <div class="uk-margin uk-text-center">
+                    <a class="uk-button uk-button-primary" onClick="window.location.reload();"><i
+                            class="fas fa-undo uk-margin-small-left"></i>Restart</a>
+                </div>
+            </div>
+            <div id="page-eleven" class="page uk-text-justify">
+                <p>We apologize for the inconvenience, but registration is not open for your student's school at this
+                    time. <br><b class="uk-text-muted">Code: "503"</b></p>
+                <p>Please check the <a href="https://www.flaglerschools.com/" target="_blank">flaglerschools.com</a>
+                    website for the dates and times of the Digital Learning Movement Registration and device
+                    distributions.</p>
+                <div class="uk-margin uk-text-center">
+                    <a class="uk-button uk-button-primary" onClick="window.location.reload();"><i
+                            class="fas fa-undo uk-margin-small-right"></i>Restart</a>
+                </div>
+            </div>
+            <div id="page-twelve" class="page uk-text-justify">
+                <p>The student you are attempting to register for a device has already been registered to receive a
+                    device for the 2023-2024 school year. <br><b class="uk-text-success">Code: "202"</b></p>
+                <div class="uk-margin uk-text-center">
+                    <a class="uk-button uk-button-primary" onClick="window.location.reload();"><i
+                            class="fas fa-undo uk-margin-small-right"></i>Restart</a>
+                </div>
+            </div>
+            <div id="page-thirteen" class="page uk-text-justify">
+                <p class="uk-text-danger" style="font-weight:700">The Digital Learning Movement Registration is
+                    currently only open to students enrolled in a summer program. Our system currently shows that your
+                    student is not enrolled in a summer program. <br><b class="uk-text-danger">Error Code: "403"</b></p>
+                <p>If you believe that you have received this message in error, please contact Technology Support
+                    through the following:</p>
+                <p><br><br><a
+                        href="https://docs.google.com/forms/d/e/1FAIpQLScVcUCKmp5QY0S-oT_da99xAljQtdHv__8nL3jQ8T7gBqxYFQ/viewform?usp=pp_url&entry.990965928=403"
+                        target="_blank">Support Form link</a>.</p>
+                <div class="uk-margin uk-text-center">
+                    <a class="uk-button uk-button-primary" onClick="window.location.reload();"><i
+                            class="fas fa-undo uk-margin-small-right"></i>Restart</a>
+                </div>
+            </div>
+            <div id="page-fourteen" class="page uk-text-justify">
+                <p>Your student is enrolled in a summer program, but we have not yet received the device they were
+                    issued for the previous school year. We cannot accept a registration without the device issued to
+                    your student being returned. <br><b class="uk-text-danger">Error Code: "402"</b></p>
+                <p>If you believe that you are seeing this message in error, please contact Technology Support through
+                    the following:</p>
+                <p><br><br><a
+                        href="https://docs.google.com/forms/d/e/1FAIpQLScVcUCKmp5QY0S-oT_da99xAljQtdHv__8nL3jQ8T7gBqxYFQ/viewform?usp=pp_url&entry.990965928=402"
+                        target="_blank">Support Form link</a>.</p>
+                <div class="uk-margin uk-text-center">
+                    <a class="uk-button uk-button-primary" onClick="window.location.reload();"><i
+                            class="fas fa-undo uk-margin-small-right"></i>Restart</a>
+                </div>
+            </div>
+            <div id="page-fifteen" class="page uk-text-justify">
+                <div class="uk-margin">
+                    <h5 class="uk-text-bold uk-heading-divider">Digital Learning Movement Registration</h5>
+                    <p id="result-registered-text">Error: No trigger event</p>
+                </div>
+            </div>
+            <div id="page-sixteen" class="page uk-text-justify">
+                <div class="uk-alert-danger uk-text-justify" data-uk-alert>
+                    <p>We were able to find your student in our database, but information that we require is missing.
+                        <br><b class="uk-text-danger">Error Code: 500 "BT:EC Invalid"</b>.
+                    </p>
+                    <p>Please contact Technology Support through the following:</p>
+                    <p><br><br><a
+                            href="https://docs.google.com/forms/d/e/1FAIpQLScVcUCKmp5QY0S-oT_da99xAljQtdHv__8nL3jQ8T7gBqxYFQ/viewform?usp=pp_url&entry.990965928=500"
+                            target="_blank">Support Form link</a>.</p>
+                </div>
+            </div>
+            <div id="page-seventeen" class="page uk-text-justify">
+                <p>At this time a student account is being created and a device is being prepared. <br><b
+                        class="uk-text-muted">Code: "201"</b></p>
+                <p>Once the account and device are ready, you will be contacted to complete the Digital Learning
+                    Movement Registration and a time and place to pick up the device will be arranged.</p>
+                <div class="uk-margin uk-text-center">
+                    <a class="uk-button uk-button-primary" onClick="window.location.reload();"><i
+                            class="fas fa-undo uk-margin-small-right"></i>Restart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MCX5NV74EP"></script>
+<script>
+var std_id;
+var cvForm = {};
+var eciForm = {};
+var medicalNeedsForm = {};
+var optOutForm = {};
+var mediaChoiceForm = {};
+var dlmrForm = {};
+
+    $(document).ready(function () {
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'G-MCX5NV74EP');
+        gtag('event', 'dlm_page_loaded');
+
+        $(document).on("keydown", "form", function (event) {
+            return event.key != "Enter";
+        });
+
+        $("input[name=promo_code]").on('keyup change blur paste cut click', function () {
+            if ($(this).val() != "FCSB2023") {
+                $("#oto-due-today").text('$25');
+            } else {
+                $("#oto-due-today").text('$0 (<span style="opacity: 0.5">-$25</span>)');
+            }
+        });
+
+        $("input[name=du_optin]").on('change', function () {
+            if ($(this).prop("checked") == true) {
+                $("#du-due-today").text('$25');
+            } else if ($(this).prop("checked") == false) {
+                $("#du-due-today").text('$0');
+            }
+        })
+
+        $(".phone").mask("(000) 000-0000");
+        $("#student-birthdate").mask("00/00/0000", {
+            placeholder: "04/23/2004"
+        });
+
+        var $sections = $(".page");
+        var index = 0;
+        var tl = gsap.timeline();
+
+        gsap.to([".section-navigation", ".section-one-label"], { opacity: 1, duration: 0.5 });
+        gsap.from(".device-form-header", { opacity: 0, y: -25, ease: "back", duration: 0.5 });
+
+        tl.fromTo(".current", { opacity: 0, display: "block" }, { opacity: 1, duration: 0.5 });
+
+        var student_grade, student_id, student_location_id, student_name, student_birthdate, student_role, student_program;
+        var summer_program_only, student_not_collected, student_has_registered, calendly_enabled, calendly_enabled_secondary, student_has_device, student_has_appointment, student_is_new;
+
+        function navigateTo(index) {
+            tl.to($sections, { opacity: 0, display: "none", duration: 0.25 });
+
+            $sections.removeClass("current")
+            $sections.eq(index).addClass("current");
+
+            tl.to($sections.eq(index), { display: "block", opacity: 1 });
+        }
+
+        function currentIndex() {
+            return $sections.index($sections.filter(".current"));
+        }
+
+        $(".previous").click(function () {
+            if (currentIndex() == 4) {
+                navigateTo(currentIndex() - 2);
+            } else {
+                navigateTo(currentIndex() - 1);
+            }
+        });
+
+        $(".next").click(function () {
+            if ($(".form-wizard").parsley().validate({ group: "block-" + currentIndex() })) {
+                navigateTo(currentIndex() + 1);
+            }
+        });
+
+        $("#contact-validation-button").click(function() {
+            cvForm.parent_name = $("#parent_name").val()
+            cvForm.parent_email = $("#parent_email").val()
+            cvForm.parent_phone = $("#parent_phone").val()
+            cvForm.parent_id_state = $("#parent_id_state").val()
+            cvForm.parent_id_number = $("#parent_id_number").val()
+            cvForm.student_id = std_id
+            $.ajax({
+                url: '../users/contact_validation_submit/',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(cvForm),
+                success: function(data) {
+                console.log(data);
+                },
+                error: function(error) {
+                console.log(error);
+                }
+            });
+            console.log(cvForm)
+            eciForm.fam_1_parent_1_name = cvForm.parent_name
+            eciForm.fam_1_parent_1_email = cvForm.parent_email
+            eciForm.fam_1_parent_1_cell_phone = cvForm.parent_phone
+            eciForm.student_id = std_id
+            dlmrForm.parentName = cvForm.parent_name
+            dlmrForm.parentEmail = cvForm.parent_email
+            dlmrForm.parentPhone = cvForm.cvparent_phone
+            $("#parent-name").val(dlmrForm.parentName)
+            $("#parent-email").val(dlmrForm.parentEmail)
+            $("#parent-phone").val(dlmrForm.parentPhone)
+            $("#fam_1_parent_1_name").val(cvForm.parent_name)
+            $("#fam_1_parent_1_email").val(cvForm.parent_email)
+            $("#fam_1_parent_1_cell_phone").val(cvForm.parent_phone)
+            console.log(eciForm)
+            $('div#contact-validation').css("display","none")
+            $('div#emergency-contact').css("display", "block")
+        })
+        
+        $("#emergency-contact-button").click(function() {
+            eciForm.fam_1_parent_1_daytime_phone = $("#fam_1_parent_1_daytime_phone").val()
+            eciForm.fam_1_parent_2_name = $("#fam_1_parent_2_name").val()
+            eciForm.fam_1_parent_2_daytime_phone = $("#fam_1_parent_2_daytime_phone").val()
+            eciForm.fam_1_parent_2_cell_phone = $("#fam_1_parent_2_cell_phone").val()
+            eciForm.fam_1_parent_2_email = $("#fam_1_parent_2_email").val()
+            eciForm.fam_1_residence = $("#fam_1_residence").val()
+            eciForm.fam_1_mailing = $("#fam_1_mailing").val()
+            eciForm.fam_2_parent_1_name = $("#fam_2_parent_1_name").val()
+            eciForm.fam_2_parent_1_cell_phone = $("#fam_2_parent_1_cell_phone").val()
+            eciForm.fam_2_parent_1_daytime_phone = $("#fam_2_parent_1_daytime_phone").val()
+            eciForm.fam_2_parent_2_cell_phone = $("#fam_2_parent_2_cell_phone").val()
+            eciForm.fam_2_parent_2_name = $("#fam_2_parent_2_name").val()
+            eciForm.fam_2_parent_2_daytime_phone = $("#fam_2_parent_2_daytime_phone").val()
+            eciForm.fam_2_parent_2_cell_phone = $("#fam_2_parent_2_cell_phone").val()
+            eciForm.fam_2_email = $("#fam_2_email").val()
+            eciForm.fam_2_residence = $("#fam_2_residence").val()
+            eciForm.fam_2_mailing = $("#fam_2_mailing").val()
+            console.log(eciForm)
+            dlmrForm.parentAddress = eciForm.fam1_residence
+            $("#parent-address").val(dlmrForm.parentAddress)
+            $('div#emergency-contact').css("display","none")
+            $('div#custody-issues').css("display", "block")
+        })
+
+        $("#custody-issues-button").click(function() {
+            let custodyIssuesChecked = $("#custody-checkbox").is(":checked")
+            eciForm.custody_paperwork = "false"
+            if (custodyIssuesChecked) {
+                eciForm.custody_paperwork = "true"
+            }
+            console.log(eciForm)
+            $('div#custody-issues').css("display","none")
+            $('div#student-pickup').css("display", "block")
+        })
+
+        $("#student-pickup-button").click(function() {
+            eciForm.pickup_5_name = $("#pickup_5_name").val()
+            eciForm.pickup_5_phone = $("#pickup_5_phone").val()
+            eciForm.pickup_5_relationship = $("#pickup_5_relationship").val()
+            eciForm.pickup_6_name = $("#pickup_6_name").val()
+            eciForm.pickup_6_phone = $("#pickup_6_phone").val()
+            eciForm.pickup_6_relationship = $("#pickup_6_relationship").val()
+            eciForm.pickup_7_name = $("#pickup_7_name").val()
+            eciForm.pickup_7_phone = $("#pickup_7_phone").val()
+            eciForm.pickup_7_relationship = $("#pickup_7_relationship").val()
+            console.log(eciForm)
+            $.ajax({
+                url: '../users/emergency_contact_info/',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(eciForm),
+                success: function(data) {
+                console.log(data);
+                },
+                error: function(error) {
+                console.log(error);
+                }
+            });
+            $('div#student-pickup').css("display","none")
+            $('div#medical-needs').css("display", "block")
+        })
+        $("#medical-needs-button").click(function() {
+            if(document.querySelector('input[name="allergy_yn"]:checked').value !== null){
+            let hasAllergies = document.querySelector('input[name="allergy_yn"]:checked').value;
+            medicalNeedsForm.hasAllergies = JSON.parse(hasAllergies);
+            }
+            if(document.querySelector('input[name="MN_goc_yn"]:checked').value !== null){
+            let glassesOrContacts = document.querySelector('input[name="MN_goc_yn"]:checked').value;
+            medicalNeedsForm.glassesOrContacts = JSON.parse(glassesOrContacts);
+            }
+            if(document.querySelector('input[name="MN_haids_yn"]:checked').value !== null){
+            let hearingAids = document.querySelector('input[name="MN_haids_yn"]:checked').value;
+            medicalNeedsForm.hearingAids = JSON.parse(hearingAids);
+            }
+            medicalNeedsForm.allergens = $("#MN-allergy").val()
+            medicalNeedsForm.physicianName = $("#MN_physician-name").val()
+            medicalNeedsForm.physicianPhone = $("#physician-phone").val()
+            medicalNeedsForm.student_id = std_id;
+            console.log(medicalNeedsForm)
+            $('div#medical-needs').css("display","none")
+            $('div#clinic-opt-out').css("display", "block")
+        })
+        $("#clinic-opt-out-button").click(function() {
+            optOutForm.clinicOptOut = $("#clinic-opt-out-checkbox").is(":checked")
+            optOutForm.student_id = std_id;
+            console.log(optOutForm)
+            $('div#clinic-opt-out').css("display","none")
+            $('div#media-choice').css("display", "block")
+        })
+        // $("#screening-opt-out-button").click(function() {
+        //     optOutForm.screeningOptOut = $("#screening-opt-out-checkbox").is(":checked")
+        //     console.log(optOutForm)
+        //     $('div#screening-opt-out').css("display","none")
+        //     $('div#media-choice').css("display", "block")
+        // })
+        $("#media-choice-button").click(function() {
+            let mediaChoiceSelection = document.querySelector('input[name="mclevel"]:checked').value;
+            mediaChoiceForm.student_id = std_id;
+            mediaChoiceForm.mediaChoiceLevel = parseInt(mediaChoiceSelection)
+            console.log(mediaChoiceForm)
+            $('div#media-choice').css("display","none")
+            $('div#dlmr').css("display", "block")
+        })
+        $("#dlmr-button").click(function() {
+            dlmrForm.electronicSignature = $("#parent-signature").val()
+            dlmrForm.signatureAgreement = $("#parent-agreement").is(":checked")
+            console.log(dlmrForm)
+        })
+
+
+        $(".request").click(function (event) {
+            if ($(".form-wizard").parsley().validate({ group: "block-" + currentIndex() })) {
+                navigateTo(3);
+
+                $.ajax({
+                    cache: false,
+                    type: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        action: 'get-student',
+                        student_first_name: $('input[name=student_firstname]').val(),
+                        student_last_name: $('input[name=student_lastname]').val(),
+                        student_location_id: $('input[name=student_locationid]:checked').val(),
+                        student_birthdate: $('input[name=student_birthdate]').val()
+                    },
+                    success: function (json) {
+                        if (json.response == 200) {
+                            gtag('event', 'student_found');
+
+                            student_grade = json.student_grade;
+                            student_id = json.student_id;
+                            std_id = json.student_id;
+                            student_location_id = json.student_location;
+                            student_name = json.student_name;
+                            student_birthdate = json.student_birthdate;
+                            student_role = json.student_ec;
+                            student_program = json.student_program;
+                            student_not_collected = json.student_not_collected;
+                            student_status_id = json.student_status_id;
+
+                            student_has_device = json.student_has_device;
+                            student_has_registered = json.student_registered;
+                            student_is_new = json.student_is_new;
+
+                            calendly_enabled = json.calendly_enabled;
+                            calendly_enabled_secondary = json.calendly_enabled_secondary;
+                            summer_program_only = json.summer_program_only;
+
+                            if (calendly_enabled == 1) {
+                                student_has_appointment = json.calendly_appointment;
+                            }
+
+                            if (student_not_collected == 1) {
+                                gtag('event', 'student_not_collected');
+                                navigateTo(13);
+                            } else {
+                                if (student_is_new == 1) {
+                                    gtag('event', 'student_is_new');
+                                    navigateTo(16);
+                                } else {
+                                    if (calendly_enabled == 1) {
+                                        gtag('event', 'calendly_is_active');
+
+                                        if (summer_program_only == 1 && student_program == 0) {
+                                            navigateTo(12);
+                                        } else {
+                                            if (student_has_registered == 1) {
+                                                if (student_has_appointment == 1) {
+                                                    document.getElementById("result-registered-text").innerHTML =
+                                                        '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>' +
+                                                        '<p>There is also an active appointment already scheduled in our calendar system. Please refer to the confirmation email/text message for further details or to reschedule your appointment.</p>';
+                                                } else {
+                                                    if (student_has_device == 1) {
+                                                        document.getElementById("result-registered-text").innerHTML =
+                                                            '<p class="uk-text-primary">According to our records, your student has already received a device for this coming school year and no additional information is required.</p>' +
+                                                            '<p>If your student does not already have their device for this school year, or you require support, please contact the Technology Support through the following:</p>' +
+                                                            '<p><br><br><a href="https://docs.google.com/forms/d/e/1FAIpQLScVcUCKmp5QY0S-oT_da99xAljQtdHv__8nL3jQ8T7gBqxYFQ/viewform" target="_blank">Support Form link</a>.</p>';
+                                                    } else {
+                                                        if (calendly_enabled_secondary == 1) {
+                                                            if (student_location_id == '0091') {
+                                                                document.getElementById("result-registered-text").innerHTML =
+                                                                    '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>' +
+                                                                    '<p class="uk-text-danger">If you still need to schedule an appointment for device pickup, please click the button below to be taken to our scheduling platform in order to choose a date and time:</p>' +
+                                                                    '<a href="{{ calendly_fpc_url }}?a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate + '" class="uk-button uk-button-primary">Schedule Appointment</a>';
+                                                            } else if (student_location_id == '0090') {
+                                                                document.getElementById("result-registered-text").innerHTML =
+                                                                    '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>' +
+                                                                    '<p class="uk-text-danger">If you still need to schedule an appointment for device pickup, please click the button below to be taken to our scheduling platform in order to choose a date and time:</p>' +
+                                                                    '<a href="{{ calendly_mhs_url }}?a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate + '" class="uk-button uk-button-primary">Schedule Appointment</a>';
+                                                            } else if (student_location_id == '7004') {
+                                                                document.getElementById("result-registered-text").innerHTML =
+                                                                    '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>' +
+                                                                    '<p class="uk-text-danger">If you still need to schedule an appointment for device pickup, please click the button below to be taken to our scheduling platform in order to choose a date and time:</p>' +
+                                                                    '<a href="{{ calendly_tcd_url }}?a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate + '" class="uk-button uk-button-primary">Schedule Appointment</a>';
+                                                            } else {
+                                                                document.getElementById("result-registered-text").innerHTML =
+                                                                    '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>';
+                                                            }
+                                                        } else {
+                                                            document.getElementById("result-registered-text").innerHTML =
+                                                                '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>' +
+                                                                '<p class="uk-text-danger">If you still need to schedule an appointment for device pickup, please click the button below to be taken to our scheduling platform in order to choose a date and time:</p>' +
+                                                                '<a href="{{ calendly_global_url }}?a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate + '" class="uk-button uk-button-primary">Schedule Appointment</a>';
+                                                        }
+                                                    }
+                                                }
+
+                                                navigateTo(14);
+                                            } else {
+                                                if (student_role == 0) {
+                                                    document.getElementById("result-registered-text").innerHTML =
+                                                        '<p>We were able to find your student in our database, but information that we require is missing. <b class="uk-text-danger">Error Code: 500 "BT:EC Invalid"</b>.</p>' +
+                                                        '<p>Please contact the Technology Support through the following:</p>' +
+                                                        '<p><br><br><a href="https://docs.google.com/forms/d/e/1FAIpQLScVcUCKmp5QY0S-oT_da99xAljQtdHv__8nL3jQ8T7gBqxYFQ/viewform?usp=pp_url&entry.990965928=500" target="_blank">Support Form link</a>.</p>';
+
+                                                    navigateTo(14);
+                                                } else {
+                                                    if (student_role == "oto" || student_role == "du") {
+                                                        gtag('event', 'student_is_oto_calendly');
+                                                        navigateTo(5);
+                                                    } else if (student_role == "icvl") {
+                                                        gtag('event', 'student_is_icvl_calendly');
+                                                        navigateTo(7);
+                                                    } else if (student_role == "duf" || student_role == "dup") {
+                                                        gtag('event', 'student_is_duf_calendly');
+                                                        navigateTo(6);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        gtag('event', 'calendly_not_active');
+
+                                        if (student_role == 0) {
+                                            document.getElementById("result-registered-text").innerHTML =
+                                                '<p>We were able to find your student in our database, but information that we require is missing. <b class="uk-text-danger">Error Code: 500 "BT:EC Invalid"</b>.</p>' +
+                                                '<p>Please contact Flagler Schools Technology Support through this:</p>' +
+                                                '<p><br><br><a href="https://docs.google.com/forms/d/e/1FAIpQLScVcUCKmp5QY0S-oT_da99xAljQtdHv__8nL3jQ8T7gBqxYFQ/viewform?usp=pp_url&entry.990965928=500" target="_blank">Support Form link</a>.</p>'
+
+                                            navigateTo(14);
+                                        } else {
+                                            if (summer_program_only == 1 && student_program == 0) {
+                                                navigateTo(12);
+                                            } else {
+                                                if (student_has_registered == 1) {
+                                                    if (calendly_enabled_secondary == 1) {
+                                                        if (student_location_id == '0091') {
+                                                            document.getElementById("result-registered-text").innerHTML =
+                                                                '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>' +
+                                                                '<p class="uk-text-danger">If you still need to schedule an appointment for device pickup, please click the button below to be taken to our scheduling platform in order to choose a date and time:</p>' +
+                                                                '<a href="{{ calendly_fpc_url }}?a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate + '" class="uk-button uk-button-primary">Schedule Appointment</a>';
+                                                        } else if (student_location_id == '0090') {
+                                                            document.getElementById("result-registered-text").innerHTML =
+                                                                '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>' +
+                                                                '<p class="uk-text-danger">If you still need to schedule an appointment for device pickup, please click the button below to be taken to our scheduling platform in order to choose a date and time:</p>' +
+                                                                '<a href="{{ calendly_mhs_url }}?a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate + '" class="uk-button uk-button-primary">Schedule Appointment</a>';
+                                                        } else if (student_location_id == '7004') {
+                                                            document.getElementById("result-registered-text").innerHTML =
+                                                                '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>' +
+                                                                '<p class="uk-text-danger">If you still need to schedule an appointment for device pickup, please click the button below to be taken to our scheduling platform in order to choose a date and time:</p>' +
+                                                                '<a href="{{ calendly_tcd_url }}?a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate + '" class="uk-button uk-button-primary">Schedule Appointment</a>';
+                                                        } else {
+                                                            document.getElementById("result-registered-text").innerHTML =
+                                                                '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>';
+                                                        }
+                                                    } else {
+                                                        document.getElementById("result-registered-text").innerHTML =
+                                                            '<p class="uk-text-primary">According to our records, your student has already has a completed the Digital Learning Movement registration for this coming school year and no additional information is required.</p>';
+                                                    }
+
+                                                    navigateTo(14);
+                                                } else {
+                                                    if (student_status_id == 'EYR') {
+                                                        if (student_role == "oto" || student_role == "du") {
+                                                            gtag('event', 'student_is_oto_eyr');
+                                                            navigateTo(5);
+                                                        } else if (student_role == "icvl") {
+                                                            gtag('event', 'student_is_icvl_eyr');
+                                                            navigateTo(7);
+                                                        } else if (student_role == "duf" || student_role == "dup") {
+                                                            gtag('event', 'student_is_duf_eyr');
+                                                            navigateTo(6);
+                                                        } else {
+                                                            gtag('event', 'student_no_ec');
+                                                            navigateTo(15);
+                                                        }
+                                                    } else {
+                                                        if (student_has_device == 1) {
+                                                            document.getElementById("result-registered-text").innerHTML =
+                                                                '<p class="uk-text-danger">According to our records, your student has a device checked out to them from the previous school year. That device needs to be returned before a new Digital Learning Movement registration can be submitted.</p>' +
+                                                                '<p>If you believe that our information is incorrect or you require support, please contact Flagler Schools Technology Support through this: <br><br><a href="https://docs.google.com/forms/d/e/1FAIpQLScVcUCKmp5QY0S-oT_da99xAljQtdHv__8nL3jQ8T7gBqxYFQ/viewform?usp=pp_url&entry.990965928=402" target="_blank">Support Form link</a>.</p>';
+
+                                                            navigateTo(14);
+                                                        } else {
+                                                            if (student_role == "oto" || student_role == "du") {
+                                                                gtag('event', 'student_is_oto');
+                                                                navigateTo(5);
+                                                            } else if (student_role == "icvl") {
+                                                                gtag('event', 'student_is_icvl');
+                                                                navigateTo(7);
+                                                            } else if (student_role == "duf" || student_role == "dup") {
+                                                                gtag('event', 'student_is_duf');
+                                                                navigateTo(6);
+                                                            } else {
+                                                                gtag('event', 'student_no_ec');
+                                                                navigateTo(15);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            gtag('event', 'student_not_found');
+                            navigateTo(4);
+                        }
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ': ' + xhr.responseText);
+                    }
+                });
+
+                gsap.to(".section-one-label", { opacity: 0, display: "none", duration: 0.25 });
+            }
+        });
+
+        var parent_name, parent_email;
+
+        $(".oto-submit").click(function (event) {
+            if ($("#oto-form").parsley().validate({ group: "block-" + currentIndex() })) {
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                        action: 'oto-form-submit',
+                        student_grade: student_grade,
+                        student_id: student_id,
+                        student_location_id: student_location_id,
+                        student_name: student_name,
+                        parent_address: $('#oto-form input[name=parent_address]').val(),
+                        parent_email: $('#oto-form input[name=parent_email]').val(),
+                        parent_name: $('#oto-form input[name=parent_name]').val(),
+                        parent_phone: $('#oto-form input[name=parent_phone').val(),
+                        parent_promo: $('#oto-form input[name=promo_code]').val(),
+                        parent_signature: $('#oto-form input[name=parent_signature]').val()
+                    },
+                    success: function () {
+                        parent_name = $('#oto-form input[name=parent_name]').val();
+                        parent_email = $('#oto-form input[name=parent_email]').val();
+                        navigateTo(8);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ': ' + xhr.responseText);
+                    },
+                    complete: function () {
+                        gtag('event', 'oto_signup_complete');
+
+                        if (calendly_enabled == 1) {
+                            if (calendly_enabled_secondary == 1) {
+                                if (student_location_id == '0091') {
+                                    window.location.replace('{{ calendly_fpc_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                                } else if (student_location_id == '0090') {
+                                    window.location.replace('{{ calendly_mhs_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                                } else if (student_location_id == '7004') {
+                                    window.location.replace('{{ calendly_tcd_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                                } else {
+                                    navigateTo(9);
+                                }
+                            } else {
+                                window.location.replace('{{ calendly_global_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                            }
+                        } else {
+                            navigateTo(9);
+                        }
+                    }
+                });
+            }
+        });
+
+        $(".du-submit").click(function (event) {
+            if ($("#du-form").parsley().validate({ group: "block-" + currentIndex() })) {
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                        action: 'du-form-submit',
+                        student_grade: student_grade,
+                        student_id: student_id,
+                        student_location_id: student_location_id,
+                        student_name: student_name,
+                        parent_address: $('#du-form input[name=parent_address]').val(),
+                        parent_email: $('#du-form input[name=parent_email]').val(),
+                        parent_name: $('#du-form input[name=parent_name]').val(),
+                        parent_phone: $('#du-form input[name=parent_phone').val(),
+                        parent_promo: $('#du-form input[name=promo_code]').val(),
+                        parent_signature: $('#du-form input[name=parent_signature]').val()
+                    },
+                    success: function () {
+                        parent_name = $('#du-form input[name=parent_name]').val();
+                        parent_email = $('#du-form input[name=parent_email]').val();
+                        navigateTo(8);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ': ' + xhr.responseText);
+                    },
+                    complete: function () {
+                        gtag('event', 'du_signup_complete');
+
+                        if (calendly_enabled == 1) {
+                            if (calendly_enabled_secondary == 1) {
+                                if (student_location_id == '0091') {
+                                    window.location.replace('{{ calendly_fpc_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                                } else if (student_location_id == '0090') {
+                                    window.location.replace('{{ calendly_mhs_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                                } else if (student_location_id == '7004') {
+                                    window.location.replace('{{ calendly_tcd_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                                } else {
+                                    navigateTo(9);
+                                }
+                            } else {
+                                window.location.replace('{{ calendly_global_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                            }
+                        } else {
+                            navigateTo(9);
+                        }
+                    }
+                });
+            }
+        });
+
+        $(".icvl-submit").click(function (event) {
+            if ($("#icvl-form").parsley().validate({ group: "block-" + currentIndex() })) {
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                        action: 'icvl-form-submit',
+                        student_grade: student_grade,
+                        student_id: student_id,
+                        student_location_id: student_location_id,
+                        student_name: student_name,
+                        parent_address: $('#icvl-form input[name=parent_address]').val(),
+                        parent_email: $('#icvl-form input[name=parent_email]').val(),
+                        parent_name: $('#icvl-form input[name=parent_name]').val(),
+                        parent_phone: $('#icvl-form input[name=parent_phone').val(),
+                        parent_promo: $('#icvl-form input[name=promo_code]').val(),
+                        parent_signature: $('#icvl-form input[name=parent_signature]').val()
+                    },
+                    success: function () {
+                        parent_name = $('#icvl-form input[name=parent_name]').val();
+                        parent_email = $('#icvl-form input[name=parent_email]').val();
+                        navigateTo(8);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ': ' + xhr.responseText);
+                    },
+                    complete: function () {
+                        gtag('event', 'icvl_signup_complete');
+
+                        if (calendly_enabled == 1) {
+                            if (calendly_enabled_secondary == 1) {
+                                if (student_location_id == '7004') {
+                                    window.location.replace('{{ calendly_tcd_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                                } else {
+                                    navigateTo(9);
+                                }
+                            } else {
+                                window.location.replace('{{ calendly_global_url }}?name=' + parent_name + '&email=' + parent_email + '&a1=' + student_id + '&a2=' + student_name.split(" ")[0] + '&a3=' + student_name.split(" ")[1] + '&a4=' + student_birthdate);
+                            }
+                        } else {
+                            navigateTo(9);
+                        }
+                    }
+                });
+            }
+        });
+
+        $sections.each(function (index, section) {
+            $(section).find(":input").attr("data-parsley-group", "block-" + index);
+        });
+    });
+</script>
+{% endblock %}

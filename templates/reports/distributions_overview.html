@@ -1,0 +1,360 @@
+{% extends 'base_reports.html' %}
+{% load humanize qurl static %}
+{% block title %}Reports Dashboard{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding">
+    <div class="uk-width-1-1" style="margin: 0 auto;">
+        <div class="uk-margin uk-width-1-1">
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-header uk-text-small filterlist-header">
+                    <div class="uk-grid-small" data-uk-grid>
+                        <div class="uk-width-auto">Filters</div>
+                        <div class="uk-width-expand uk-text-left"><a href="{% qurl request.get_full_path grade=None location=None %}"><i class="far fa-minus-square"></i> <span class="uk-text-capitalize">Clear Filters</span></a></div>
+                    </div>
+                </div>
+                <div class="uk-card-body uk-text-small filterlist-body">
+                    <div class="uk-grid-small" data-uk-grid>
+                        <div>
+                            <form id="report-date-form" method="GET" autocomplete="off">
+                                <input type="hidden" autocomplete="false" />
+                                <div class="uk-button-group">
+                                    <input id="report-date" type="text" name="date" class="uk-input uk-form-small uk-width-medium" value="{{ request.GET.date }}" />
+                                    <button type="submit" class="uk-button uk-button-primary uk-button-small">Go</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-margin uk-width-1-1">
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-body">
+                    <div class="uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
+                        <div>
+                            <b>District Owned Devices:</b> <a class="get-distributions-devices" data-model="owned_devices">{{ owned_devices.count }}</a>
+                        </div>
+                        <div>
+                            <b>District Signups:</b> <a class="get-distributions-signups" data-model="distribution_data">{{ distribution_data.count }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-3@m" data-uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">FPCHS Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-fpc" class="uk-card-body">
+                        <div>
+                            Total Registrations for FPC: {{ fpc_registrations_total.count }}
+                            <br />Total Assignments for FPC: {{ fpc_assignments_total.count }}<a class="get-report-detail" data-model="fpc_active_wdevices">{{ fpc_active_wdevices.count }}</a>
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for FPC: {{ fpc_registrations_today.count }}
+                                <br />Today's Assignments for FPC: {{ fpc_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">MHS Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-mhs" class="uk-card-body">
+                        <div>
+                            Total Registrations for MHS: {{ mhs_registrations_total.count }}
+                            <br />Total Assignments for MHS: {{ mhs_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for MHS: {{ mhs_registrations_today.count }}
+                                <br />Today's Assignments for MHS: {{ mhs_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-3@m" data-uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">BTMS Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-btms" class="uk-card-body">
+                        <div>
+                            Total Registrations for BTMS: {{ btms_registrations_total.count }}
+                            <br />Total Assignments for BTMS: {{ btms_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for BTMS: {{ btms_registrations_today.count }}
+                                <br />Today's Assignments for BTMS: {{ btms_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">ITMS Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-itms" class="uk-card-body">
+                        <div>
+                            Total Registrations for ITMS: {{ itms_registrations_total.count }}
+                            <br />Total Assignments for ITMS: {{ itms_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for ITMS: {{ itms_registrations_today.count }}
+                                <br />Today's Assignments for ITMS: {{ itms_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-3@m" data-uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">BES Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-bes" class="uk-card-body">
+                        <div>
+                            Total Registrations for BES: {{ bes_registrations_total.count }}
+                            <br />Total Assignments for BES: {{ bes_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for BES: {{ bes_registrations_today.count }}
+                                <br />Today's Assignments for BES: {{ bes_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">BTES Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-btes" class="uk-card-body">
+                        <div>
+                            Total Registrations for BTES: {{ btes_registrations_total.count }}
+                            <br />Total Assignments for BTES: {{ btes_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for BTES: {{ btes_registrations_today.count }}
+                                <br />Today's Assignments for BTES: {{ btes_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">OKES Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-okes" class="uk-card-body">
+                        <div>
+                            Total Registrations for OKES: {{ okes_registrations_total.count }}
+                            <br />Total Assignments for OKES: {{ okes_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for OKES: {{ okes_registrations_today.count }}
+                                <br />Today's Assignments for OKES: {{ okes_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">RES Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-res" class="uk-card-body">
+                        <div>
+                            Total Registrations for RES: {{ res_registrations_total.count }}
+                            <br />Total Assignments for RES: {{ res_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for RES: {{ res_registrations_today.count }}
+                                <br />Today's Assignments for RES: {{ res_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">WES Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-wes" class="uk-card-body">
+                        <div>
+                            Total Registrations for WES: {{ wes_registrations_total.count }}
+                            <br />Total Assignments for WES: {{ wes_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for WES: {{ wes_registrations_today.count }}
+                                <br />Today's Assignments for WES: {{ wes_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-3@m" data-uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <div class="uk-width-auto">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">IF Data <span class="uk-text-meta uk-text-uppercase">{% if request.GET.date %}{{ request.GET.date }}{% else %}Today{% endif %}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="distribution-data-if" class="uk-card-body">
+                        <div>
+                            Total Registrations for IF: {{ if_registrations_total.count }}
+                            <br />Total Assignments for IF: {{ if_assignments_total.count }}
+                            <div class="uk-margin-small uk-margin-remove-bottom">
+                                Today's Registrations for IF: {{ if_registrations_today.count }}
+                                <br />Today's Assignments for IF: {{ if_assignments_today.count }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="report-details" class="uk-modal-container" uk-modal>
+    <div id="report-details-body" class="uk-modal-dialog uk-modal-body">
+        <div id="report-details-content"></div>
+    </div>
+</div>
+<script>
+$(function () {
+    $('#report-date').daterangepicker();
+
+    $(".get-distributions-devices").each(function() {
+        var $this = $(this);
+
+        $this.on("click", function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "get-distribution-devices",
+                    model: $this.data("model")
+                },
+                success: function(response) {
+                    openModal(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+
+            function openModal(data) {
+                $("#report-details-content").replaceWith(data);
+                UIkit.modal("#report-details").show();
+            }
+        });
+    });
+
+    $(".get-distributions-signups").each(function() {
+        var $this = $(this);
+
+        $this.on("click", function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "get-distribution-signups",
+                    model: $this.data("model")
+                },
+                success: function(response) {
+                    openModal(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+
+            function openModal(data) {
+                $("#report-details-content").replaceWith(data);
+                UIkit.modal("#report-details").show();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

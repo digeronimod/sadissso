@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load humanize qurl static tz %}
+{% block title %}Users Dashboard{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/select2.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-datetime.css' %}" />
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/jquery-mask.js' %}"></script>
+<script src="{% static 'js/select2.js' %}"></script>
+<script src="{% static 'js/jquery-datetime.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-body">
+                    <form class="uk-grid-collapse uk-flex uk-flex-center" method="GET" data-uk-grid>
+                        <div class="uk-button-group uk-width-1-1">
+                            <input class="uk-input uk-width-1-1" type="search" name="search" value="{{ request.GET.search }}" placeholder="Search by employee FLEID, name, or username" />
+                            <button class="uk-button uk-button-primary">Find</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-small">
+                <div class="uk-card-body">
+                    <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fa-solid fa-user-vneck fa-3x"></i>
+                        </div>
+                        <div class="uk-width-expand">
+                            <span class="uk-card-title">Employees Search</span>
+                            <div class="uk-text-meta">
+                                Last Sync: {{ edfi_sync_datetime|localtime|date:'F d, Y h:m A' }}
+                            </div>
+                        </div>
+                        <div class="uk-width-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th class="uk-width-large">User</th>
+                            <th class="uk-width-large">Location</th>
+                            <th class="uk-width-small">Status</th>
+                            <th class="uk-width-small">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in entries %}
+                        <tr>
+                            <td class="uk-table-link">
+                                <!-- <a class="uk-link-reset" href="{% url 'users:detail_students' user.id %}"> -->
+                                <a class="uk-link-reset" href="{% url 'users:detail_employees' user.id %}">
+                                    <span class="uk-text-bold">{{ user.name }}</span>
+                                    <div class="uk-text-small">
+                                        <i class="fas fa-user"></i> {{ user.username }}
+                                    </div>
+                                </a>
+                            </td>
+                            <td class="uk-text-small">
+                                <span class="uk-text-bold">{{ user.location.name }}</span>
+                            </td>
+                            <td>
+                                {{ user.status.name }}
+                            </td>
+                            <td class="uk-text-small">
+                                {{ user.updated|date:'m-d-Y h:m A' }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="uk-text-center">There are no results for your search query.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% include 'sections/pagination.html' %}
+    </div>
+</div>
+{% endblock %}

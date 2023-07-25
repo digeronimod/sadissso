@@ -1,0 +1,50 @@
+{% load qurl %}
+{% if entries.has_other_pages %}
+<ul class="uk-pagination uk-flex-center" uk-margin>
+    {% if entries.has_previous %}
+    <li>
+        <a href="{% qurl request.get_full_path page=entries.previous_page_number %}">
+            <span uk-pagination-previous></span>
+        </a>
+    </li>
+    {% else %}
+    <li class="uk-disabled">
+        <span>
+            <span uk-pagination-previous></span>
+        </span>
+    </li>
+    {% endif  %}
+    {% if entries.number|add:'-4' > 1 %}
+    <li><a href="{% qurl request.get_full_path page=entries.number|add:'-5' %}">&hellip;</a></li>
+    {% endif %}
+{% for i in entries.paginator.page_range %}
+    {% if entries.number == i %}
+    <li class="uk-active">
+        <span>{{ i }}</span>
+    </li>
+    {% elif i > entries.number|add:'-5' and i < entries.number|add:'5' %}
+    <li>
+        <a href="{% qurl request.get_full_path page=i %}">{{ i }}</a>
+    </li>
+    {% endif %}
+{% endfor %}
+    {% if entries.paginator.num_pages > entries.number|add:'4' %}
+    <li>
+        <a href="{% qurl request.get_full_path page=entries.number|add:'5' %}">&hellip;</a>
+    </li>
+    {% endif %}
+    {% if entries.has_next %}
+    <li>
+        <a href="{% qurl request.get_full_path page=entries.next_page_number %}">
+            <span uk-pagination-next></span>
+        </a>
+    </li>
+    {% else %}
+    <li class="uk-disabled">
+        <span>
+            <span uk-pagination-next></span>
+        </span>
+    </li>
+    {% endif %}
+</ul>
+{% endif %}

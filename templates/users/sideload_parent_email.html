@@ -1,0 +1,51 @@
+{% extends 'base_email.html' %}
+{% load static %}
+{% block content%}
+<table border="0" cellpadding="0" cellspacing="0" class="body" role="presentation">
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td class="align-center" style="font-weight:bold">
+                                        <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="84px" />
+                                        <h2 style="color:#aeaeae;text-transform:uppercase">Digital Learning Movement</h2>
+                                        <hr />
+                                        <p style="text-transform:uppercase">
+                                            <span>Welcome to Flagler Schools!</span>
+                                            <br /><span style="font-size:3em">{{ student_name }}</span>
+                                            <br /><span style="font-size:1.5em">{{ student_location }}</span>
+                                        </p>
+                                        <p style="text-align:center">At this time a student account is being created, and a device is being prepared and configured. Once the account and device are ready, you will be contacted to complete the Digital Learning Movement Registration Form and a time and place to pick up the device will be arranged.</p>
+                                        <p style="text-align:center">Thank you, and once again...</p>
+                                        <p style="font-size:1.15em;text-align:center">Welcome!</p>
+                                        <hr />
+                                        <p>
+                                            <a href="http://fcsb.link/dlmhandbook" target="_blank">FCSB | Digital Learning Movement Handbook</a>
+                                            <br /><a href="http://www.flaglerschools.com" target="_blank">www.flaglerschools.com</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div class="footer">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                        <tr>
+                            <td class="content-block">
+                                <span class="apple-link">&copy; 2020 Flagler County Public Schools</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+{% endblock %}

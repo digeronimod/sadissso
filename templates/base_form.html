@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Form Base{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/sadis.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-datetime.css' %}" />
+        {% block extra_css %}{% endblock %}
+        <script src="{% static 'js/uikit.js' %}"></script>
+        <script src="{% static 'js/gsap.js' %}"></script>
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/jquery-parsley.js' %}"></script>
+        <script src="{% static 'js/jquery-mask.js' %}"></script>
+        <script src="{% static 'js/jquery-datetime.js' %}"></script>
+        <script src="{% static 'js/fontawesome.js' %}" defer></script>
+        {% block extra_js %}{% endblock %}
+    </head>
+    <body>
+    {% block content %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding">
+    <div class="uk-grid-small uk-child-width-1-1" style="margin: 0 auto;" data-uk-grid>
+        <div>
+            <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                                <div class="uk-width-auto">
+                                    <i class="fas fa-desktop fa-2x"></i>
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">Default Device View</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-card-small">
+                            <p>There are a total of {{ device_count }} devices. {{ unassigned_devices }} are not assigned to a user.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                                <div class="uk-width-auto">
+                                    <i class="fas fa-users fa-2x"></i>
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">Users</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-card-small">
+                            <p>There are a total of {{ total_user_count }} users. {{ active_user_count }} users are active.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

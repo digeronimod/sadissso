@@ -1,0 +1,435 @@
+{% extends 'base-fa6.html' %}
+{% load humanize %}
+{% block title %}Distributions (2.5){% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding">
+    <!-- Requestor Queue -->
+    <div id="requestor-queue" class="uk-card uk-card-default uk-card-small">
+        <div class="uk-card-header filterlist-header">
+            <i class="fa-light fa-sitemap"></i>
+            <span class="uk-text-bold" style="margin-left:5px">Distributions: <span class="uk-text-warning">{{ current_lane.name }}</span>{% if current_lane.trouble %} <span class="uk-text-danger">&mdash; Trouble</span>{% endif %}</span>
+        </div>
+        <div class="uk-card-body uk-text-small filterlist-body">
+            <div class="uk-grid-small" data-uk-grid>
+                {% for item in queue_items %}
+                <div>
+                    <div class="uk-grid-collapse uk-grid-match" data-uk-grid>
+                        <div class="uk-width-expand">
+                            <div style="border-width:1px;border-style:solid;border-color:#1e87f0;border-right:0;border-top-width:3px;border-top-left-radius:6px;border-bottom-left-radius:6px;padding:6px 12px">
+                                <div class="uk-flex uk-flex-between uk-text-bold">
+                                    <div>{{ item.bpi.id }}</div>
+                                    <div>{{ item.bin }}</div>
+                                </div>
+                                <div>
+                                    {{ item.student.name }}
+                                </div>
+                                <div class="uk-flex uk-flex-between uk-text-bold">
+                                    <div style="width:100px">
+                                        <span class="uk-text-danger">{{ item.status }}</span>
+                                    </div>
+                                    <div>
+                                        {{ item.created | timesince }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-width-auto" style="max-width:50px">
+                            {% if item.status.alias != 'NF' %}
+                            <a class="assign-device uk-flex uk-flex-center uk-flex-middle uk-button uk-button-small uk-button-primary" style="border-top-left-radius:0;border-bottom-left-radius:0" data-uk-tooltip="Assign Device" data-entry-id="{{ item.id }}" data-device-id="{{ item.bpi.id }}" data-student-id="{{ item.student.id }}">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
+                            {% else %}
+                            <a class="remove-from-queue uk-flex uk-flex-center uk-flex-middle uk-button uk-button-small uk-button-primary" style="border-top-left-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0" data-uk-tooltip="Remove from Queue" data-entry-id="{{ item.id }}">
+                                <i class="fa-solid fa-minus"></i>
+                            </a>
+                            <a class="request-new-device uk-flex uk-flex-center uk-flex-middle uk-button uk-button-small uk-button-primary" style="border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:0" data-uk-tooltip="Request New" data-entry-id="{{ item.id }}" data-device-id="{{ item.bpi.id }}" data-student-id="{{ item.student.id }}">
+                                <i class="fa-solid fa-laptop"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div>
+                    No items are currently in your queue.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- /Requestor Queue -->
+
+    <!-- Search -->
+    <div class="uk-card uk-card-small uk-margin-top">
+        <div class="uk-card-body">
+            <form class="uk-form-horizontal uk-grid-collapse" method="GET" data-uk-grid>
+                <div class="uk-width-expand">
+                    <input id="search" name="search" type="text" class="uk-input uk-form-small input-group-search" placeholder="{% if 'search' in request.GET %}{{ request.GET.search }}{% else %}Search by Name, Username, or ID...{% endif %}" />
+                </div>
+                <div class="uk-width-auto">
+                    <button class="uk-button uk-button-primary uk-button-small input-group-button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /Search -->
+
+    <!-- Search Results -->
+    <div class="uk-card uk-card-default uk-card-small uk-margin-top">
+        <table id="search-results" class="uk-table uk-table-small uk-table-middle uk-table-striped uk-table-hover">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Location</th>
+                    <th>Form</th>
+                    <th>Payment</th>
+                    <th>Appointment</th>
+                    <th>BPI</th>
+                    <th>Bin</th>
+                    <th>Charger(s)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student, data in entries.items %}
+                <tr>
+                    <td>
+                        <a href="{% url 'users:detail_students' data.student_id %}" class="uk-link-reset">
+                            <span class="uk-text-bold">{{ data.student_name }}</span>
+                            <br /><i class="fa-solid fa-user"></i> {{ data.student_username }}
+                        </a>
+                    </td>
+                    <td>
+                        <span class="uk-text-bold">{{ data.student_location_name }}</span>
+                        <p class="uk-margin-remove">
+                            <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical" style="width:68px" data-uk-tooltip="Grade Level">
+                                {% if data.student_grade != 'None' %}<i class="fa-solid fa-graduation-cap fa-fw" style="margin-right:5px"></i>{% endif %}{{ data.student_grade }}
+                            </span>
+                            <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical" style="width:68px" data-uk-tooltip="Eligibility Class">
+                                <i class="fa-solid fa-star-of-life" style="margin-right:5px"></i>{{ data.student_ec }}
+                            </span>
+                        </p>
+                    </td>
+                    <td>
+                        {% if data.completed_form == False %}
+                        <i class="fa-light fa-times uk-text-danger"></i>
+                        {% else %}
+                        <span class="{% if data.completed_form == '23-24' %}uk-text-success{% elif data.completed_form == '22-23' %}uk-text-warning{% endif %}">{{ data.completed_form }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if data.completed_payment == False %}
+                        <i class="fa-light fa-times uk-text-danger"></i>
+                        {% else %}
+                        <i class="fa-light fa-check uk-text-success"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if data.appointment_time != None %}
+                        {{ data.appointment_time|date:'m/d/Y' }}
+                        <br /><span class="uk-text-meta">{{ data.appointment_time|date:'g:i A' }}</span>
+                        {% else %}
+                        &mdash;
+                        {% endif %}
+                    </td>
+                    <td>{{ data.staged_bpi }}</td>
+                    <td>{{ data.staged_bin }}</td>
+                    <td>
+                        {% for charger in data.chargers_owned %}
+                        {% if forloop.first %}{% else %}<br />{% endif %}<span class="uk-badge uk-padding-remove-vertical" style="width:100px">{{ charger }}</span>
+                        {% empty %}
+                        &mdash;
+                        {% endfor %}
+                    </td>
+                    <td class="uk-text-center">
+                        {% if data.student_uuid == None %}
+                        <span class="uk-text-danger">No UUID</span>
+                        {% elif data.staged_bin == None or data.staged_bpi == None %}
+                        <span class="uk-text-warning">Not Staged</span>
+                        {% elif data.staged_bpi in data.devices_owned %}
+                        <span class="uk-text-primary">Assigned</span>
+                        {% else %}
+                            {% if data.staged_bpi in queued_devices %}
+                            <button class="uk-button uk-button-danger uk-button-small" disabled="">Requested</button>
+                            {% else %}
+                            <a class="request-device uk-button uk-button-danger uk-button-small" data-user-id="{{ data.student_id }}" data-device-id="{{ data.staged_bpi }}" data-device-bin="{{ data.staged_bin }}">Request</a>
+                            {% endif %}
+                            {% if current_lane.trouble %}
+                            <button type="button" class="uk-button uk-button-danger uk-button-small"><i class="fa-solid fa-caret-down"></i></button>
+                            <div data-uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+                                <a class="request-new-device" data-user-id="{{ data.student_id }}"><i class="fa-light fa-laptop fa-fw uk-margin-small-right"></i>Request New</a>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="uk-text-center">{{ search_message }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /Search Results -->
+</div>
+<!-- START: Assign Device -->
+<div id="assign-device-modal" data-uk-modal>
+    <div class="uk-modal-dialog">
+        <form id="assign-device-form" class="uk-margin-large" method="POST">
+            {% csrf_token %}
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Confirm Assignment</h2>
+            </div>
+            <div id="assign-device-body" class="uk-modal-body">
+                <div class="uk-margin">
+                    <div class="uk-form-label uk-text-bold">Device BPI:</div>
+                    <div class="uk-form-controls uk-form-controls-text">
+                        <input id="confirm-bpi-number" name="confirm_bpi_number" class="uk-input uk-width-1-1" type="text" required="" />
+                        <div id="confirm-bpi-readout" class="uk-text-meta" style="margin-top:3px"></div>
+                    </div>
+                </div>
+                <hr />
+                <div class="uk-margin uk-grid-small" data-uk-grid>
+                    <div class="uk-width-1-2">
+                        <label class="uk-form-label">
+                            <input id="assign-charger" name="assign-charger" type="checkbox" class="uk-checkbox" /> Assign Charger with Device
+                        </label>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                            <div>
+                                <select id="assign-charger-type" name="assign-charger-type" class="uk-select" disabled="">
+                                    <option value="">-</option>
+                                    {% for type in charger_types %}
+                                    <option value="{{ type.id }}">{{ type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <div class="uk-grid-small" data-uk-grid>
+                                    {% for condition in charger_conditions %}
+                                    <label class="uk-form-label">
+                                        <input id="assign-charger-condition" type="radio" name="charger-condition" value="{{ condition.id }}" class="uk-radio" disabled="" /> {% if condition.id == 'UG' %}Used{% else %}{{ condition.name }}{% endif %}
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                var assign_charger = document.getElementById("assign-charger");
+                var assign_charger_type = document.getElementById("assign-charger-type");
+
+                var assign_charger_condition_node = document.querySelectorAll("input[name=charger-condition]");
+                var assign_charger_condition = [...assign_charger_condition_node];
+
+                assign_charger.addEventListener('change', function() {
+                    if (this.checked) {
+                        assign_charger_type.removeAttribute("disabled");
+                        assign_charger_type.setAttribute("required", "");
+
+                        assign_charger_condition.forEach((condition, index) => {
+                            condition.removeAttribute("disabled");
+
+                            if (index == 0) {
+                                condition.setAttribute("required", "");
+                            }
+                        });
+                    } else {
+                        assign_charger_type.removeAttribute("required");
+                        assign_charger_type.setAttribute("disabled", "");
+
+                        assign_charger_condition.forEach(condition => {
+                            condition.checked = false;
+                            condition.removeAttribute("required");
+                            condition.setAttribute("disabled", "");
+                        });
+                    }
+                });
+                </script>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button id="assign-device-submit" type="submit" class="uk-button uk-button-danger" disabled="">Confirm</button>
+                <a class="uk-button uk-button-default uk-modal-close">Close</a>
+                <div class="uk-margin meta-container uk-text-left">
+                    <div>
+                        <div class="uk-form-label uk-text-bold uk-text-uppercase">Meta information:</div>
+                        <div class="uk-form-controls uk-form-controls-text">
+                            <b>Author:</b> {{ request.user.get_full_name }} &centerdot; <b>Timestamp:</b> {{ current_datetime|date:'m-d-Y H:i A' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var bpi_to_match, student_assigned_to_bpi, entry_id;
+
+        $(document).on("click", ".assign-device", function(event) {
+            event.preventDefault();
+
+            $(".uk-alert-success").remove();
+            $(".uk-alert-danger").remove();
+            $("input[name=confirm_bpi_number]").val("");
+            $("input[name=confirm_bpi_number]").removeAttr("disabled");
+
+            bpi_to_match = $(this).data('device-id');
+            student_assigned_to_bpi = $(this).data('student-id');
+            entry_id = $(this).data('entry-id');
+
+            document.getElementById("confirm-bpi-readout").innerHTML = "The BPI should be <b>" + bpi_to_match + "</b>.";
+
+            UIkit.modal('#assign-device-modal').show();
+            document.getElementById("confirm-bpi-number").focus();
+        });
+
+        $(document).on("keydown", "#assign-device-form", function(event) {
+            return event.key != "Enter";
+        });
+
+        $(document).on("keyup", "#confirm-bpi-number", function() {
+            var bpi_input_value = $(this).val();
+
+            if (bpi_input_value == bpi_to_match) {
+                $("#assign-device-submit").removeAttr("disabled");
+            } else {
+                $("#assign-device-submit").attr("disabled", "");
+            }
+        });
+
+        $(document).on("submit", "#assign-device-form", function(event) {
+            event.preventDefault();
+
+            if (bpi_to_match == $("input[name=confirm_bpi_number]").val()) {
+                $('#assign-device-submit').replaceWith('<span id="assign-device-working" data-uk-spinner></span>')
+
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                        action: "assign-device",
+                        device_id: bpi_to_match,
+                        student_id: student_assigned_to_bpi,
+                        entry_id: entry_id,
+                        assign_charger: $("input[name=assign-charger]").prop("checked"),
+                        assign_charger_type: $("#assign-charger-type").val(),
+                        assign_charger_condition: $("#assign-charger-condition").val()
+                    },
+                    success: function(json) {
+                        if (json.assign_response == true) {
+                            $("#assign-device-body").prepend(
+                                '<div class="uk-alert-success" uk-alert>' +
+                                    '<p>Device was successfully assigned! You can now close this window.</p>' +
+                                '</div>'
+                            );
+
+                            $("input[name=confirm_bpi_number]").attr("disabled", "true");
+                            $("#assign-device-working").replaceWith('<button id="assign-device-submit" type="submit" class="uk-button uk-button-danger" disabled="">Confirm</button>');
+                        } else {
+                            $("#assign-device-body").prepend(
+                                '<div class="uk-alert-danger" uk-alert>' +
+                                    '<a class="uk-alert-close" uk-close></a>' +
+                                    '<p><b>ERROR:</b> IncidentIQ rejected the assignment with an error code of 409; there is likely no IIQ UUID for the student.</p>' +
+                                '</div>'
+                            );
+
+                            $("#assign-device-working").replaceWith('<button id="assign-device-submit" type="submit" class="uk-button uk-button-danger" disabled="">Confirm</button>');
+                        }
+
+                        document.getElementById("assign-device-form").reset();
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    },
+                    complete: function() {
+                        $('#search-results').load(location.href + ' #search-results>*', '');
+                    }
+                });
+            } else {
+                $("#assign-device-body").prepend(
+                    '<div class="uk-alert-danger" uk-alert>' +
+                        '<a class="uk-alert-close" uk-close></a>' +
+                        '<p><b>ERROR:</b> The BPI you entered does not match the assignment given in the database. Please double check the BPI you are entering.</p>' +
+                    '</div>'
+                );
+            }
+        });
+    });
+</script>
+<!-- END: Assign Device -->
+<script>
+    $(document).ready(function() {
+        setInterval(function() {
+            $('#requestor-queue').load(location.href + ' #requestor-queue>*', '');
+        }, 2000);
+
+        var user_id, device_id, device_bin;
+
+        $(document).on("click", ".request-device", function(event) {
+            event.preventDefault();
+
+            $this = $(this);
+
+            student_id = $this.data("user-id");
+            device_id = $this.data("device-id");
+            device_bin = $this.data("device-bin");
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "request-device",
+                    student_id: student_id,
+                    device_id: device_id,
+                    device_bin: device_bin
+                },
+                success: function(json) {
+                    if (json.code >= 200 && json.code < 400) {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'success'});
+                    } else {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'danger'});
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                },
+                complete: function() {
+                    $('#search-results').load(location.href + ' #search-results>*', '');
+                }
+            });
+        });
+
+        $(document).on("click", ".remove-from-queue", function(event) {
+            event.preventDefault();
+
+            entry_id = $(this).data('entry-id');
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: "remove-device",
+                    entry_id: entry_id
+                },
+                success: function(json) {
+                    if (json.code >= 200 && json.code < 400) {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'success'});
+                    } else {
+                        UIkit.notification({message: '<span class="uk-text-bold">Code ' + json.code + ':</span> ' + json.message, pos: 'top-center', status: 'danger'});
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                },
+                complete: function() {
+                    $('#requestor-queue').load(location.href + ' #requestor-queue>*', '');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base_form.html' %}
+{% load humanize static %}
+{% block title %}FCSB | DLMR | Success{% endblock %}
+{% block content %}
+<div class="uk-grid-collapse uk-child-width-1-1" data-uk-grid>
+    <div class="uk-width-2-3@m" style="z-index:999">
+        <div class="uk-cover-container uk-light">
+            <img data-src="{% get_static_prefix %}img/devices/form_macbook.jpg" alt="" data-uk-cover data-uk-img>
+            <div class="uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-position-relative" style="background-color: rgba(0, 0, 0, 0.5);">
+                <div class="uk-container uk-container-small uk-flex-auto">
+                    <div class="uk-text-center uk-margin-small-top">
+                        <img src="{% get_static_prefix %}img/flagler_logo-white.png" width="96px" />
+                    </div>
+                    <h1 class="uk-heading-line uk-text-center uk-margin-small-top uk-margin-remove-bottom"><span>Digital Learning Movement</span></h1>
+                    <h2 class="uk-text-center uk-margin-remove-top">Registration</h2>
+                    <div class="uk-width-4-5@m uk-margin-auto uk-text-justify">
+                        <p>Student learning is at the heart of all we do in Flagler County Public Schools. It is our belief that student learning is enhanced through the integration of technology with a strong curriculum, led by excellent teachers. Technology allows students and teachers to use an approach which is “hands on” and relevant to today’s learning. By approving the Half Penny Sales Tax, the community has given Flagler County Public Schools the opportunity to provide our students with digital tools to help actively engage them in their learning.</p>
+                        <p>All students, Kindergarten to 12th Grade, will be required to register for the Flagler County Public Schools Digital Learning Movement.</p>
+                        <p>As with the previous two years, the 1:1 | Take Home technology usage fee will be waived for ALL students during the 2023-2024 school year.<sup style="font-weight:700">*</sup></p>
+                        <p><b><sup>*</sup> This does not waive or remove any assessed fines</b>.</p>
+                        <div class="uk-margin-small-top uk-text-center uk-text-bold">
+                            <i class="fa-duotone fa-arrow-circle-down fa-3x uk-hidden@m"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-3@m">
+        <div class="uk-panel uk-panel-scrollable uk-height-viewport uk-padding no-resize">
+            <div class="uk-text-justify">
+                <p>Thank you for submitting your registration!</p>
+                <p>A confirmation email of your registration, along with all associated documents, has been sent to the email address that you provided.</p>
+                <p>Any questions pertaining to the Digital Learning Movement and the currently active student device distributions can be answered on our <a href="https://www.flaglerschools.com/students-families/student-devices">FAQ page</a>.</p>
+                <p>Should you have any specific school related questions, please contact the schools directly.</p>
+                <p class="uk-text-primary">If you have another student that you would like to register, please click the below button to restart the registration process.</p>
+                <div class="uk-margin uk-text-center">
+                    <a class="uk-button uk-button-primary" onClick="window.location.replace('https://dlmrsso.flaglerschools.com/');"><i class="fas fa-undo uk-margin-small-right"></i>Restart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MCX5NV74EP"></script>
+<script>
+$(document).ready(function() {
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-MCX5NV74EP');
+    gtag('event', 'dlm_registration_success');
+});
+</script>
+{% endblock %}

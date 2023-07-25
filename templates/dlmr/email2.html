@@ -1,0 +1,751 @@
+{% extends 'base_email.html' %}
+{% load static humanize %}
+{% block content%}
+<table border="0" cellpadding="0" cellspacing="0" class="body" role="presentation">
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td class="align-center" style="font-weight:bold">
+                                        <h2 style="color:#aeaeae;margin-top:10px">SAVE A TREE. DO NOT PRINT.</h2>
+                                        <hr />
+                                        <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="84px" />
+                                        <br>
+                                        <p style="text-transform:uppercase">
+                                            <span style="font-size:1.75em">Flagler Schools</span>
+                                            <br /><span style="font-size:1.75em">2023-2024 School Year</span>
+                                            <br /><span style="font-size:1.5em">Form(s) submission confirmation for:</span>
+                                        </p>
+                                        <hr />
+                                        <p style="text-transform:uppercase">
+                                            <span style="font-size:4em;">{{ student.name }}</span>
+                                        </p>
+        
+                                        <hr />
+                                        <p style="font-size:1.8em;">
+                                            Below is a digital copy for your records.
+                                        </p>
+                                        <hr />
+                                        <p>
+                                            <a href="http://www.flaglerschools.com" target="_blank">www.flaglerschools.com</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="align-center" style="font-weight:bold">
+                                                        <table>
+                                                            <tr>
+                                                                <td style="width:20%">
+                                                                    <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="60" />
+                                                                </td>
+                                                                <td style="width:80%">
+                                                                    <p style="font-weight:bold;text-align:left">
+                                                                        <span style="font-size:1.3em">Flagler Schools</span>
+                                                                        <br /><span style="font-size:1.15em">Emergency Contact Information</span>
+                                                                        <br /><span style="font-size:1.15em">School Year: 2023-2024</span>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <div style="padding:10px">
+                                                        <H3>Emergency Contact Information Provided</H3>
+                                                        <hr>
+                                                        <p>Family #1:</p>
+                                                        <p>Parent/Legal Guardian's Name: {{ fam_1_parent_1_name }}</p>
+                                                        <p>Cell Phone Number: {{ fam_1_parent_1_cell_phone }}</p>
+                                                        <p>Daytime Phone Number: {{ fam_1_parent_1_daytime_phone }}</p>
+                                                        <p>Parent/Legal Guardian's Email: {{ fam_1_parent_1_email }}</p>
+                                                        <p></p>
+                                                        <p>2nd Parent/Legal Guardian's Name: {{ fam_1_parent_2_name }}</p>
+                                                        <p>Cell Phone Number: {{ fam_1_parent_2_cell_phone }}</p>
+                                                        <p>Daytime Phone Number {{ fam_1_parent_2_daytime_phone }}</p>
+                                                        <p>2nd Parent/Legal Guardian's Email: {{ fam_1_parent_2_email }}</p>
+                                                        <p></p>
+                                                        <p>Residence Address: {{ fam_1_residence }}</p>
+                                                        <p>Mailing Address: {{ fam_1_mailing }}</p>
+                                                        <hr>
+                                                        <p>Family #2:</p>
+                                                        <p>Parent/Legal Guardian's Name: {{ fam_2_parent_1_name }}</p>
+                                                        <p>Cell Phone Number: {{ fam_2_parent_1_cell_phone }}</p>
+                                                        <p>Daytime Phone Number: {{ fam_2_parent_1_daytime_phone }}</p>
+                                                        <p>Parent/Legal Guardian's Email: {{ fam_2_email }}</p>
+                                                        <p></p>
+                                                        <p>2nd Parent/Legal Guardian's Name: {{ fam_2_parent_2_name }}</p>
+                                                        <p>Cell Phone Number: {{ fam_2_parent_2_cell_phone }}</p>
+                                                        <p>Daytime Phone Number: {{ fam_2_parent_2_daytime_phone }}</p>
+                                                        <p></p>
+                                                        <p>Residence Address: {{ fam_2_residence }}</p>
+                                                        <p>Mailing Address: {{ fam_2_mailing }}</p>
+                                                        <hr>
+                                                        <h3>Custody Issues:</h3>
+                                                        <p>Is there custody paperwork on file with the school? 
+                                                            {% if custody_paperwork == 'true' %}
+                                                            Yes
+                                                            {% else %}
+                                                            No
+                                                            {% endif %}
+                                                        </p>
+                                                        <hr>
+                                                        <h3>Medical Needs</h3>
+                                                        <p>Does the student have allergies? : 
+                                                            {% if allergies == 'true' %}
+                                                            Yes
+                                                            {% else %}
+                                                            No
+                                                            {% endif %}
+                                                        </p>
+                                                        <p>What is the student allergic to? : {{ allergic_to }}</p>
+                                                        <p>Does the student wear glasses or contacts? : 
+                                                            {% if glasses_or_contacts == 'true' %}
+                                                            Yes
+                                                            {% else %}
+                                                            No
+                                                            {% endif %}
+                                                        </p>
+                                                        <p>Does the student wear hearing aids? : 
+                                                            {% if hearing_aids == 'true' %}
+                                                            Yes
+                                                            {% else %}
+                                                            No
+                                                            {% endif %}
+                                                        </p>
+                                                        <p>Physician Name? : {{ physician_name }}</p>
+                                                        <p>Physician Phone Number? : {{ physician_phone }}</p>
+                                                        <hr>
+                                                    </div>
+                                                        <!-- </div>
+                                                        
+                                                        <div id="student-pickup" style="display: none;">
+                                                            <div>
+                                                                <h3>Student Pickup</h3>
+                                                                    <p>Add individual</a>
+                                                                            <div class="uk-accordion-content">
+                                                                                <div class="uk-margin">
+                                                                                    <label class="uk-form-label" for="pickup_5_name">Full Name <span
+                                                                                            class="uk-text-danger">*</span></label>
+                                                                                    <div class="uk-form-controls">
+                                                                                        <input   autocomplete="off" id="pickup_5_name" class="uk-input" name="pickup_5_name"
+                                                                                            type="text" placeholder="Individual 5" data-parsley-required="false"
+                                                                                            autocomplete="name">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                                                                    <div>
+                                                                                        <label class="uk-form-label" for="pickup_5_phone">Phone Number <span
+                                                                                                class="uk-text-danger">*</span></label>
+                                                                                        <div class="uk-form-controls">
+                                                                                            <input  autocomplete="off"  id="pickup_5_phone" class="uk-input phone"
+                                                                                                name="pickup_5_phone" type="tel" placeholder="#"
+                                                                                                data-parsley-required="false" autocomplete="tel">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <label class="uk-form-label" for="pickup_5_relationship">Relationship <span class="uk-text-danger">*</span></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="uk-accordion-title" href="#">Add individual</a>
+                                                                            <div class="uk-accordion-content">
+                                                                                <div class="uk-margin">
+                                                                                    <label class="uk-form-label" for="pickup_6_name">Full Name<span
+                                                                                            class="uk-text-danger">*</span></label>
+                                                                                    <div class="uk-form-controls">
+                                                                                        <input   autocomplete="off" id="pickup_6_name" class="uk-input" name="pickup_6_name"
+                                                                                            type="text" placeholder="Individual 6" data-parsley-required="false"
+                                                                                            autocomplete="name">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                                                                    <div>
+                                                                                        <label class="uk-form-label" for="pickup_6_phone">Phone Number <span
+                                                                                                class="uk-text-danger">*</span></label>
+                                                                                        <div class="uk-form-controls">
+                                                                                            <input   autocomplete="off" id="pickup_6_phone" class="uk-input phone"
+                                                                                                name="pickup_6_phone" type="tel" placeholder="#"
+                                                                                                data-parsley-required="false" autocomplete="tel">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <label class="uk-form-label" for="pickup_6_relationship">Relationship <span
+                                                                                                class="uk-text-danger">*</span></label>
+                                                                                        <div class="uk-form-controls">
+                                                                                            <input   autocomplete="off" id="pickup_6_relationship" class="uk-input"
+                                                                                                name="pickup_6_relationship" type="text"
+                                                                                                placeholder="enter relationship here"
+                                                                                                data-parsley-required="false" autocomplete="relate">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="uk-accordion-title" href="#">Add individual</a>
+                                                                            <div class="uk-accordion-content">
+                                                                                <div class="uk-margin">
+                                                                                    <label class="uk-form-label" for="pickup_7_name">Full Name <span
+                                                                                            class="uk-text-danger">*</span></label>
+                                                                                    <div class="uk-form-controls">
+                                                                                        <input   autocomplete="off" id="pickup_7_name" class="uk-input" name="pickup_7_name"
+                                                                                            type="text" placeholder="Individual 7" data-parsley-required="false"
+                                                                                            autocomplete="name">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                                                                    <div>
+                                                                                        <label class="uk-form-label" for="pickup_7_phone">Phone Number <span
+                                                                                                class="uk-text-danger">*</span></label>
+                                                                                        <div class="uk-form-controls">
+                                                                                            <input   autocomplete="off" id="pickup_7_phone" class="uk-input phone"
+                                                                                                name="pickup_7_phone" type="tel" placeholder="#"
+                                                                                                data-parsley-required="false" autocomplete="tel">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <label class="uk-form-label" for="pickup_7_relationship">Relationship <span
+                                                                                                class="uk-text-danger">*</span></label>
+                                                                                        <div class="uk-form-controls">
+                                                                                            <input   autocomplete="off" id="pickup_7_relationship" class="uk-input"
+                                                                                                name="pickup_7_relationship" type="text"
+                                                                                                placeholder="enter relationship here"
+                                                                                                data-parsley-required="false" autocomplete="relate">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                        </div>
+                                                        <div id="medical-needs" style="display: none;">
+                                                            <div class="uk-margin">
+                                                                <H3>Medical Needs</H3>
+                                                                <div class="uk-margin">
+                                                                    <label class="uk-form-label">Does student have <span
+                                                                            class="uk-text-danger"><b>allergies?</b></span></label> 
+                                                                            <input class="uk-radio" type="radio" name="allergies" value="true"><b> Yes</b>
+                                                                            <input class="uk-radio" type="radio" name="allergies" value="false"><b> No</b>
+                                                                </div>
+                                                                <div class="uk-margin">
+                                                                    <label class="uk-form-label" for="allergic_to">To what is the student allergic? </label>
+                                                                    <div class="uk-form-controls">
+                                                                        <input id="allergic_to" class="uk-input" name="allergic_to" type="text"
+                                                                            placeholder="Please list all known allergies here"
+                                                                            autocomplete="name">
+                                                                    </div>
+                                                                </div>
+                                                                <br>
+                                                                <div class="uk-margin">
+                                                                    <label class="uk-form-label">Does student wear glasses or contacts?</span></label> 
+                                                                    <input class="uk-radio" type="radio" name="glasses_or_contacts" value="true"><b> Yes</b>
+                                                                    <input class="uk-radio" type="radio" name="glasses_or_contacts" value="false"><b> No</b>
+                                                                </div>
+                                                                <div class="uk-margin">
+                                                                    <label class="uk-form-label">Does student wear hearing aids?</span></label>
+                                                                    <input class="uk-radio" type="radio" name="hearing_aids" value="true"><b> Yes</b>
+                                                                    <input class="uk-radio" type="radio" name="hearing_aids" value="false"><b> No</b>
+                                                                </div>
+                                                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                                                    <div>
+                                                                        <label class="uk-form-label" for="physician_name">Physician's Name <span
+                                                                                class="uk-text-danger">*</span></label>
+                                                                        <div class="uk-form-controls">
+                                                                            <input id="physician_name" class="uk-input" name="physician_name"
+                                                                                type="text" placeholder="enter name here" data-parsley-required="true"
+                                                                                autocomplete="relate">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label class="uk-form-label" for="physician_phone">Phone Number <span
+                                                                                class="uk-text-danger">*</span></label>
+                                                                        <div class="uk-form-controls">
+                                                                            <input id="physician_phone" class="uk-input phone" name="physician_phone" type="tel"
+                                                                                placeholder="(234) 567-8910" data-parsley-required="true" autocomplete="tel">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> -->
+                                                </tr>
+                                            </tbody>
+
+                                            <div class="footer">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <span class="apple-link">&copy; 2023-2024 Flagler County Public Schools</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="align-center" style="font-weight:bold">
+                                                        <table>
+                                                            <tr>
+                                                                <td style="width:20%">
+                                                                    <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="60" />
+                                                                </td>
+                                                                <td style="width:80%">
+                                                                    <p style="font-weight:bold;text-align:left">
+                                                                        <span style="font-size:1.3em">Flagler Schools</span>
+                                                                        <br /><span style="font-size:1.15em">Annual Consent for School Clinic Services</span>
+                                                                        <br /><span style="font-size:1.15em">School Year: 2023-2024</span>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <div style="padding:10px">
+                                                        <p>Per state statute, parental consent is required for the following healthcare services listed below. If you agree to allow your student to receive any or all of the services below if/when they are needed, please check the appropriate boxes in each section. Please complete a form for each of your students. </p>
+                                                        <p></p>
+                                                        <p>Emergency services will be provided to all students according to the standards found in the Florida Emergency Guidelines for Schools. <a href="https://www.floridahealth.gov/programs-and-services/childrens-health/school-health/_documents/emergency-guidelines-for-schools-2019.pdf" taregt="_blank"> Florida Health Emergency School Guidelines.</a> </p>
+                                                        <p></p>
+                                                        <p>As required by statute, a new form must be completed each year for each student. </p>
+                                                        <!-- <p></p>
+                                                        <p><h3>Healthcare Services:</h3></p>
+                                                        <p>Please check the box below to consent to <b>ALL </b>School-based Illness Assessment services. </p>
+                                                        <p></p>
+                                                        <ul style="list-style-type: none;">
+                                                                <li>{% if clinic_services_all == 'true' %}
+                                                                    ☑ 
+                                                                    {% else %}
+                                                                    <span style="font-size: 25px;">☐</span>
+                                                                    {% endif %} 
+                                                                    I consent to ALL School-based Illness Assessments listed below.</li>
+                                                            </ul>
+                                                        <p></p> -->
+                                                        <p>
+                                                            <!--Or, if you do not consent to all, p-->Please check the boxes below to consent to the individual healthcare services your student is to receive if/when needed: </p>
+                                                        <p></p>
+                                                        <p><h3>Illness Assessment</h3></p>
+                                                            <ul style="list-style-type: none;">
+                                                                <li>
+                                                                    {% if basic_first_aid == 'true' %}
+                                                                    ☑
+                                                                    {% else %}
+                                                                    <span style="font-size: 25px;">☐</span>
+                                                                    {% endif %}
+                                                                    <b> Basic First Aid Services</b> (Nose, ear/throat check, blood pressure monitoring, temperature check)</li>
+                                                                <li>{% if minor_wound_care == 'true' %}
+                                                                    ☑ 
+                                                                    {% else %}
+                                                                    <span style="font-size: 25px;">☐</span>
+                                                                    {% endif %}
+                                                                    <b> For Minor Wound Care</b> (cuts, scrapes, and abrasions)</li>
+                                                                <li>{% if minor_eye_irritation == 'true' %}
+                                                                    ☑ 
+                                                                    {% else %}
+                                                                    <span style="font-size: 25px;">☐</span>
+                                                                    {% endif %}
+                                                                    <b> For Minor Eye Irritation </b></li>
+                                                                <li>{% if minor_bites_and_stings == 'true' %}
+                                                                    ☑ 
+                                                                    {% else %}
+                                                                    <span style="font-size: 25px;">☐</span>
+                                                                    {% endif %}
+                                                                    <b> For Minor Bites and/or Stings </b></li>
+                                                                <li>{% if minor_upset_stomach == 'true' %}
+                                                                    ☑ 
+                                                                    {% else %}
+                                                                    <span style="font-size: 25px;">☐</span>
+                                                                    {% endif %} <b> For Minor Upset Stomach and/or Indigestion</li>
+                                                                <li> {% if check_for_rashes == 'true' %}
+                                                                    ☑ 
+                                                                    {% else %}
+                                                                    <span style="font-size: 25px;">☐</span>
+                                                                    {% endif %}<b> Skin check for rashes</b> (exposed areas and limbs only)</li>
+                                                            </ul>
+                                                        <p></p>
+                                                        <p><hr></p>
+                                                        <p></p>
+                                                        <p><h3> Health Assessment</h3></p>
+                                                        <p>Separate written consent forms will be furnished when these screenings and/or services are made available at each school. </p>
+                                                            <ul>
+                                                                <li>Vision screening (grades KG, 1, 3, and 6 including new K-6 students) </li>
+                                                                <li>Hearing screening (grades KG, 1, and 6 including new K-6 students) </li>
+                                                                <li>Height/Weight BMI screening (grade KG, 1, 3 and 6 including new K-6 students) </li>
+                                                                <li>Scoliosis (grade 6 only)</li>
+                                                                <li>Specific Health Screening (By request or as needed PK through 12 grades) </li>
+                                                            </ul>
+                                                            <p></p>
+                                                            <p><hr></p>
+                                                            <p></p>
+                                                        <p><h3> Services Requiring Parent/Guardian Authorization </h3></p>
+                                                        <p>The clinic will assist student with physician ordered medication administration (<a href="https://resources.finalsite.net/images/v1655070758/flaglerschoolscom/loym8ayviq98juqqbuuw/prescription_medication_authorization.pdf" target="_blank">Permission form for physician medication administration</a>)</p>
+                                                        <p>A permission slip signed by a parent or guardian is required for the administration of over-the-counter medication. (<a href="https://resources.finalsite.net/images/v1655070758/flaglerschoolscom/hyg4chlkhtms7sr1yh5r/non_prescription_medication_authorization.pdf" target="_blank">Permission form for over the counter medication</a>)</p>
+                                                        {% comment %}
+                                                        <p>By submitting this form, you are acknowledging that you have ...</p>
+                                                        {% endcomment %}
+                                                    </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="padding:10px;padding-bottom:0;font-weight:bold">STUDENT INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_first_name }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_last_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">First Name</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">Last Name</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_location }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px" valign="bottom">
+                                                            {% if student_grade == 'KG' %}Kindergarten{% else %}{{ student_grade|ordinal }} Grade{% endif %}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">School</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Grade Level</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="2" style="padding:10px;padding-bottom:0;font-weight:bold">PARENT/GUARDIAN INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Name</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_address }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Address</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_phone }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_email }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Phone Number</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Email Address</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ media_choice_electronic_signature }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ current_datetime }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px dashed">Parent/Guardian Electronic Signature</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Date</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding:10px">
+                                            <b>☑</b> I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.
+                                        </div>
+                                        <div class="footer">
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <span class="apple-link">&copy; 2023-2024 Flagler County Public Schools</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <table class="main" role="presentation">
+                    <tr>
+                        <td class="wrapper">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="align-center" style="font-weight:bold">
+                                                        <table>
+                                                            <tr>
+                                                                <td style="width:20%">
+                                                                    <img src="https://sadis.flaglerschools.com/static/img/flagler_logo.png" width="60" />
+                                                                </td>
+                                                                <td style="width:80%">
+                                                                    <p style="font-weight:bold;text-align:left">
+                                                                        <span style="font-size:1.3em">Flagler Schools</span>
+                                                                        <br /><span style="font-size:1.15em">Media Parent Choice</span>
+                                                                        <br /><span style="font-size:1.15em">School Year: 2023-2024</span>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <div style="padding:10px">
+                                                        <p>The district understands parents and guardians play a major role in guiding their child’s reading and media center use. It is important that each family has the right to determine which library resources are acceptable for its children and that we afford that right to each family. The district strives to provide appropriate educational, intellectual and physical access to resources that provide for a wide range of abilities and differing points of view.  This process in no way negates our responsibility to ensure that the materials that are in our media centers align to state statutes but provides families with additional choice around all available media materials.</p>
+                                                        <p></p>
+                                                        <p><h2>Choices:</h2></p>
+                                                        <p><b>Level 1: Open Access:</b> There are some levels of books that require parent permission before a student can check them out.</p>
+                                                        <p><b>Level 2: Limited Access:</b> Families may submit a list of up to 5 books that students are NOT allowed to check-out. Outside of the 5 books that students are NOT allowed to check-out, students have the same access to Level 1.</p>
+                                                        <p><b>Level 3: Pre-Approval:</b> A parent/guardian will pre-approve all books before a student checks them out.</p>
+                                                        <p></p>
+                                                        <p>The Media Parent Choice chosen at the time of form submission:  <b>LEVEL {{ media_choice_level }} </b></p>
+                                                        {% comment %}
+                                                        <p>By submitting this form, you are acknowledging that you have ...</p>
+                                                        {% endcomment %}
+                                                    </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="padding:10px;padding-bottom:0;font-weight:bold">STUDENT INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_first_name }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_last_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">First Name</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:90%;border-top:#000 1px solid">Last Name</p>
+                                                    </td>
+                                                </tr>
+                                                {% comment %}
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ student_location }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px" valign="bottom">
+                                                            {% if student_grade == 'KG' %}Kindergarten{% else %}{{ student_grade|ordinal }} Grade{% endif %}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">School</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Grade Level</p>
+                                                    </td>
+                                                </tr>
+                                                {% endcomment %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="2" style="padding:10px;padding-bottom:0;font-weight:bold">PARENT/GUARDIAN INFORMATION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_name }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Name</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_address }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 0 10px;width:95%;border-top:#000 1px solid">Address</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_phone }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:10px;padding-bottom:0;width:90%;font-size:22px">{{ parent_email }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Phone Number</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Email Address</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ media_choice_electronic_signature }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="margin:0;margin-left:10px;padding:20px 10px 10px;padding-bottom:0;width:90%;font-size:22px">{{ current_datetime }}</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px dashed">Parent/Guardian Electronic Signature</p>
+                                                    </td>
+                                                    <td style="width:50%">
+                                                        <p style="font-weight:bold;margin:0 0 0 10px;padding:3px 0 10px 10px;width:90%;border-top:#000 1px solid">Date</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding:10px">
+                                            <b>☑</b> I understand that by selecting this checkbox, I agree that my electronic signature constitutes a legal signature that has the same validity and meaning as my handwritten signature.
+                                        </div>
+                                        <div class="footer">
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <span class="apple-link">&copy; 2023-2024 Flagler County Public Schools</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+{% endblock %}

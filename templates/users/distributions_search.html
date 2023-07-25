@@ -1,0 +1,14 @@
+{% load qurl %}
+<div>
+    <div class="uk-card uk-card-small uk-card-default">
+        <div class="uk-card-body">
+            <form class="uk-grid-small uk-flex uk-flex-center uk-flex-left@m uk-text-center uk-text-left@m" action="{% url 'users:distributions' %}" method="POST" uk-grid>
+                {% csrf_token %}
+                <div class="uk-button-group uk-width-expand">
+                    <input class="uk-input uk-form-small uk-width-1-1" type="text" name="search" placeholder="Search by school ID, name, or username">
+                    <button class="uk-button uk-button-primary uk-button-small">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

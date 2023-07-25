@@ -1,0 +1,102 @@
+{% extends 'base_invoice.html' %}
+{% load static %}
+{% block title %}Student Invoice | {{ student.id }}{% endblock %}
+{% block content %}
+<div class="invoice-wrapper">
+    <div class="uk-grid-small uk-child-width-1-3" uk-grid>
+        <div>
+            <img src="{% static 'img/flagler_schools.png' %}" style="max-width:300px" />
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            <b>Fines Invoice</b>
+            <br />Created: {{ creation_date|date:'F d, Y' }}
+            <br />Due: {{ due_date|date:'F d, Y' }}
+        </div>
+    </div>
+    <hr />
+    <div class="uk-grid-small uk-child-width-1-3" uk-grid>
+        <div>
+            Flagler County Public Schools
+            <br />Technology Department
+            <br />1769 E Moody, Bldg #2
+            <br />Bunnell, FL 32110
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            {{ student.name }}
+            <br />Student ID #: {{ student.id }}
+            <br />{{ student.username }}@flaglercps.org
+        </div>
+    </div>
+    <table class="uk-table uk-table-divider uk-table-middle uk-table-small">
+        <thead>
+            <tr>
+                <th>Fine</th>
+                <th>For Device</th>
+                <th>Assessed on</th>
+                <th>at</th>
+                <th>Paid</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transgression in fines %}
+            <tr>
+                {% if transgression.fine_subtype %}
+                <td>{{ transgression.fine_subtype.name }}</td>
+                {% else %}
+                <td>{{ transgression.fine_type.name }}</td>
+                {% endif %}
+                <td>{{ transgression.device_id }}</td>
+                <td>{{ transgression.created|date:'m-d-Y' }}</td>
+                <td>
+                    {% if transgression.location.alias %}
+                    {{ transgression.location.alias }}
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+                <td>${{ transgression.paid }}</td>
+                <td>${{ transgression.get_value }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">There are currently no fines on file.</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4"></td>
+                <td class="uk-text-bold uk-text-right">Total:</td>
+                <td>
+                    {% if fines_total.total != 0 %}
+                    ${{ fines_total|stringformat:".2f" }}
+                    {% else %}
+                    $0.00
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    {% if notes %}
+    <table class="uk-table uk-table-divider uk-table-middle uk-table-small">
+        <thead>
+            <tr>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for note in notes %}
+            <tr>
+                <td>{{ note.body }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>There are currently no notes on file.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,412 @@
+{% extends 'base.html' %}
+{% load asset_tags qurl static %}
+{% block title %}Asset Detail | {{ device.id }}{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/clipboard.js' %}"></script>
+<script src="{% static 'js/barcode.code39.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+        <!-- SEARCH -->
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-body">
+                    <form class="uk-grid-collapse uk-flex uk-flex-center" action="{% url 'assets:home' %}" method="POST" data-uk-grid>
+                        {% csrf_token %}
+                        <div class="uk-button-group uk-width-expand">
+                            <input class="uk-input uk-form-small uk-width-1-1" type="search" name="search" value="{{ request.GET.search }}" placeholder="Search by asset ID or serial" style="border-right:0">
+                            <button class="uk-button uk-button-primary uk-button-small">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /SEARCH -->
+        <!-- ASSET HEADER -->
+        <div id="asset-header">
+            <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                <div class="uk-card uk-card-small uk-margin-small">
+                    <div class="uk-card-body">
+                        <div id="user-header" class="uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
+                            <div class="uk-width-auto">
+                                <i class="fas fa-laptop fa-3x"></i>
+                            </div>
+                            <div class="uk-width-expand">
+                                <div class="uk-card-title">
+                                    <div class="uk-flex uk-flex-middle">
+                                        {{ device.foreign_model.name }}
+                                        {% if device.iiq_id %}
+                                        <a href="" target="_blank" class="uk-badge uk-padding-small uk-padding-remove-vertical uk-margin-small-left" style="margin-top:-2px">
+                                            {{ device.id }}<i class="fas fa-external-link-alt" style="font-size:80%;margin-left:5px"></i>
+                                        </a>
+                                        {% else %}
+                                        <span class="uk-badge uk-padding-small uk-padding-remove-vertical">
+                                            {{ device.id }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="uk-grid-small uk-text-meta">
+                                        <i class="far fa-calendar"></i> {{ device.sadis_updated|date:'F j, Y' }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-width-auto">
+                                <svg id="barcode"></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /ASSET HEADER -->
+        <!-- ASSET INFORMATION -->
+        <div id="asset-information">
+            <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
+                                <div class="uk-width-expand">
+                                    <span class="uk-text-large">Information</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="device-detail-body" class="uk-card-body">
+                            {% csrf_token %}
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="uk-text-bold">Asset ID:</td>
+                                        <td>{{ device.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="uk-text-bold">Status:</td>
+                                        <td>{{ device.foreign_status.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="uk-text-bold">Company:</td>
+                                        <td>{{ device.manufacturer }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="uk-text-bold">Model:</td>
+                                        <td>{{ device.foreign_model.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="uk-text-bold">Serial:</td>
+                                        <td>
+                                            <div class="uk-display-inline uk-visible-toggle" tabindex="-1">
+                                                {{ device.serial }}
+                                                <div class="uk-hidden-hover uk-display-inline">
+                                                    <button class="clipboard uk-button uk-button-default uk-button-small uk-border-rounded" style="font-size:75%;padding:0 8px;margin:0;line-height:17px;max-height:19px" data-clipboard-action="copy" data-clipboard-text="{{ device.serial }}"><i class="far fa-clipboard"></i> Copy Serial</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="uk-text-bold">Location:</td>
+                                        <td>{{ device.location.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="uk-text-bold" uk-toggle="target: #change-bin-modal"><span data-uk-tooltip="Click2Change">Bin:</span></td>
+                                        <td>
+                                            {% if staged %}
+                                            {{ device.bin }} (<a href="{% url 'users:detail_students' staged.id %}">{{ staged.name }}</a>)
+                                            {% else %}
+                                            {{ device.bin }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="uk-text-bold">IIQ Updated:</td>
+                                        <td>{{ device.iiq_updated|date:'F d, Y' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="uk-text-bold">IIQ UUID:</td>
+                                        <td>
+                                            {% if device.iiq_id %}
+                                            {{ device.iiq_id }}
+                                            {% else %}
+                                            <a id="get-iiq-id" class="uk-text-danger">Get IIQ UUID</a>
+                                            {% endif %}
+                                            <script>
+                                            $(document).on("click", "#get-iiq-id", function(event) {
+                                                event.preventDefault();
+
+                                                $.ajax({
+                                                    type: "POST",
+                                                    data: {
+                                                        csrfmiddlewaretoken: $("#device-detail-body input[name=csrfmiddlewaretoken]").val(),
+                                                        action: "get-uuid"
+                                                    },
+                                                    error: function(xhr, errmsg, err) {
+                                                        console.log(xhr.status + ": " + xhr.responseText);
+
+                                                        $("#device-detail-body").prepend(
+                                                            '<div>' +
+                                                                '<div class="uk-alert-danger" uk-alert>' +
+                                                                    '<a class="uk-alert-close" uk-close></a>' +
+                                                                    '<p>Something went wrong! Please try again and if the issue persists, please contact your technology support technician to troubleshoot the issue.</p>' +
+                                                                '</div>' +
+                                                            '</div>'
+                                                        );
+                                                    },
+                                                    complete: function() {
+                                                        $("#device-detail-body").load(location.href + " #device-detail-body>*", "");
+                                                    }
+                                                });
+                                            });
+                                            </script>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                        <div>
+                            <div id="asset-data" class="uk-card uk-card-default uk-card-small">
+                                <div class="uk-card-header">
+                                    <div class="uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
+                                        <div class="uk-width-expand">
+                                            <span class="uk-text-large">Ownership</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-card-body">
+                                    {% if ownership %}
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td class="uk-text-bold">Name:</td>
+                                                <td>
+                                                    {% url 'users:detail_students' ownership.student.id as student_url %}
+                                                    <a href="{{ student_url }}">{{ ownership.student.name }}</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="uk-text-bold">Location:</td>
+                                                <td>
+                                                    {{ ownership.student.location }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="uk-text-bold">Status:</td>
+                                                <td>
+                                                    {{ ownership.student.status }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="uk-text-bold">Remote:</td>
+                                                <td>
+                                                    {{ ownership.student.remote }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                        This device is not assigned to a user.
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /ASSET INFORMATION -->
+        <!-- DATA VALIDATION -->
+        <div>
+            <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                <div id="validation">
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <div class="uk-width-expand">
+                                    <p class="uk-text-large">Validation</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body">
+                            <table>
+                                <tr>
+                                    <td class="uk-text-bold">IIQ Updated:</td>
+                                    <td>{{ device.iiq_updated }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="uk-text-bold">Mosyle Updated:</td>
+                                    <td>{{ device.mosyle_updated }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="uk-text-bold">Munki Updated:</td>
+                                    <td>{{ device.munki_updated }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="timeline">
+                    <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <div class="uk-width-expand">
+                                    <p class="uk-text-large">Timeline</p>
+                                </div>
+                                <div class="uk-width-auto">
+                                    <button type="button" class="uk-button uk-button-small uk-button-danger" data-uk-toggle="target: #modal-example">View Legacy</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body">
+                            {% if current_history %}
+                            <div class="timeline">
+                                {% for event in current_history %}
+                                {% if event.history_type == '+' or event.history_type == '-' %}
+                                <div class="timeline-item">
+                                    <div class="timeline-left">
+                                        <span class="uk-badge">
+                                            <i class="fas fa-angle-double-right fa-fw" style="margin-left:2px"></i>
+                                        </span>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <div class="uk-flex uk-flex-middle">
+                                            <div class="uk-width-expand">
+                                                {% if event.history_type == '+' %}
+                                                Assigned to {{ event.student.name }}
+                                                {% elif event.history_type == '-' %}
+                                                Unassigned from {{ event.student.name }}
+                                                {% endif %}
+                                                <div class="uk-text-meta">
+                                                    {% if event.history_user %}
+                                                    by {{ event.history_user.get_full_name }}
+                                                    {% else %}
+                                                    by System Administrator
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="uk-width-auto">
+                                                <span class="uk-label uk-margin-auto-left">{{ event.history_date|date:'m-d-Y' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            There is not any available history for this device.
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div id="modal-example" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body">
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <h2 class="uk-modal-title">Legacy Timeline</h2>
+                            {% if legacy_history %}
+                            <div class="timeline">
+                                {% for event in legacy_history %}
+                                <div class="timeline-item">
+                                    <div class="timeline-left">
+                                        <span class="uk-badge">
+                                            <i class="fas fa-angle-double-right fa-fw" style="margin-left:2px"></i>
+                                        </span>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <div class="uk-flex uk-flex-middle">
+                                            <div class="uk-width-expand">
+                                                {% if event.owner != None %}
+                                                {% url 'users:detail_students' event.owner.id as history_record %}
+                                                Assigned to <a href="{{ history_record }}">{{ event.owner.name }}</a>
+                                                {% else %}
+                                                    {% if event.prev_record %}
+                                                    Unassigned from {{ event.prev_record.owner.name }}
+                                                    {% else %}
+                                                    Unassigned
+                                                    {% endif %}
+                                                {% endif %}
+                                                <div class="uk-text-meta">
+                                                    {% if event.history_user %}
+                                                    by {{ event.history_user.get_full_name }}
+                                                    {% else %}
+                                                    by System Administrator
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="uk-width-auto">
+                                                <span class="uk-label uk-margin-auto-left">{{ event.history_date|date:'m-d-Y' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            There is not any available history for this device.
+                            {% endif %}
+                            <p class="uk-margin-large-top">
+                                <button class="uk-button uk-button-default uk-modal-close uk-width-1-1" type="button">Exit</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /DATA VALIDATION -->
+    </div>
+</div>
+<!-- BIN CHANGE MODAL -->
+<div id="change-bin-modal" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Bin Update/Change</h2>
+        <form id="update-bin" method="POST">
+            {% csrf_token %}
+            <div class="uk-margin">
+                <div class="uk-form-controls">
+                    <input id="updated-device-bin" type="text" class="uk-input" autofocus="autofocus" value="" placeholder="Enter a new bin (ie. CW012)...">
+                </div>
+            </div>
+            <div class="uk-margin uk-text-right">
+                <button type="button" class="uk-button uk-button-default uk-modal-close">Cancel</button>
+                <button id="update-bin-submit" type="submit" class="uk-button uk-button-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /BIN CHANGE MODAL -->
+<script>
+$(document).ready(function() {
+    var clipboard = new ClipboardJS('.clipboard');
+
+    $("#barcode").JsBarcode("{{ device.id }}", {
+        format: "code39",
+        background: "#f8f8f8",
+        lineColor: "#000",
+        width: 2,
+        height: 40,
+        displayValue: false
+    });
+
+    $(document).on('submit', '#update-bin', function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "assets:update_device_bin" %}',
+            data: {
+                csrfmiddlewaretoken: $('#update-bin input[name=csrfmiddlewaretoken]').val(),
+                device_id: '{{ device.id }}',
+                new_bin: $("#updated-device-bin").val()
+            },
+            success: function(json) {
+                window.location.reload(true);
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

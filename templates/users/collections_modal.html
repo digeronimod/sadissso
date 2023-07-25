@@ -1,0 +1,376 @@
+{% load humanize %}
+<div id="collect-device-content" class="uk-modal-body">
+    <div class="uk-grid-small" data-uk-grid>
+        <div class="uk-width-expand@m">
+            <h4 class="uk-text-bold uk-margin-remove-vertical">{{ record.device.manufacturer }} {{ record.device.foreign_model.name }}</h4>
+            <h5 class="uk-margin-remove-vertical"><!-- <a href="{% url 'assets:detail' record.device.id %}" target="_blank">{{ record.device.id }}</a> &centerdot; {{ record.device.serial }}</h5> -->
+            <!-- START: JAMF option request 5-5-2023 -->
+                {% if 'iPad' in record.device.foreign_model.name %}
+                <!-- <a href="https://flaglerschools.jamfcloud.com/mobileDevices.html?query={{ record.device.serial }}" target="_blank">{{ record.device.id }}</a> &centerdot; {{ record.device.serial }}</h5> -->
+                <a href="{% url 'assets:detail' record.device.id %}" target="_blank">{{ record.device.id }}</a> &centerdot; {{ record.device.serial }}</h5>
+            {% elif 'MacBook' in record.device.foreign_model.name %}
+            <a href="https://flaglerschools.jamfcloud.com/computers.html?query={{ record.device.serial }}&queryType=COMPUTERS&version=" text=.uk-text-danger target="_blank">{{ record.device.id }}</a> &centerdot; {{ record.device.serial }}</h5>
+            {% endif %}
+            <!-- END: JAMF option request 5-5-2023 -->
+        </div>
+        <div class="uk-width-auto@m">
+            <b>Owner:</b> <a href="{% url 'users:detail_students' record.student.id %}" target="_blank">{{ record.student.name }}</a>
+            <br /><b>School ID:</b> {{ record.student.id }}
+        </div>
+    </div>
+    <hr />
+    <form id="assessment-form-{{ device.id }}" data-parsley-validate>
+        {% csrf_token %}
+        <input type="hidden" name="device" value="{{ record.device.id }}" />
+        <input type="hidden" name="user" value="{{ record.student.id }}" />
+        {% if record.student.grade in ' 04, 05, 06, 07, 08, 09, 10, 11, 12, GD' %}
+        <div class="uk-margin">
+            <span class="uk-text-uppercase uk-text-bold">Student Information</span>
+        </div>
+        <div class="uk-margin uk-grid-small uk-child-width-1-1" data-uk-grid>
+            <div>
+                <label class="uk-form-label">What school is the student attending this coming school year?</label>
+                <select id="student-next-location" class="uk-select" required>
+                    <option>-</option>
+                    <option value="0000">Graduating/Withdrawing</option>
+                    {% for location in locations %}
+                    <option value="{{ location.id }}">{{ location.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="uk-form-label">What grade will the student be going into next school year?</label>
+                <select id="student-next-grade" class="uk-select" required>
+                    <option>-</option>
+                    {% for grade in grades %}
+                    <option value="{{ grade }}">
+                        {% if grade == " 00" %}
+                        Withdrawing
+                        {% elif grade == " GD" %}
+                        Graduating
+                        {% else %}
+                        {{ grade | ordinal }} Grade
+                        {% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        {% endif %}
+        {% if record.student.grade in ' KG, 01, 02, 03' %} <!-- Added Section 4/27/2023 -->
+        <div class="uk-margin">
+            <span class="uk-text-uppercase uk-text-bold">K-3 Student Information</span>
+        </div>
+        <div class="uk-margin uk-grid-small uk-child-width-1-1" data-uk-grid>
+            <div>
+                <label class="uk-form-label">The School where the device was used all year?</label>
+                <select id="student-next-location" class="uk-select" disabled>
+                    <option>{{ record.student.location.id }}</option> <!-- Working 4/28/2023 -->
+                    <option value="0000">Graduating/Withdrawing</option>
+                    {% for location in locations %}
+                    <option value="{{ location.id }}">{{ location.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="uk-form-label">Grade level the device was returned from?</label>
+                <select id="student-next-grade" class="uk-select" disabled>
+                    <option>{{ record.student.grade }}</option> <!-- Working 4/28/2023 -->
+                    {% for grade in grades %}
+                    <option value="{{ grade }}">
+                        {% if grade == " 00" %}
+                        Withdrawing
+                        {% elif grade == " GD" %}
+                        Graduating
+                        {% else %}
+                        {{ grade | ordinal }} Grade
+                        {% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        {% endif %} <!-- END of Added Section 4/27/2023 -->
+        <div class="uk-margin">
+            <span class="uk-text-uppercase uk-text-bold">Asset Assessment <span style="font-weight:normal">(select all that apply)</span></span>
+        </div>
+        <div class="uk-margin">
+            <div class="uk-margin-small-top uk-margin-small-bottom">
+                <u>Device Information</u>
+            </div>
+            <div id="device-controls" class="uk-grid-small uk-grid-row-collapse uk-child-width-1-1" data-uk-grid>
+                <label class="uk-form-label"><input type="radio" name="device-turnin" class="uk-radio" value="DRSR" required> Device Returned{% if 'MacBook' in record.device.foreign_model.name or 'iPad' in record.device.foreign_model.name %} (Summer Refresh){% endif %}</label>
+                <label class="uk-form-label"><input type="radio" name="device-turnin" class="uk-radio" value="DRNR" required> Device Returned{% if 'MacBook' in record.device.foreign_model.name or 'iPad' in record.device.foreign_model.name %} (Not Returning){% endif %}</label>
+            </div>
+            <div class="uk-margin-small-top">
+                <label class="uk-form-label">
+                    <input id="device-damage-none" type="checkbox" class="uk-checkbox" /> No Damages
+                </label>
+            </div>
+            <div class="uk-grid-small uk-margin-small-top" data-uk-grid>
+                {% if 'MacBook' in record.device.foreign_model.name or 'iPad' in record.device.foreign_model.name %}
+                <div class="device-damages">
+                    <label class="uk-form-label uk-text-bold">Non-finable Offenses:</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-dd" type="checkbox" name="device-damages" class="uk-checkbox" /> Dings / Dents</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-edd" type="checkbox" name="device-damages" class="uk-checkbox" /> Excessive Dents / Damage</label>
+                    {% if 'MacBook' in record.device.foreign_model.name %}
+                    <br /><label class="uk-form-label"><input id="device-damages-ccd" type="checkbox" name="device-damages" class="uk-checkbox" /> Mudflap Damaged Noted.</label>
+                    {% endif %}
+                    <br /><label class="uk-form-label"><input id="device-damages-lis" type="checkbox" name="device-damages" class="uk-checkbox" /> Line in Screen</label>
+                    {% if 'MacBook' in record.device.foreign_model.name %}
+                    <br /><label class="uk-form-label"><input id="device-damages-tnc" type="checkbox" name="device-damages" class="uk-checkbox" /> Trackpad Doesn't Click</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-ms" type="checkbox" name="device-damages" class="uk-checkbox" /> Missing Screws</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-mkr" type="checkbox" name="device-damages" class="uk-checkbox" /> Missing Keys (Repairable)</label>
+                    {% endif %}
+                    <br /><label class="uk-form-label"><input id="device-damages-bci" type="checkbox" name="device-damages" class="uk-checkbox" /> Battery / Charging Issue</label>
+                </div>
+                <div class="device-damages">
+                    <label class="uk-form-label uk-text-bold">Finable Offenses:</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-cs" type="checkbox" name="device-damages" class="uk-checkbox" /> Cracked Screen</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-ld" type="checkbox" name="device-damages" class="uk-checkbox" /> Liquid Damage</label>
+                    <!-- new 3/31/2023-->
+                    {% if 'iPad' in record.device.foreign_model.name and record.student.grade in ' 06, 07, 08' %}
+                    <!-- <br /><label class="uk-form-label"><input id="device-damage-ipcltd" type="checkbox" name="case-damages" class="uk-checkbox" /> Logitech Case/Keyboard Damaged</label> -->
+                    {% elif 'iPad' in record.device.foreign_model.name and record.student.grade in ' 04, 05' %}
+                    <!-- <br /><label class="uk-form-label"><input id="device-damage-ipcobd" type="checkbox" name="case-damages" class="uk-checkbox" /> Otterbox Case Damaged</label> -->
+                    <!-- end -->
+                    {% elif 'MacBook' in record.device.foreign_model.name %}
+                    <br /><label class="uk-form-label"><input id="device-damages-mku" type="checkbox" name="device-damages" class="uk-checkbox" /> Missing Keys (Unrepairable)</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-tc" type="checkbox" name="device-damages" class="uk-checkbox" /> Trackpad Cracked</label>
+                    <!-- new 3/31/2023-->
+                    <!-- <br /><label class="uk-form-label"><input id="device-damages-cscd" type="checkbox" name="device-damages" class="uk-checkbox" /> Case Damaged</label> -->
+                    <!-- <br /><label class="uk-form-label"><input  id="device-damages-cscnr" type="checkbox" name="device-damages" class="uk-checkbox" /> Case Not Returned</label> -->
+                    <!-- end -->
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="device-damages uk-margin-small-top">
+                    <label class="uk-form-label uk-text-bold">Finable Offenses:</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-hd" type="checkbox" name="device-damages" class="uk-checkbox" /> Device Damaged</label>
+                </div>
+                {% endif %}
+            </div>
+            <div class="uk-margin-small-top uk-margin-small-bottom">
+                <u>Charger Information</u>
+            </div>
+            <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                <div id="charger-controls">
+                    <div class="uk-grid-small uk-grid-row-collapse uk-child-width-1-1" data-uk-grid>
+                        {% if 'MacBook' in record.device.foreign_model.name or 'iPad' in record.device.foreign_model.name %}
+                        <label class="uk-form-label"><input type="radio" id="charger-summerrefresh" name="charger-turnin" class="uk-radio" value="CNRSR" required> Charger Not Returned (Summer Refresh )</label>
+                        <label class="uk-form-label"><input type="radio" id="charger-notreturned" name="charger-turnin" class="uk-radio" value="CNR"> Charger Not Returned</label>
+                        <label class="uk-form-label"><input type="radio" id="charger-returned" name="charger-turnin" class="uk-radio" value="CR"> Charger Returned</label>
+                        {% else %}
+                        <label class="uk-form-label"><input type="radio" id="charger-returned" name="charger-turnin" class="uk-radio" value="CR" required> Charger Returned</label>
+                        <label class="uk-form-label"><input type="radio" id="charger-notreturned" name="charger-turnin" class="uk-radio" value="CNR"> Charger Not Returned</label>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-grid-small" data-uk-grid>
+                        <label class="uk-form-label"><input id="charger-damage-none" type="checkbox" class="uk-checkbox" /> No Damages</label>
+                    </div>
+                </div>
+                <div class="charger-damages">
+                    {% if 'MacBook' in record.device.foreign_model.name or 'iPad' in record.device.foreign_model.name %}
+                    <label class="uk-form-label uk-text-bold">Finable Offenses:</label>
+                    <br /><label class="uk-form-label"><input id="charger-damages-ms2" type="checkbox" name="charger-damages" class="uk-checkbox"> Adapter Damaged</label>
+                    <br /><label class="uk-form-label"><input id="charger-damages-co" type="checkbox" name="charger-damages" class="uk-checkbox"> Cord Damaged</label>
+                    <br /><label class="uk-form-label"><input id="charger-damages-br" type="checkbox" name="charger-damages" class="uk-checkbox"> Brick Damaged</label>
+                    {% else %}
+                    <label class="uk-form-label uk-text-bold">Finable Offenses:</label>
+                    <br /><label class="uk-form-label"><input id="charger-damages-cm" type="checkbox" name="charger-damages" class="uk-checkbox"> Charger Damaged</label>
+                    <br /><label class="uk-form-label"><input id="charger-damages-cd" type="checkbox" name="charger-damages" class="uk-checkbox"> Charger Missing</label>
+                    {% endif %}
+                </div>
+                {% if 'MacBook' in record.device.foreign_model.name or 'iPad' in record.device.foreign_model.name %}
+                <div class="uk-margin-small-top">
+                    <label class="uk-form-label"><input id="charger-damage-returned" type="checkbox" class="uk-checkbox" /> The charger/parts of the charger were damaged and returned to the student.</label>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if 'MacBook' in record.device.foreign_model.name or 'iPad' in record.device.foreign_model.name %}
+        <div class="uk-margin">
+            <span class="uk-text-uppercase uk-text-bold">Additional Information</span>
+        </div>
+        <div class="uk-grid-small uk-margin" data-uk-grid>
+            <div class="uk-width-1-1 uk-width-1-3@m">
+                <label class="uk-form-label">Device Bin</label>
+                <input class="uk-input no-enter-submit" name="device-bin" placeholder="GS0" maxlength="10" required />
+            </div>
+            {% if record.student.grade in '04, 05, 06, 07, 08, 09, 10, 11, 12, GD' %}
+            <div class="uk-width-1-1 uk-width-2-3@m">
+                <label class="uk-form-label">Parent Email Address</label>
+                <input class="uk-input" id="parent-email" name="parent-email" placeholder="john@doe.com" value="{{ user_data.parent_email }}" />
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        <hr />
+        <div class="uk-margin uk-text-right">
+            <button type="submit" class="collect-device-submit uk-button uk-button-danger uk-width-small" data-record="{{ record.id }}">Submit</button>
+        </div>
+    </form>
+    <script>
+        $(".no-enter-submit").keypress(function(event) {
+            if (event.which == 13) event.preventDefault();
+        });
+
+        var deviceMasterCheck = $("#device-damage-none");
+        var deviceMasterRadio = $("#device-controls input[name=device-turnin]");
+
+        deviceMasterCheck.on("click", function() {
+            var isDeviceMasterChecked = $(this).is(":checked");
+
+            $(".device-damages input:checkbox").each(function() {
+                $this = $(this);
+
+                $this.attr("disabled", isDeviceMasterChecked);
+
+                if (isDeviceMasterChecked) {
+                    $this.prop("checked", false);
+                }
+            });
+        });
+
+        deviceMasterRadio.on("change", function() {
+            var deviceMasterRadioValue = $(this).val();
+
+            if (deviceMasterRadioValue == "DNR") {
+                $("#device-damage-none").prop("checked", false);
+                $("#device-damage-none").attr("disabled", true);
+
+                $(".device-damages input:checkbox").each(function() {
+                    $this = $(this);
+
+                    $this.attr("disabled", true);
+                    $this.prop("checked", false);
+                });
+            } else if (deviceMasterRadioValue != "DNR") {
+                $("#device-damage-none").prop("checked", false);
+                $("#device-damage-none").attr("disabled", false);
+
+                $(".device-damages input:checkbox").each(function() {
+                    $this = $(this);
+
+                    $this.attr("disabled", false);
+                    $this.prop("checked", false);
+                });
+            }
+        });
+
+        var chargerMasterCheck = $("#charger-damage-none");
+        var chargerMasterRadio = $("#charger-controls input[name=charger-turnin]");
+
+        chargerMasterCheck.on("click", function() {
+            var isChargerMasterChecked = $(this).is(":checked");
+
+            $(".charger-damages input:checkbox").each(function() {
+                $this = $(this);
+
+                $this.attr("disabled", isChargerMasterChecked);
+
+                if (isChargerMasterChecked) {
+                    $this.prop("checked", false);
+                }
+            });
+        });
+
+        chargerMasterRadio.on("change", function() {
+            var chargerMasterRadioValue = $(this).val();
+
+            if (chargerMasterRadioValue == "CNR" || chargerMasterRadioValue == "CNRSR") {
+                $("#charger-damage-none").prop("checked", false);
+                $("#charger-damage-none").attr("disabled", true);
+
+                $(".charger-damages input:checkbox").each(function() {
+                    $this = $(this);
+
+                    $this.attr("disabled", true);
+                    $this.prop("checked", false);
+                });
+            } else if (chargerMasterRadioValue == "CR") {
+                $("#charger-damage-none").prop("checked", false);
+                $("#charger-damage-none").attr("disabled", false);
+
+                $(".charger-damages input:checkbox").each(function() {
+                    $this = $(this);
+
+                    $this.attr("disabled", false);
+                    $this.prop("checked", false);
+                });
+            }
+        });
+    </script>
+    <script>
+        $(document).submit("#assessment-form-{{ device.id }}", function(event) {
+            event.preventDefault();
+
+            var active_element = document.activeElement
+            var record_id = active_element.dataset.record;
+            var loading_element = document.createElement("span");
+
+            loading_element.setAttribute("uk-spinner", "");
+            active_element.replaceWith(loading_element);
+
+            $.ajax({
+                url: "{% url 'users:collect_device_submit' %}",
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    record_id: record_id,
+                    student_next_school: $("select[id=student-next-location]").val(),
+                    student_next_grade: $("select[id=student-next-grade]").val(),
+                    parent_first_name: $("input[id=parent-first-name]").val(),
+                    parent_last_name: $("input[id=parent-last-name]").val(),
+                    parent_address: $("input[id=parent-address]").val(),
+                    parent_phone: $("input[id=parent-phone]").val(),
+                    parent_email: $("input[id=parent-email]").val(),
+                    device_return_type: $("input[name=device-turnin]:checked").val(),
+                    device_damage_present: $("input[id=device-damage-none]").prop("checked"),
+                    device_damage_dd: $("input[id=device-damages-dd]").prop("checked"),
+                    device_damage_edd: $("input[id=device-damages-edd]").prop("checked"),
+                    device_damage_ccd: $("input[id=device-damages-ccd]").prop("checked"),
+                    device_damage_lis: $("input[id=device-damages-lis]").prop("checked"),
+                    device_damage_tnc: $("input[id=device-damages-tnc]").prop("checked"),
+                    device_damage_ms: $("input[id=device-damages-ms]").prop("checked"),
+                    device_damage_mkr: $("input[id=device-damages-mkr]").prop("checked"),
+                    device_damage_bci: $("input[id=device-damages-bci]").prop("checked"),
+                    device_damage_cs: $("input[id=device-damages-cs]").prop("checked"),
+                    device_damage_ld: $("input[id=device-damages-ld]").prop("checked"),
+                    device_damage_ipcltd: $("input[id=device-damages-ipcltd]").prop("checked"),
+                    device_damage_ipcobd: $("input[id=device-damages-ipcobd]").prop("checked"),
+                    device_damage_mku: $("input[id=device-damages-mku]").prop("checked"),
+                    device_damage_tc: $("input[id=device-damages-tc]").prop("checked"),
+                    device_damage_cscd: $("input[id=device-damages-cscd]").prop("checked"),
+                    device_damage_cscnr: $("input[id=device-damages-cscnr]").prop("checked"),
+                    device_damage_hd: $("input[id=device-damages-hd]").prop("checked"),
+                    charger_return_type: $("input[name=charger-turnin]:checked").val(),
+                    charger_damage_present: $("input[id=charger-damage-none]").prop("checked"),
+                    charger_damage_returned: $("input[id=charger-damage-returned]").prop("checked"),
+                    charger_damage_co: $("input[id=charger-damages-co]").prop("checked"),
+                    charger_damage_br: $("input[id=charger-damages-br]").prop("checked"),
+                    charger_damage_ms2: $("input[id=charger-damages-ms2]").prop("checked"),
+                    charger_damage_cm: $("input[id=charger-damages-cm]").prop("checked"),
+                    charger_damage_cd: $("input[id=charger-damages-cd]").prop("checked"),
+                    device_bin: $("input[name=device-bin]").val()
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                },
+                complete: function() {
+                    window.location.reload(true);
+                }
+            });
+        });
+    </script>
+    <div class="meta-container">
+        <div>
+            <div class="uk-form-label uk-text-bold uk-text-uppercase">Meta information:</div>
+            <div class="uk-form-controls uk-form-controls-text">
+                <b>Author:</b> {{ request.user.get_full_name }} &centerdot; <b>Timestamp:</b> {{ current_datetime|date:'m-d-Y H:i A' }}
+            </div>
+        </div>
+    </div>
+</div>

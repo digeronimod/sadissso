@@ -1,0 +1,226 @@
+{% load static humanize %}
+<div id="modify-charger-content" class="uk-margin-top">
+    <div id="modify-charger-notifications"></div>
+    <form id="modify-charger-form">
+        {% csrf_token %}
+        <h4 class="uk-text-bold uk-margin-remove-vertical">{{ charger.type }}</h4>
+        <h5 class="uk-margin-remove-vertical">{{ charger.id }}</h5>
+        <div class="uk-margin-small">
+            <b>Owner:</b> <a href="{% url 'users:detail_students' ownership.student.id %}" target="_blank">{{ ownership.student.name }}</a>
+            <br /><b>School ID:</b> {{ ownership.student.id }}
+        </div>
+        <h5 class="uk-heading-divider uk-margin-top uk-text-uppercase uk-text-bold">Peripheral Assessment</h5>
+        <div class="uk-margin">
+            <div>
+                <label class="uk-form-label"><input id="charger-damage-none" type="checkbox" class="uk-checkbox"{% if charger.adapter == 0 or charger.cord == 0 %} disabled{% endif %} /> No Damages</label>
+            </div>
+            <div class="uk-margin-small uk-grid-small uk-child-width-1-2" data-uk-grid>
+                <div>
+                {% if 'MagSafe' in charger.type.name %}
+                <label class="uk-form-label uk-text-bold">Finable Offenses:</label>
+                <br /><label class="uk-form-label"><input id="charger-damages-ms2" type="checkbox" name="charger-damages" class="uk-checkbox" /> Adapter Missing / Damaged</label>
+                {% elif 'M1 Case' in charger.type.name %}
+                <label class="uk-form-label uk-text-bold">Finable Offenses:</label>
+                <br /><label class="uk-form-label"><input id="charger-damages-case" type="checkbox" name="charger-damages" class="uk-checkbox" /> Case Missing / Damaged</label>
+                {% else %}
+                <label class="uk-form-label uk-text-bold">Finable Offenses:</label>
+                <br /><label class="uk-form-label"><input id="charger-damages-br" type="checkbox" name="charger-damages" class="uk-checkbox"{% if charger.adapter == 0 %} disabled{% endif %} /> Brick Missing / Damaged</label>
+                <br /><label class="uk-form-label"><input id="charger-damages-co" type="checkbox" name="charger-damages" class="uk-checkbox"{% if charger.cord == 0 %} disabled{% endif %} /> Cord Missing / Damaged</label>
+                {% endif %}
+                </div>
+                {% if not 'MagSafe' in charger.type.name %}
+                {% if not 'M1 Case' in charger.type.name %}
+                <div>
+                    <label class="uk-form-label uk-text-bold">Other Options:</label>
+                    <br /><label class="uk-form-label"><input id="charger-add-br" type="checkbox" name="charger-add" class="uk-checkbox"{% if charger.adapter == 1 %} disabled{% endif %} /> Add Brick</label>
+                    <br /><label class="uk-form-label"><input id="charger-add-co" type="checkbox" name="charger-add" class="uk-checkbox"{% if charger.cord == 1 %} disabled{% endif %} /> Add Cord</label>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+            <script>
+            var chargerMasterCheck = $("#modify-charger-form #charger-damage-none");
+
+            chargerMasterCheck.on("click", function() {
+                if ($(this).prop("checked") == true) {
+                    var isChargerMasterChecked = true;
+
+                    $("#charger-damages-ms2").removeAttr("required");
+                    $("#charger-damages-br").removeAttr("required");
+                } else {
+                    var isChargerMasterChecked = false;
+
+                    $("#charger-damages-ms2").attr("required");
+                    $("#charger-damages-br").attr("required");
+                }
+
+                $("#modify-charger-form input[name=charger-damages]").each(function() {
+                    $this = $(this);
+
+                    $this.attr("disabled", isChargerMasterChecked);
+
+                    if (isChargerMasterChecked) {
+                        $this.prop("checked", false);
+                    }
+                });
+            });
+            </script>
+        </div>
+        <h5 class="uk-heading-divider uk-margin uk-text-uppercase uk-text-bold">Additional Information</h5>
+        <div class="uk-margin-small">
+            <div>
+                <label class="uk-form-label">If you're checking it in, what bin is this peripheral going into?</label>
+                <input id="charger-bin" class="uk-input uk-width-1-2" placeholder="GS0" maxwidth="10" />
+            </div>
+        </div>
+        <div class="uk-margin-small">
+            <p class="uk-form-label" style="margin-bottom:4px">Why are you modifying the peripheral? (Quick Notes)</p>
+            <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                <div>
+                    <label class="uk-form-label"><input type="checkbox" id="charger-quicknote-af" class="uk-checkbox" /> "Adding fine(s) for damage(s)."</label>
+                    {% if not 'M1 Case' in charger.type.name %}
+                    <br /><label class="uk-form-label"><input type="checkbox" id="charger-quicknote-crwd" class="uk-checkbox" /> "Charger returned with device."</label>
+                    {% else %}
+                    <br /><label class="uk-form-label"><input type="checkbox" id="charger-quicknote-prwd" class="uk-checkbox" /> "Case returned with device."</label>
+                    {% endif %}
+                </div>
+            </div>
+            <script>
+            $("#modify-charger-form #charger-quicknote-af").click(function() {
+                if ($(this).prop("checked")) {
+                    $("#modify-charger-form #charger-note").append("Adding fine(s) for damage(s). ");
+                }
+            });
+
+            {% if not 'M1 Case' in charger.type.name %}
+            $("#modify-charger-form #charger-quicknote-crwd").click(function() {
+                if ($(this).prop("checked")) {
+                    $("#modify-charger-form #charger-note").append("Charger returned with device. ");
+                }
+            });
+            {% else %}
+            $("#modify-charger-form #charger-quicknote-prwd").click(function() {
+                if ($(this).prop("checked")) {
+                    $("#modify-charger-form #charger-note").append("Case returned with device. ");
+                }
+            });
+            {% endif %}
+            </script>
+        </div>
+        <div class="uk-margin-small">
+            <label class="uk-form-label">Why are you modifying the peripheral?</label>
+            <textarea id="charger-note" rows="3" class="uk-textarea" style="resize: none;" placeholder="User cracked the screen and it needs to be repaired." required></textarea>
+        </div>
+        <div class="uk-margin-medium-top uk-grid-small" data-uk-grid>
+            <div class="uk-width-auto">
+                <button id="modify-charger-form-submit" type="submit" class="uk-button uk-button-primary" data-type="modify">Modify</button>
+            </div>
+            <div class="uk-width-expand uk-text-right">
+                <button id="checkin-charger-form-submit" type="submit" class="uk-button uk-button-danger" data-type="checkin">Check-in</button>
+                <a href="#modify-charger" class="uk-button uk-button-default" data-uk-toggle>Cancel</a>
+            </div>
+        </div>
+    </form>
+    <script>
+    $(document).ready(function() {
+        $('#modify-charger-form #charger-damages-ms2').click(function() {
+            if ($(this).prop("checked")) {
+                $("#modify-charger-form-submit").attr("disabled", true);
+                $("#modify-charger-notifications").append(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            "<p>Since the charging adapter is damaged, the kit will be removed from the student's account.</p>" +
+                        '</div>' +
+                    '</div>'
+                );
+            }
+            else {
+                $("#modify-charger-form-submit").removeAttr("disabled");
+                $("#modify-charger-notifications").empty();
+            }
+        });
+
+        $('#modify-charger-form #charger-damages-co').click(function() {
+            if ($(this).prop("checked") && $("#modify-charger-form #charger-damages-br").prop("checked")) {
+                $("#modify-charger-form-submit").attr("disabled", true);
+                $("#modify-charger-notifications").append(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            "<p>Since both the charging brick and cable are damaged, the kit will be removed from the student's account.</p>" +
+                        '</div>' +
+                    '</div>'
+                );
+            }
+            else if(!$(this).prop("checked") || !$("#modify-charger-form #charger-damages-br").prop("checked")) {
+                $("#modify-charger-form-submit").removeAttr("disabled");
+                $("#modify-charger-notifications").empty();
+            }
+        });
+
+        $('#modify-charger-form #charger-damages-br').click(function() {
+            if ($(this).prop("checked") && $("#modify-charger-form #charger-damages-co").prop("checked")) {
+                $("#modify-charger-form-submit").attr("disabled", true);
+                $("#modify-charger-notifications").append(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            "<p>Since both the charging brick and cable are damaged, the kit will be removed from the student's account.</p>" +
+                        '</div>' +
+                    '</div>'
+                );
+            }
+            else if (!$(this).prop("checked") || !$("#modify-charger-form #charger-damages-co").prop("checked")) {
+                $("#modify-charger-form-submit").removeAttr("disabled");
+                $("#modify-charger-notifications").empty();
+            }
+        });
+
+        $(document).on('click', '#modify-charger-form button[type=submit]', function() {
+            var submit_type = $(this).data('type');
+            var $form = $(this).parents('form').first();
+            var $input = $('<input type="hidden" class="submit-type" />').data('value', submit_type);
+
+            $form.find('input.submit-type').remove();
+            $form.append($input);
+        });
+    });
+
+    $(document).on("submit", "#modify-charger-form", function(event) {
+        event.preventDefault();
+        $('#modify-charger-form-submit').replaceWith('<div uk-spinner></div>');
+
+        var submissionButtonValue = $("#modify-charger-form .submit-type").data("value");
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'users:modify_charger_submit' %}",
+            data: {
+                csrfmiddlewaretoken: $("#modify-charger-form input[name=csrfmiddlewaretoken]").val(),
+                charger_id: "{{ charger.id }}",
+                charger_condition: $("#modify-charger-form #charger-condition").val(),
+                charger_damage_present: $("#modify-charger-form #charger-damage-none").prop("checked"),
+                charger_damage_co: $("#modify-charger-form #charger-damages-co").prop("checked"),
+                charger_damage_br: $("#modify-charger-form #charger-damages-br").prop("checked"),
+                charger_damage_ms2: $("#modify-charger-form #charger-damages-ms2").prop("checked"),
+                charger_damage_case: $("#modify-charger-form #charger-damages-case").prop("checked"),
+                charger_add_co: $("#modify-charger-form #charger-add-co").prop("checked"),
+                charger_add_br: $("#modify-charger-form #charger-add-br").prop("checked"),
+                charger_bin: $("#modify-charger-form #charger-bin").val(),
+                charger_note: $("#modify-charger-form #charger-note").val(),
+                charger_submit_type: submissionButtonValue
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+    </script>
+    <div class="meta-container uk-margin">
+        <div class="uk-form-label uk-text-bold uk-text-uppercase">Meta information:</div>
+        <div class="uk-form-controls uk-form-controls-text">
+            <b>Author:</b> {{ request.user.get_full_name }} &centerdot; <b>Timestamp:</b> {{ current_datetime|date:'F d, Y ~H:i A' }}
+        </div>
+    </div>
+</div>

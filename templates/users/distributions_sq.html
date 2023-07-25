@@ -1,0 +1,717 @@
+{% extends 'base.html' %}
+{% load humanize qurl static %}
+{% block title %}L5 Status Queue{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/select2.css' %}" />{% endblock %}
+{% block extra_js %}<script src="{% static 'js/select2.js' %}"></script>{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-width-1-1" style="margin-left: auto; margin-right: auto">
+        <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+            <div class="uk-margin-top uk-margin-left">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <i class="fas fa-project-diagram fa-2x"></i>
+                    </div>
+                    <div class="uk-width-expand">
+                        <h3 class="uk-card-title uk-margin-remove-bottom">Distributions: Status Queue</h3>
+                    </div>
+                    <div id="queue-information" class="uk-width-1-3 uk-padding-remove">
+                        <div class="uk-card uk-card-default uk-card-small">
+                            <div class="uk-card-body uk-text-large uk-text-right filterlist-body">
+                                <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                                    <!--
+                                    <div class="uk-width-auto">
+                                        <a class="uk-button uk-button-primary" uk-toggle="#l5q-issue-modal"><i class="fas fa-plus uk-margin-small-right"></i>New Issue</a>
+                                    </div>
+                                    -->
+                                    <div class="uk-width-expand uk-text-right">
+                                        {{ entries_count }} Student(s) in Queue
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-card-footer uk-text-small filterlist-header">
+                                <div class="uk-width-expand uk-text-right">Assigned Today: <span class="uk-text-primary">{{ devices_assigned_today }}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="uk-width-auto">Location</th>
+                                        <th class="uk-width-auto">EC</th>
+                                        <th class="uk-width-auto">Form</th>
+                                        <th class="uk-width-auto">Payment</th>
+                                        <th class="uk-wdith-auto">Issue</th>
+                                        <th class="uk-width-auto">Bin</th>
+                                        <th class="uk-width-auto">BPI</th>
+                                        <th class="uk-width-auto">Stager</th>
+                                        <th class="uk-width-auto">Time</th>
+                                        <!--<th class="uk-width-auto">Action</th>-->
+                                    </tr>
+                                </thead>
+                                <tbody id="queued-students-list">
+                                {% for user in entries %}
+                                    {% if user.get_ready_status == 'complete' %}
+                                    <tr class="uk-table-link" style="background: #fff !important">
+                                    {% elif user.get_ready_status == 'ready' %}
+                                    <tr class="uk-table-link" style="background: rgba(0, 255, 0, .1) !important">
+                                    {% elif user.get_ready_status == 'tech_working' or user.get_ready_status == 'form_needed' %}
+                                    <tr class="uk-table-link" style="background: rgba(255, 0, 0, .1) !important">
+                                    {% else %}
+                                    <tr class="uk-table-link">
+                                    {% endif %}
+                                        <td>
+                                            <a class="uk-link-reset" href="{% url 'users:detail_students' user.student.id %}">
+                                                <div class="uk-width-1-1">{{ user.student.name }}</div>
+                                                <div class="uk-width-1-1 uk-text-meta"><i class="fa-solid fa-user"></i> {{ user.student.username}}</div>
+                                                <div class="uk-text-meta uk-text-left uk-margin-remove-top">
+                                                    <i class="fas fa-info"></i> {{ user.vehicle_description }}
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ user.student.location.alias }}
+                                            <br /><span class="uk-text-meta"><i class="fas fa-graduation-cap"></i> {% if user.student.grade == 'KG' %}KG{% else %}{{ user.student.grade|ordinal }}{% endif %}</span>
+                                        </td>
+                                        <td>
+                                        {% if user.student.role %}
+                                            {% if user.student.role.id == 'OTO' %}
+                                            1:1
+                                            {% else %}
+                                            {{ user.student.role.id }}
+                                            {% endif %}
+                                        {% else %}
+                                            None
+                                        {% endif %}
+                                        </td>
+                                        <td class="uk-text-bold">
+                                        {% for top_key, top_value in form_payment.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'form' and sub_value == True %}
+                                                <i class="fas fa-check" style="color: #0d0"></i>
+                                                {% elif sub_key == 'form' and sub_value == False %}
+                                                <i class="fas fa-times" style="color: #d00"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>
+                                        <td class="uk-text-bold">
+                                        {% for top_key, top_value in form_payment.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'paid' and sub_value == True %}
+                                                <i class="fas fa-check" style="color: #0d0"></i>
+                                                {% elif sub_key == 'paid' and sub_value == False %}
+                                                <i class="fas fa-times" style="color: #d00"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>
+                                        <td>
+                                            {{ user.get_issue_type_display }}
+                                            <br /><span class="uk-text-meta">{{ user.author.username }}</span>
+                                        </td>
+                                        <td>
+                                        {% for top_key, top_value in bpi_bin.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'bin' %}
+                                                {{ sub_value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>
+                                        <td>
+                                        {% for top_key, top_value in bpi_bin.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'bpi' %}
+                                                {{ sub_value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>
+                                        <td>
+                                        {% for top_key, top_value in bpi_bin.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'stager' %}
+                                                {{ sub_value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if user.iiq_ticket_number != None %}
+                                        <br /><span class="uk-text-meta">{{ user.iiq_ticket_number }}</span>
+                                        {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if user.get_ready_status == 'complete' %}
+                                            {{ user.created|timesince:user.updated }}
+                                            {% else %}
+                                            {{ user.created|timesince:current_datetime }}
+                                            {% endif %}
+                                        </td>
+                                        <!--<td>
+                                        {% for top_key, top_value in form_payment.items %}
+                                            {% if top_key == user.student.id %}
+                                                {% for sub_key, sub_value in top_value.items %}
+                                                    {% if sub_key == 'form' and sub_value == True %}
+                                                        {% for top_key, top_value in bpi_bin.items %}
+                                                            {% if top_key == user.student.id %}
+                                                            {% for sub_key, sub_value in top_value.items %}
+                                                                {% if sub_key == 'owned' and sub_value == True %}
+                                                                    <span class="uk-text-muted">Assigned</span>
+                                                                {% elif sub_key == 'owned' and sub_value == False %}
+                                                                    {% for sub_key, sub_value in top_value.items %}
+                                                                        {% if sub_key == 'bpi' and sub_value != None %}
+                                                                            {% if user.student.iiq_id %}
+                                                                            <button data-id="{{ sub_value }}" data-queueid="{{ user.id }}" data-student="{{ user.student.id }}" data-ticket="{{ user.iiq_ticket }}" class="assign uk-button uk-button-small uk-button-danger">Assign</button>
+                                                                            {% else %}
+                                                                            <span class="uk-text-muted">No UUID</span>
+                                                                            {% endif %}
+                                                                        {% elif sub_key == 'bpi' and sub_value == None %}
+                                                                        <span class="uk-text-muted">No Bin/BPI</span>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% elif sub_key == 'form' and sub_value == False %}
+                                                    <span class="uk-text-muted">No Form</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>-->
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td style="text-align:center" colspan="12">No students are currently in the queue.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr />
+                    </div>
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-divider">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="uk-width-auto">Location</th>
+                                        <th class="uk-width-auto">Grade</th>
+                                        <th class="uk-width-auto">EC</th>
+                                        <th class="uk-width-auto">Form</th>
+                                        <th class="uk-width-auto">Payment</th>
+                                        <th class="uk-wdith-auto">Issue</th>
+                                        <th class="uk-width-auto">Bin</th>
+                                        <th class="uk-width-auto">BPI</th>
+                                        <th class="uk-width-auto">Stager</th>
+                                        <th class="uk-width-auto">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="completed-students-list">
+                                {% for user in students_completed %}
+                                    {% if user.get_ready_status == 'complete' %}
+                                    <tr class="uk-table-link" style="background: #fff !important">
+                                    {% elif user.get_ready_status == 'ready' %}
+                                    <tr class="uk-table-link" style="background: rgba(0, 255, 0, .1) !important">
+                                    {% elif user.get_ready_status == 'tech_working' or user.get_ready_status == 'form_needed' %}
+                                    <tr class="uk-table-link" style="background: rgba(255, 0, 0, .1) !important">
+                                    {% else %}
+                                    <tr class="uk-table-link">
+                                    {% endif %}
+                                        <td>
+                                            <a class="uk-link-reset" href="{% url 'users:detail_students' user.student.id %}">
+                                                <div class="uk-width-1-1">{{ user.student.name }} <span class="uk-text-meta uk-visible@m">{{ user.student.username}}</span></div>
+                                                <div class="uk-width-1-1 uk-text-meta uk-hidden@m"><i class="fas fa-user"></i> {{ user.student.username}}</div>
+                                                <div class="uk-text-meta uk-text-left uk-margin-remove-top">
+                                                    <i class="fas fa-info"></i> {{ user.vehicle_description }}
+                                                    <br />
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>{{ user.student.location.alias }}</td>
+                                        <td>
+                                            {% if user.student.grade == 'KG' %}
+                                            KG
+                                            {% else %}
+                                            {{ user.student.grade|ordinal }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                        {% if user.student.role %}
+                                            {% if user.student.role.id == 'OTO' %}
+                                            1:1
+                                            {% else %}
+                                            {{ user.student.role.id }}
+                                            {% endif %}
+                                        {% else %}
+                                            None
+                                        {% endif %}
+                                        </td>
+                                        <td class="uk-text-bold">
+                                        {% for top_key, top_value in form_payment.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'form' and sub_value == True %}
+                                                <i class="fas fa-check" style="color: #0d0"></i>
+                                                {% elif sub_key == 'form' and sub_value == False %}
+                                                <i class="fas fa-times" style="color: #d00"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>
+                                        <td class="uk-text-bold">
+                                        {% for top_key, top_value in form_payment.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'paid' and sub_value == True %}
+                                                <i class="fas fa-check" style="color: #0d0"></i>
+                                                {% elif sub_key == 'paid' and sub_value == False %}
+                                                <i class="fas fa-times" style="color: #d00"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>
+                                        <td>
+                                            {{ user.get_issue_type_display }}
+                                            <br /><span class="uk-text-meta">{{ user.author.username }}</span>
+                                        </td>
+                                        <td>
+                                        {% for top_key, top_value in bpi_bin.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'bin' %}
+                                                {{ sub_value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>
+                                        <td>
+                                        {% for top_key, top_value in bpi_bin.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'bpi' %}
+                                                {{ sub_value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </td>
+                                        <td>
+                                        {% for top_key, top_value in bpi_bin.items %}
+                                            {% if top_key == user.student.id %}
+                                            {% for sub_key, sub_value in top_value.items %}
+                                                {% if sub_key == 'stager' %}
+                                                {{ sub_value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if user.iiq_ticket_number != None %}
+                                        <br /><span class="uk-text-meta">{{ user.iiq_ticket_number }}</span>
+                                        {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if user.get_ready_status == 'complete' %}
+                                            {{ user.created|timesince:user.updated }}
+                                            {% else %}
+                                            {{ user.created|timesince:current_datetime }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td style="text-align:center" colspan="11">No students in the queue have been completed.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- START: L5Q Issue Module -->
+<div id="l5q-issue-modal" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">L5Q New Issue</h2>
+        </div>
+        <div id="l5q-issue-body" class="uk-modal-body">
+            <div class="uk-grid-small uk-child-width-1-2 uk-margin-small-bottom" data-uk-grid>
+                <div>
+                    <form id="l5q-existing-form" class="uk-form-vertical" method="POST">
+                        {% csrf_token %}
+                        <fieldset class="uk-fieldset">
+                            <legend class="uk-legend">Existing Student Issue</legend>
+                            <div>
+                                <div class="uk-form-label uk-text-bold">Find student:</div>
+                                <select id="existing-student-search" style="width: 100%">
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="uk-margin">
+                                <label class="uk-form-label uk-text-bold" for="existing-student-issue">Issue type:</label>
+                                <div class="uk-form-controls">
+                                    <div class="uk-grid-small" data-uk-grid>
+                                        <div>
+                                            <input class="uk-radio" type="radio" name="existing_student_issue" value="R" required /> Registration
+                                        </div>
+                                        <div>
+                                            <input class="uk-radio" type="radio" name="existing_student_issue" value="ND" /> New Device
+                                        </div>
+                                        <div>
+                                            <input class="uk-radio" type="radio" name="existing_student_issue" value="NI" /> No Issue
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-margin">
+                                <label class="uk-form-label uk-text-bold" for="existing-student-vehicle">Vehicle description:</label>
+                                <input id="existing-student-vehicle" class="uk-input" placeholder="Spot 1: Blue Civic" required />
+                            </div>
+                            <div class="uk-margin uk-margin-remove-bottom">
+                                <button id="l5q-existing-submit" type="submit" class="uk-button uk-button-danger">Submit</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div>
+                    <form id="l5q-new-form" class="uk-form-vertical uk-margin-large" method="POST">
+                        {% csrf_token %}
+                        <fieldset class="uk-fieldset">
+                            <legend class="uk-legend">New Student Issue</legend>
+                            <div class="uk-form-label uk-text-bold">Student information:</div>
+                            <div class="uk-form-controls uk-form-controls-text">
+                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                    <div>
+                                        <label class="uk-form-label" for="student-first-name">
+                                            Legal First Name
+                                            <input id="student-first-name" class="uk-input" placeholder="John" required />
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label  class="uk-form-label" for="student-last-name">
+                                            Legal Last Name
+                                            <input id="student-last-name" class="uk-input" placeholder="Doe" required />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                    <div>
+                                        <label class="uk-form-label" for="student-other-id">
+                                            Other ID
+                                            <input id="student-other-id" class="uk-input" placeholder="1812345678" required />
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="uk-form-label" for="student-username">
+                                            Username
+                                            <input id="student-username" class="uk-input" placeholder="johndoe5678" required />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="uk-grid-small uk-child-width-1-2" data-uk-grid>
+                                    <div>
+                                        <label class="uk-form-label" for="student-location-id">
+                                            School Attending
+                                            <select id="student-location-id" class="uk-select" required>
+                                            {% for location in locations_sideload %}
+                                                <option value="{{ location.id }}">{{ location.name }}</option>
+                                            {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="uk-form-label" for="student-grade">
+                                            Grade Level
+                                            <select id="student-grade" class="uk-select" required>
+                                            {% for grade in grades_sideload %}
+                                                {% if grade == 'KG' %}
+                                                <option value="{{ grade }}">Kindergarten</option>
+                                                {% else %}
+                                                <option value="{{ grade }}">{{ grade|ordinal }} Grade</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-margin">
+                                <label class="uk-form-label uk-text-bold" for="vehicle-description">Vehicle description:</label>
+                                <input id="new-student-vehicle" class="uk-input" placeholder="Spot 2: Red Volvo" required />
+                            </div>
+                            <div>
+                                <button id="l5q-new-submit" type="submit" class="uk-button uk-button-danger">Submit</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <a class="uk-button uk-button-default uk-modal-close" onClick="window.location.href=window.location.href">Close</a>
+        </div>
+    </div>
+</div>
+<!-- END: L5Q Issue Module -->
+<!-- START: Assign Device -->
+<div id="assign-device-modal" data-uk-modal>
+    <div class="uk-modal-dialog">
+        <form id="assign-device-form" class="uk-margin-large" method="POST">
+            {% csrf_token %}
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Confirm Assignment</h2>
+            </div>
+            <div id="assign-device-body" class="uk-modal-body">
+                <div class="uk-margin">
+                    <div class="uk-form-label uk-text-bold">Device BPI:</div>
+                    <div class="uk-form-controls uk-form-controls-text">
+                        <input class="uk-input uk-width-1-1" type="text" name="confirm_bpi_number" required>
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <div class="uk-form-label uk-text-bold">Meta information:</div>
+                    <div class="uk-form-controls uk-form-controls-text">
+                        Author: {{ request.user.get_full_name }}
+                        <br />Timestamp: {{ current_datetime|date:'F d, Y ~H:i A' }}
+                    </div>
+                </div>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <div class="uk-grid-small" data-uk-grid>
+                    <div class="uk-width-expand"></div>
+                    <div class="uk-width-auto">
+                        <button id="assign-device-submit" type="submit" class="uk-button uk-button-danger">Confirm</button>
+                    </div>
+                    <div class="uk-width-auto">
+                        <a class="uk-button uk-button-default uk-modal-close" onClick="window.location.href=window.location.href">Close</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    setInterval(function() {
+        $('#queued-students-list').load(location.href + ' #queued-students-list>*', '');
+        $('#completed-students-list').load(location.href + ' #completed-students-list>*', '');
+        $('#queue-information').load(location.href + ' #queue-information>*', '');
+    }, 5000);
+
+    $('#existing-student-search').select2({
+        placeholder: 'Search for student...',
+        width: 'resolve',
+        minimumInputLength: 2,
+        ajax: {
+            delay: 500,
+            dataType: 'json',
+            type: 'POST',
+            data: function (params) {
+                return {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'existing-student-search',
+                    search: params.term,
+                }
+            },
+            processResults: function(data, params) {
+                return {
+                    results: $.map(data, function(item) {
+                        return {
+                            id: item.id,
+                            text: item.text
+                        }
+                    })
+                };
+            }
+        }
+    });
+
+    var bpi_to_match, student_assigned_to_bpi, queue_id;
+
+    $(document).on("click", ".assign", function(event) {
+        event.preventDefault();
+
+        $(".uk-alert-success").remove();
+        $(".uk-alert-danger").remove();
+        $("input[name=confirm_bpi_number]").val("");
+        $("input[name=confirm_bpi_number]").removeAttr("disabled");
+        $("#assign-device-submit").removeAttr("disabled");
+
+        bpi_to_match = $(this).data('id');
+        student_assigned_to_bpi = $(this).data('student');
+        queue_id = $(this).data('queueid');
+
+        UIkit.modal('#assign-device-modal').show();
+    });
+
+    $(document).on("submit", "#l5q-existing-form", function(event) {
+        event.preventDefault();
+
+        $('#l5q-existing-submit').replaceWith('<div id="l5q-existing-loading"><i class="fas fa-sync fa-2x fa-spin" style="color: #f0506e"></i></div>');
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                action: "l5q-existing-submit",
+                student_id: $("#existing-student-search").val(),
+                student_issue: $("input[name=existing_student_issue]:checked").val(),
+                student_vehicle: $("#existing-student-vehicle").val()
+            },
+            success: function(json) {
+                document.getElementById("l5q-existing-form").reset();
+                $('#l5q-issue-body').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-success" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>The student <b>' + json.student_name + '</b> has been successfully added to the queue!</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+                $('#l5q-issue-body').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            "<p>Something went wrong! I have no idea what, but seeing as how this section is multiple choice it probably isn't good.</p>" +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            complete: function() {
+                $('#l5q-existing-loading').replaceWith('<button id="l5q-existing-submit" type="submit" class="uk-button uk-button-danger">Submit</button>');
+            }
+        });
+    });
+
+    $(document).on("submit", "#l5q-new-form", function(event) {
+        event.preventDefault();
+
+        $('#l5q-new-submit').replaceWith('<div id="l5q-new-loading"><i class="fas fa-sync fa-spin uk-margin-small-right" style="color: #f0506e"></i></div>');
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                action: "l5q-new-submit",
+                student_first_name: $("#student-first-name").val(),
+                student_last_name: $("#student-last-name").val(),
+                student_other_id: $("#student-other-id").val(),
+                student_username: $("#student-username").val(),
+                student_location_id: $("#student-location-id").val(),
+                student_grade: $("#student-grade").val(),
+                student_vehicle: $("#new-student-vehicle").val()
+
+            },
+            success: function(json) {
+                document.getElementById("l5q-new-form").reset();
+
+                $('#l5q-issue-body').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-success" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>The student <b>' + json.student_name + '</b> has been successfully sideloaded!</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+
+                $('#l5q-issue-body').prepend(
+                    '<div>' +
+                        '<div class="uk-alert-danger" uk-alert>' +
+                            '<a class="uk-alert-close" uk-close></a>' +
+                            '<p>Something went wrong! Try again after verifying the information, but if the issue persists please contact a SADIS administrator for assistance.</p>' +
+                        '</div>' +
+                    '</div>'
+                );
+            },
+            complete: function() {
+                $('#l5q-new-loading').replaceWith('<button id="l5q-new-submit" type="submit" class="uk-button uk-button-danger">Submit</button>');
+            }
+        });
+    });
+
+    $(document).on("submit", "#assign-device-form", function(event) {
+        event.preventDefault();
+
+        if (bpi_to_match == $("input[name=confirm_bpi_number]").val()) {
+
+            $('#assign-device-submit').replaceWith('<div id="assign-device-working"><i class="fas fa-sync fa-spin uk-margin-small-right" style="color: #f0506e"></i></div>')
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                    action: "assign-bpi-to-student",
+                    bpi_to_assign: bpi_to_match,
+                    student_to_assign: student_assigned_to_bpi,
+                    queue_id: queue_id
+                },
+                success: function(json) {
+                    if (json.assign_response == true) {
+                        $("#assign-device-body").prepend(
+                            '<div class="uk-alert-success" uk-alert>' +
+                                '<p>Device was successfully assigned! You can now close this window.</p>' +
+                            '</div>'
+                        );
+
+                        $("input[name=confirm_bpi_number]").attr("disabled", "true");
+                        $("#assign-device-working").replaceWith('<button id="assign-device-submit" type="submit" class="uk-button uk-button-danger" disabled>Confirm</button>');
+                    } else {
+                        $("#assign-device-body").prepend(
+                            '<div class="uk-alert-danger" uk-alert>' +
+                                '<a class="uk-alert-close" uk-close></a>' +
+                                '<p><b>ERROR:</b> IncidentIQ rejected the assignment with an error code of 409; there is likely no IIQ UUID for the student.</p>' +
+                            '</div>'
+                        );
+                    }
+
+                    document.getElementById("assign-device-form").reset();
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        } else {
+            $("#assign-device-body").prepend(
+                '<div class="uk-alert-danger" uk-alert>' +
+                    '<a class="uk-alert-close" uk-close></a>' +
+                    '<p><b>ERROR:</b> The BPI you entered does not match the assignment given in the database. Please double check the BPI you are entering.</p>' +
+                '</div>'
+            );
+        }
+    });
+});
+</script>
+<!-- END: Assign Device -->
+{% endblock %}

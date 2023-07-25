@@ -1,0 +1,3011 @@
+{
+    "collection": [
+        {
+            "calendar_event": {
+                "external_id": "86fr7a9saqhn0u5bcnnin3r98s",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T15:14:21.866039Z",
+            "end_time": "2023-07-11T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 25,
+                "limit": 40,
+                "total": 27
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-11T00:05:05.815970Z",
+            "uri": "https://api.calendly.com/scheduled_events/62cf1631-999f-4745-a065-9f1fd3913fa4"
+        },
+        {
+            "calendar_event": {
+                "external_id": "74mha9u307hcqdhkumdub3t9ck",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T15:36:58.671465Z",
+            "end_time": "2023-07-27T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 44
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-27T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-23T19:02:09.734460Z",
+            "uri": "https://api.calendly.com/scheduled_events/e5483b93-6b56-4a61-936f-72fe214e66be"
+        },
+        {
+            "calendar_event": {
+                "external_id": "i6vuk0i8stigfvmfaf1mcce6p0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T16:10:16.060365Z",
+            "end_time": "2023-07-27T18:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 9,
+                "limit": 40,
+                "total": 9
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-27T18:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T16:08:23.988555Z",
+            "uri": "https://api.calendly.com/scheduled_events/e066dce6-20a3-4caa-a656-95be3e0d3b28"
+        },
+        {
+            "calendar_event": {
+                "external_id": "ft3g8affr2405pisuf79f8q8to",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T16:58:06.455110Z",
+            "end_time": "2023-07-10T12:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 25,
+                "limit": 40,
+                "total": 25
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T12:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-08T18:27:54.437531Z",
+            "uri": "https://api.calendly.com/scheduled_events/614bb474-fb33-421f-8707-e3aed7c686c5"
+        },
+        {
+            "calendar_event": {
+                "external_id": "7js3ef5c3fhgvekdk1voobc0a8",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T18:03:25.272747Z",
+            "end_time": "2023-07-10T16:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 36,
+                "limit": 40,
+                "total": 43
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T16:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T14:02:13.031228Z",
+            "uri": "https://api.calendly.com/scheduled_events/93b78926-62b3-4965-a145-4fdaa320779b"
+        },
+        {
+            "calendar_event": {
+                "external_id": "4di2rd34e9kue5e8o4c9i4v5sc",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T18:30:42.296768Z",
+            "end_time": "2023-07-24T14:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 43
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-24T14:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-24T00:11:41.907348Z",
+            "uri": "https://api.calendly.com/scheduled_events/fddcb3c5-b1a1-4f5f-855d-e591c701128a"
+        },
+        {
+            "calendar_event": {
+                "external_id": "ogcorfq1br0ka6elak7eo9gjog",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T18:33:48.726699Z",
+            "end_time": "2023-07-10T14:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 26,
+                "limit": 40,
+                "total": 27
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T14:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T13:38:14.722519Z",
+            "uri": "https://api.calendly.com/scheduled_events/0fb86a5c-8259-4417-b88a-74cd5406aba3"
+        },
+        {
+            "calendar_event": {
+                "external_id": "bmnsbrjt6148kl6963p8bl9774",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T19:01:04.564320Z",
+            "end_time": "2023-07-17T16:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 39,
+                "limit": 40,
+                "total": 43
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T16:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-17T13:08:44.656924Z",
+            "uri": "https://api.calendly.com/scheduled_events/4b14d411-0f56-40e1-84ef-f5b24eb4ae73"
+        },
+        {
+            "calendar_event": {
+                "external_id": "agg82rp7tnr35i2rioru9hjhic",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T19:12:35.503717Z",
+            "end_time": "2023-07-17T14:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T14:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-17T02:24:56.498435Z",
+            "uri": "https://api.calendly.com/scheduled_events/ee2df26c-6502-4c9d-a85a-f7fc64e01166"
+        },
+        {
+            "calendar_event": {
+                "external_id": "en593ircg2t3o8d9kr53l7qf98",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T19:28:58.507609Z",
+            "end_time": "2023-07-10T18:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 13,
+                "limit": 40,
+                "total": 13
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T18:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T17:54:53.081317Z",
+            "uri": "https://api.calendly.com/scheduled_events/064101c2-fdef-455a-989d-4e7645d72cfb"
+        },
+        {
+            "calendar_event": {
+                "external_id": "d84g3mccfd02k7gumuf5oic70s",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T19:44:04.882264Z",
+            "end_time": "2023-07-10T13:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 16,
+                "limit": 40,
+                "total": 17
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T13:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T05:17:03.837409Z",
+            "uri": "https://api.calendly.com/scheduled_events/a0f28d71-6fca-4adc-8bc2-f93bf20120c4"
+        },
+        {
+            "calendar_event": {
+                "external_id": "a21dhcc0694crmv52eej18ii2o",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T19:48:47.500303Z",
+            "end_time": "2023-07-12T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 39,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-12T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-12T12:49:23.599309Z",
+            "uri": "https://api.calendly.com/scheduled_events/a7a4434f-ce80-415e-a975-9351aa43c2d7"
+        },
+        {
+            "calendar_event": {
+                "external_id": "d3seli2d2bs47cmroj5s81h2fs",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T19:56:37.649702Z",
+            "end_time": "2023-07-17T19:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T18:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-17T14:32:00.472660Z",
+            "uri": "https://api.calendly.com/scheduled_events/771a707d-18c8-45ba-ad33-e5828e129aa6"
+        },
+        {
+            "calendar_event": {
+                "external_id": "1h4selipo4o0j1ulomikaim21k",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T19:56:39.907646Z",
+            "end_time": "2023-07-17T12:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T12:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-16T20:33:13.377383Z",
+            "uri": "https://api.calendly.com/scheduled_events/a4b9411d-2ff3-4bdf-ab00-6982ff33a24d"
+        },
+        {
+            "calendar_event": {
+                "external_id": "7ehkaplcnhj89h3aqcvqgj6pkg",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T19:57:57.865591Z",
+            "end_time": "2023-07-12T18:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 32,
+                "limit": 40,
+                "total": 34
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-12T18:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-12T17:35:29.539686Z",
+            "uri": "https://api.calendly.com/scheduled_events/2ce41444-a09c-4a5b-afd5-0b337b343eba"
+        },
+        {
+            "calendar_event": {
+                "external_id": "inlc92oknlj3rnhqscsn2nsv5k",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:02:25.905975Z",
+            "end_time": "2023-07-18T14:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-18T14:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-17T18:40:28.548135Z",
+            "uri": "https://api.calendly.com/scheduled_events/dc895654-96fe-44d6-b2ee-a57031e94240"
+        },
+        {
+            "calendar_event": {
+                "external_id": "v8i3lf618fg8pu983ljjssci6g",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:18:30.322619Z",
+            "end_time": "2023-07-10T13:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 13,
+                "limit": 40,
+                "total": 13
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T13:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T03:49:50.033055Z",
+            "uri": "https://api.calendly.com/scheduled_events/bbd64dc0-81ca-402f-aacd-10ad7aa57e77"
+        },
+        {
+            "calendar_event": {
+                "external_id": "8c14nnt6po9otm75a9tnkrlda8",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:21:14.299492Z",
+            "end_time": "2023-07-24T19:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-24T18:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-21T19:30:10.739326Z",
+            "uri": "https://api.calendly.com/scheduled_events/095465be-0987-41d1-900d-4b57039e3f07"
+        },
+        {
+            "calendar_event": {
+                "external_id": "8855lltiqhkjpdtpbfhohu8jg4",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:27:35.979437Z",
+            "end_time": "2023-07-11T21:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 42
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T21:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-11T17:08:19.197409Z",
+            "uri": "https://api.calendly.com/scheduled_events/9ea4f2a4-3bc7-48f5-add3-51a83f3a4936"
+        },
+        {
+            "calendar_event": {
+                "external_id": "csnslc77jga0irs59hdb71ic3c",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:34:55.210044Z",
+            "end_time": "2023-07-10T11:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 43
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T11:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-06T23:24:41.514531Z",
+            "uri": "https://api.calendly.com/scheduled_events/4773349d-91c7-4401-9841-8326ad5d75e8"
+        },
+        {
+            "calendar_event": {
+                "external_id": "o1t2855vd4kli20senmn6b2450",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:36:17.857682Z",
+            "end_time": "2023-07-11T20:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 17,
+                "limit": 40,
+                "total": 18
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T20:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-11T19:42:48.095745Z",
+            "uri": "https://api.calendly.com/scheduled_events/e50cf245-0916-424f-9f6c-0cc85c358ef9"
+        },
+        {
+            "calendar_event": {
+                "external_id": "da6nui0ccnl0tn1cq73b462b9g",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:36:58.230574Z",
+            "end_time": "2023-07-12T19:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-12T18:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-11T21:33:08.557154Z",
+            "uri": "https://api.calendly.com/scheduled_events/727686c4-47de-4dc4-86e5-70971aa453fd"
+        },
+        {
+            "calendar_event": {
+                "external_id": "remr9bgedm163sjta2q32lqi8g",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:42:09.935810Z",
+            "end_time": "2023-07-10T14:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 12,
+                "limit": 40,
+                "total": 12
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T14:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T13:54:05.580314Z",
+            "uri": "https://api.calendly.com/scheduled_events/410f1501-b7ea-4caf-80ff-c6aabb280a78"
+        },
+        {
+            "calendar_event": {
+                "external_id": "qfe0sj99afbvrkrnkrqk3jmj7o",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:43:37.588630Z",
+            "end_time": "2023-07-19T11:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 42
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-19T11:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-18T19:59:43.778047Z",
+            "uri": "https://api.calendly.com/scheduled_events/f7fca1e3-c151-46b3-9435-722c8364e5a4"
+        },
+        {
+            "calendar_event": {
+                "external_id": "r27r7j0eg43q3kdic5lbsehok0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:49:25.262195Z",
+            "end_time": "2023-07-24T18:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 29,
+                "limit": 40,
+                "total": 31
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-24T18:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-24T16:47:25.947996Z",
+            "uri": "https://api.calendly.com/scheduled_events/67559d9b-ea7f-4afb-9f70-957dabf5a0e5"
+        },
+        {
+            "calendar_event": {
+                "external_id": "e8h14d8uq1jojfa2ot0lfndvkk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:55:59.607851Z",
+            "end_time": "2023-07-17T14:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 33,
+                "limit": 40,
+                "total": 37
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T14:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-17T13:00:52.164489Z",
+            "uri": "https://api.calendly.com/scheduled_events/fd3ac88c-bde2-4a21-88f8-545a8d9c91c3"
+        },
+        {
+            "calendar_event": {
+                "external_id": "6li3lrb11pog66unm0f0df3g08",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:57:17.252054Z",
+            "end_time": "2023-07-10T12:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 19,
+                "limit": 40,
+                "total": 21
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T12:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-08T20:32:50.205187Z",
+            "uri": "https://api.calendly.com/scheduled_events/5c45f5dc-1b03-4b83-9830-024e11f32405"
+        },
+        {
+            "calendar_event": {
+                "external_id": "rgvjacv1gcj432vt6h07uq3m0g",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:57:26.790169Z",
+            "end_time": "2023-07-13T14:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 43
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T14:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T02:24:20.658108Z",
+            "uri": "https://api.calendly.com/scheduled_events/f22620bb-0e2f-4756-8e96-72fa112ba9d9"
+        },
+        {
+            "calendar_event": {
+                "external_id": "84amcc2e7v55l5380febidg9rc",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:57:31.868066Z",
+            "end_time": "2023-07-10T12:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 37,
+                "limit": 40,
+                "total": 37
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T11:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-08T23:07:55.422551Z",
+            "uri": "https://api.calendly.com/scheduled_events/dbc783cb-2e74-4ac8-b36f-800372770af1"
+        },
+        {
+            "calendar_event": {
+                "external_id": "qglblbb8sqe6cb1i6vr06e1rbs",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T20:58:23.646011Z",
+            "end_time": "2023-07-27T17:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 24,
+                "limit": 40,
+                "total": 24
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-27T17:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T14:54:59.404542Z",
+            "uri": "https://api.calendly.com/scheduled_events/7a241097-3058-4760-9cca-e14f3a763142"
+        },
+        {
+            "calendar_event": {
+                "external_id": "013dm5ccb6kbr6g3jph1i1e84c",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:00:19.866989Z",
+            "end_time": "2023-07-10T19:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 19,
+                "limit": 40,
+                "total": 19
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T18:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T18:30:26.509667Z",
+            "uri": "https://api.calendly.com/scheduled_events/9ad82ee9-485d-430d-b4d7-4c189a741067"
+        },
+        {
+            "calendar_event": {
+                "external_id": "tqg14jq3v7p59v0rq2qcr969v8",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:00:22.228113Z",
+            "end_time": "2023-07-17T17:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 38,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T17:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-17T14:59:46.380814Z",
+            "uri": "https://api.calendly.com/scheduled_events/1d51ab02-688a-4a6d-af6d-29d93f4663e0"
+        },
+        {
+            "calendar_event": {
+                "external_id": "j96jtduqtth43k29p3kkh130qc",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:00:41.753206Z",
+            "end_time": "2023-07-10T16:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 10,
+                "limit": 40,
+                "total": 10
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T16:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T16:21:31.661337Z",
+            "uri": "https://api.calendly.com/scheduled_events/4a0f301a-965f-43bd-91b9-ca7f9725f2bf"
+        },
+        {
+            "calendar_event": {
+                "external_id": "d7j34ntiobahft56en76umd258",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:04:37.499840Z",
+            "end_time": "2023-07-10T12:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 8,
+                "limit": 40,
+                "total": 8
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T12:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-08T23:19:54.090906Z",
+            "uri": "https://api.calendly.com/scheduled_events/36ffab38-5e01-4bdb-8e1a-d101895ec98a"
+        },
+        {
+            "calendar_event": {
+                "external_id": "28g9qr3vokevu7778voi4t8vjg",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:05:51.692071Z",
+            "end_time": "2023-07-11T19:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 5,
+                "limit": 40,
+                "total": 5
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T19:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-07T16:11:13.208804Z",
+            "uri": "https://api.calendly.com/scheduled_events/daddfeca-857d-41f3-bd0b-f605b2965644"
+        },
+        {
+            "calendar_event": {
+                "external_id": "l2evgrvs1i42avh4fqmf512pso",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:06:31.833178Z",
+            "end_time": "2023-07-27T14:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 17,
+                "limit": 40,
+                "total": 18
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-27T14:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T14:36:52.219728Z",
+            "uri": "https://api.calendly.com/scheduled_events/a81c136e-47c6-448b-bf42-c8bf402ea416"
+        },
+        {
+            "calendar_event": {
+                "external_id": "v2oeu3p4hbgbeho23sqfrc65bo",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:07:25.909216Z",
+            "end_time": "2023-07-13T19:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 14,
+                "limit": 40,
+                "total": 16
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T19:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T16:52:56.293589Z",
+            "uri": "https://api.calendly.com/scheduled_events/b55a86b7-8ba2-4509-9326-fd78707b5c75"
+        },
+        {
+            "calendar_event": {
+                "external_id": "evg2df5m7qjak6jt7n1j6333ac",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:08:05.689429Z",
+            "end_time": "2023-07-10T17:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 13,
+                "limit": 40,
+                "total": 13
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T17:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T16:47:23.952198Z",
+            "uri": "https://api.calendly.com/scheduled_events/0e2b5c4a-f00c-4128-82b2-982fa1e6ff47"
+        },
+        {
+            "calendar_event": {
+                "external_id": "mib0o4r0g2u18rqhc8is2hgi08",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:08:50.009798Z",
+            "end_time": "2023-07-10T18:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 5,
+                "limit": 40,
+                "total": 5
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T17:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T17:39:26.223761Z",
+            "uri": "https://api.calendly.com/scheduled_events/87b3a2c1-f42f-4d6f-9287-1026c39d97a9"
+        },
+        {
+            "calendar_event": {
+                "external_id": "lk2u3e5dbts373vono8fc0ouhk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:09:06.695860Z",
+            "end_time": "2023-07-12T11:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 39,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-12T11:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-12T11:15:31.104911Z",
+            "uri": "https://api.calendly.com/scheduled_events/f1f7a1f9-8256-4650-a1c7-e4852d308941"
+        },
+        {
+            "calendar_event": {
+                "external_id": "1t1uu45vlbqo69sqp2e7f8lo7c",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:10:38.815531Z",
+            "end_time": "2023-07-25T20:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 22,
+                "limit": 40,
+                "total": 22
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-25T20:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T13:22:03.784721Z",
+            "uri": "https://api.calendly.com/scheduled_events/27cb6b2f-661e-45dd-a804-7aaa6df303da"
+        },
+        {
+            "calendar_event": {
+                "external_id": "6lhoggcs5l6t7qh8i7a4cudvnk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:12:24.205045Z",
+            "end_time": "2023-07-18T13:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 35,
+                "limit": 40,
+                "total": 39
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-18T13:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-18T13:22:19.341883Z",
+            "uri": "https://api.calendly.com/scheduled_events/e4dc7af8-c3a9-43fd-8939-3100bb87f280"
+        },
+        {
+            "calendar_event": {
+                "external_id": "8q3nv5ahpaqmajes0kprmh10j0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:13:16.132721Z",
+            "end_time": "2023-07-27T15:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 14,
+                "limit": 40,
+                "total": 14
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-27T14:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T00:43:52.501971Z",
+            "uri": "https://api.calendly.com/scheduled_events/32b5aa00-2ebc-4c2d-a8ad-8dd1b2a6871f"
+        },
+        {
+            "calendar_event": {
+                "external_id": "v2rmuamlh0v4t3fp0jffa9s4vo",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:13:16.733483Z",
+            "end_time": "2023-07-27T21:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 44
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-27T21:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-23T18:11:17.275707Z",
+            "uri": "https://api.calendly.com/scheduled_events/8d49262b-896a-41de-a748-60631f08c7b3"
+        },
+        {
+            "calendar_event": {
+                "external_id": "2gth7o2ak89kevo89m3nh2arvo",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:14:24.640541Z",
+            "end_time": "2023-07-25T15:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 24,
+                "limit": 40,
+                "total": 24
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-25T14:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T13:28:46.144177Z",
+            "uri": "https://api.calendly.com/scheduled_events/6605ef3f-b1b9-436c-a2ba-4bbdcfd52663"
+        },
+        {
+            "calendar_event": {
+                "external_id": "bdch0ha59h19s20rlmi1eo8qho",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:21:40.904322Z",
+            "end_time": "2023-07-18T21:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 12,
+                "limit": 40,
+                "total": 13
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-18T20:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-18T20:56:04.994575Z",
+            "uri": "https://api.calendly.com/scheduled_events/41b299d8-e47a-4a7f-b464-0db36f61d202"
+        },
+        {
+            "calendar_event": {
+                "external_id": "ovhubv0r4nmleb33na8mpuj2qg",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:25:54.469199Z",
+            "end_time": "2023-07-19T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 28,
+                "limit": 40,
+                "total": 29
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-19T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-19T02:50:00.402696Z",
+            "uri": "https://api.calendly.com/scheduled_events/78fba4ae-53b2-486a-97df-1cb785f18409"
+        },
+        {
+            "calendar_event": {
+                "external_id": "fkirtfg4vfq72qj1bo98etauts",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:29:30.143055Z",
+            "end_time": "2023-07-11T13:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 13,
+                "limit": 40,
+                "total": 15
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T13:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-11T13:22:05.528414Z",
+            "uri": "https://api.calendly.com/scheduled_events/6e76c432-e7f4-44ef-a9d5-49359470d4eb"
+        },
+        {
+            "calendar_event": {
+                "external_id": "ev3d3stanngjn338o26s8hj22g",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:30:12.663799Z",
+            "end_time": "2023-07-11T21:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 9,
+                "limit": 40,
+                "total": 9
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T20:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T20:36:02.578299Z",
+            "uri": "https://api.calendly.com/scheduled_events/26193be0-f52d-4abf-876d-97f6eb98eb56"
+        },
+        {
+            "calendar_event": {
+                "external_id": "mqqln9o98lsmnsbc1h21ajjic0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:30:48.983722Z",
+            "end_time": "2023-07-25T14:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 39,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-25T14:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T04:00:14.299982Z",
+            "uri": "https://api.calendly.com/scheduled_events/d3dad4d9-767c-4840-91e4-565b3be6f6c9"
+        },
+        {
+            "calendar_event": {
+                "external_id": "0tfih8nh4m2v14be037qucnf4s",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:31:14.648107Z",
+            "end_time": "2023-07-11T16:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 30,
+                "limit": 40,
+                "total": 33
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T16:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T15:58:21.167168Z",
+            "uri": "https://api.calendly.com/scheduled_events/ac6554dd-5342-4100-9fea-89e07a67dc37"
+        },
+        {
+            "calendar_event": {
+                "external_id": "j1gmlf1b968cd9ldqrdnvt9j7k",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:32:08.118930Z",
+            "end_time": "2023-07-18T16:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 20,
+                "limit": 40,
+                "total": 20
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-18T16:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-18T00:04:24.591652Z",
+            "uri": "https://api.calendly.com/scheduled_events/f4b5f8c9-d16c-4ba5-b784-a1d422d9bc3f"
+        },
+        {
+            "calendar_event": {
+                "external_id": "ubh7qh52hlcsq3148efcs39pqo",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:32:09.329280Z",
+            "end_time": "2023-07-25T20:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 9,
+                "limit": 40,
+                "total": 10
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-25T20:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T16:31:21.792634Z",
+            "uri": "https://api.calendly.com/scheduled_events/d923b4b7-4ca9-4d65-8a10-cfc68133e944"
+        },
+        {
+            "calendar_event": {
+                "external_id": "k1un5prtjqp0tra715nkcsmcg8",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:33:07.938829Z",
+            "end_time": "2023-07-10T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 27,
+                "limit": 40,
+                "total": 28
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T13:07:47.125393Z",
+            "uri": "https://api.calendly.com/scheduled_events/db193351-09ac-4e3b-8a01-8d205de149ed"
+        },
+        {
+            "calendar_event": {
+                "external_id": "p23o4g43m0v705us95ddl4nnig",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:36:47.785905Z",
+            "end_time": "2023-07-11T17:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 21,
+                "limit": 40,
+                "total": 22
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T17:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T16:59:20.420909Z",
+            "uri": "https://api.calendly.com/scheduled_events/f14d9e60-d95d-473a-baf3-9b74830428b9"
+        },
+        {
+            "calendar_event": {
+                "external_id": "l3encatdhsp9mb73h4kvdgjauk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:38:50.912076Z",
+            "end_time": "2023-07-10T15:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 21,
+                "limit": 40,
+                "total": 21
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T14:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-08T22:00:23.011525Z",
+            "uri": "https://api.calendly.com/scheduled_events/bd6a56fb-9fa6-425a-9ca5-8929ee9637a7"
+        },
+        {
+            "calendar_event": {
+                "external_id": "2pfu68grer0a84dgeoc8rtupeg",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:38:59.150957Z",
+            "end_time": "2023-07-18T19:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 4,
+                "limit": 40,
+                "total": 4
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-18T19:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-18T14:34:27.274910Z",
+            "uri": "https://api.calendly.com/scheduled_events/42ae71ce-f789-4bdd-af75-dc06bfad3f87"
+        },
+        {
+            "calendar_event": {
+                "external_id": "a67674a6mao0b0qilb2n3e8e7c",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:41:06.299645Z",
+            "end_time": "2023-07-18T16:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 37,
+                "limit": 40,
+                "total": 39
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-18T16:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-18T15:21:20.539341Z",
+            "uri": "https://api.calendly.com/scheduled_events/8248e745-ed7e-4e2a-b264-39ec69281adf"
+        },
+        {
+            "calendar_event": {
+                "external_id": "0cianlms4fh55fk06mi4bcpr7k",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:47:57.731441Z",
+            "end_time": "2023-07-17T14:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 12,
+                "limit": 40,
+                "total": 12
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T13:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-16T14:29:38.144037Z",
+            "uri": "https://api.calendly.com/scheduled_events/0522cae6-98f8-439b-baac-7affc4d4e525"
+        },
+        {
+            "calendar_event": {
+                "external_id": "ifs4728rj701024ntpdquvibr4",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:51:10.291564Z",
+            "end_time": "2023-07-17T17:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 24,
+                "limit": 40,
+                "total": 24
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T17:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-17T13:22:47.145709Z",
+            "uri": "https://api.calendly.com/scheduled_events/f142ac7b-f858-4c91-82e9-63cf6c162255"
+        },
+        {
+            "calendar_event": {
+                "external_id": "tioo6lmave65df7neckgu9v9e8",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:52:14.199349Z",
+            "end_time": "2023-07-26T16:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 34,
+                "limit": 40,
+                "total": 36
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-26T16:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T17:54:43.149665Z",
+            "uri": "https://api.calendly.com/scheduled_events/79323329-a225-4cca-a5d9-590bfc1fe4df"
+        },
+        {
+            "calendar_event": {
+                "external_id": "bajjrsgk75osdkdf5op0s9ekck",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:52:17.389431Z",
+            "end_time": "2023-07-25T19:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 14,
+                "limit": 40,
+                "total": 18
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-25T19:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T17:55:13.547258Z",
+            "uri": "https://api.calendly.com/scheduled_events/4b5c217b-4c50-468b-89c5-e01e84f657c0"
+        },
+        {
+            "calendar_event": {
+                "external_id": "32h9tm22k2i2pc65l9ireesds0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:55:34.154824Z",
+            "end_time": "2023-07-24T17:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-24T17:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-23T01:37:13.944692Z",
+            "uri": "https://api.calendly.com/scheduled_events/de40de4e-3f19-40f5-bf53-717cc69d2366"
+        },
+        {
+            "calendar_event": {
+                "external_id": "mvvo6svvf2ceosfo34ivag54hk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:56:34.364053Z",
+            "end_time": "2023-07-10T18:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 11,
+                "limit": 40,
+                "total": 11
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T18:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-08T16:59:02.948888Z",
+            "uri": "https://api.calendly.com/scheduled_events/73c0d27b-db49-4d93-90fb-bc50eb22deeb"
+        },
+        {
+            "calendar_event": {
+                "external_id": "mh0nmmheimb7aqs21rq4qvpbsg",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T21:58:19.396901Z",
+            "end_time": "2023-07-11T21:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 15,
+                "limit": 40,
+                "total": 17
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T21:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-11T12:44:13.789684Z",
+            "uri": "https://api.calendly.com/scheduled_events/fd67d4dc-39d8-4c96-b1f8-b35ee9c2dce9"
+        },
+        {
+            "calendar_event": {
+                "external_id": "5s2bjcrjtd9rg8i6teqv8rd6as",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:01:20.659945Z",
+            "end_time": "2023-07-17T11:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T11:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-11T00:53:22.154535Z",
+            "uri": "https://api.calendly.com/scheduled_events/2f25d198-71aa-458f-b500-fc127a5389fc"
+        },
+        {
+            "calendar_event": {
+                "external_id": "0mjn9lq8jqfk8j27er4l0vhr34",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:13:49.555081Z",
+            "end_time": "2023-07-11T20:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 13,
+                "limit": 40,
+                "total": 13
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T20:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T20:24:45.779188Z",
+            "uri": "https://api.calendly.com/scheduled_events/e948d877-820a-4bec-82ce-b7b3a6ecd879"
+        },
+        {
+            "calendar_event": {
+                "external_id": "7sf8ha1l3gec5dllgj58fd8au0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:18:44.886861Z",
+            "end_time": "2023-07-13T21:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 38,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T21:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T20:18:38.730293Z",
+            "uri": "https://api.calendly.com/scheduled_events/d4c5d007-13fe-48b3-a740-7c1af796f4d6"
+        },
+        {
+            "calendar_event": {
+                "external_id": "86g3246m5fi0fg7ilil4c61np0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:19:32.251945Z",
+            "end_time": "2023-07-13T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 38,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T10:49:26.386034Z",
+            "uri": "https://api.calendly.com/scheduled_events/15525b0a-c3ac-4f4c-8fd1-98852f2d778a"
+        },
+        {
+            "calendar_event": {
+                "external_id": "rvgfd7ngh9rg27v2pivohvc9g8",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:24:27.060962Z",
+            "end_time": "2023-07-13T18:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 10,
+                "limit": 40,
+                "total": 10
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T17:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T13:35:11.075858Z",
+            "uri": "https://api.calendly.com/scheduled_events/8dd86140-2df6-4db5-a36a-9c9336bdf989"
+        },
+        {
+            "calendar_event": {
+                "external_id": "st4rsavass478b5npgma508uqo",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:24:35.634368Z",
+            "end_time": "2023-07-20T14:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-20T14:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-19T21:10:52.856440Z",
+            "uri": "https://api.calendly.com/scheduled_events/c574bad6-0218-4f20-b638-4dbe22f2fbbd"
+        },
+        {
+            "calendar_event": {
+                "external_id": "kglh7ok22t7rtplk5ssn6qjets",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:28:42.504321Z",
+            "end_time": "2023-07-20T20:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 24,
+                "limit": 40,
+                "total": 27
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-20T20:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-20T18:47:16.052056Z",
+            "uri": "https://api.calendly.com/scheduled_events/dc4aaa5c-41c6-4dc9-bc26-2dfc602a73a4"
+        },
+        {
+            "calendar_event": {
+                "external_id": "1ibeqvid295m4h4i73d9im84m0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:30:01.190446Z",
+            "end_time": "2023-07-19T16:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 9,
+                "limit": 40,
+                "total": 12
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-19T16:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-19T14:56:01.505968Z",
+            "uri": "https://api.calendly.com/scheduled_events/6eb7127c-cfab-4add-a656-620e3717364e"
+        },
+        {
+            "calendar_event": {
+                "external_id": "g81pojtivsp23mmcsqtsgkqqu8",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:35:36.312235Z",
+            "end_time": "2023-07-20T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-20T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-19T11:04:01.282922Z",
+            "uri": "https://api.calendly.com/scheduled_events/f3290321-4c5f-4d0c-83a0-18f8bbbbeab8"
+        },
+        {
+            "calendar_event": {
+                "external_id": "a53k0ifj5vsq9q3597itf33kj0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:37:08.424263Z",
+            "end_time": "2023-07-19T12:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 6,
+                "limit": 40,
+                "total": 6
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-19T12:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-18T19:17:52.076032Z",
+            "uri": "https://api.calendly.com/scheduled_events/1584bd62-24a3-4e54-804a-d6f3b9f4ecdf"
+        },
+        {
+            "calendar_event": {
+                "external_id": "6up2781p6fslov4dubnk4pskq0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:38:11.533472Z",
+            "end_time": "2023-07-13T18:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 26,
+                "limit": 40,
+                "total": 29
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T18:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T17:33:16.876168Z",
+            "uri": "https://api.calendly.com/scheduled_events/a4ceaa28-acf3-47cc-87a6-f38a9dfdeb72"
+        },
+        {
+            "calendar_event": {
+                "external_id": "8qr82li9p0sq493cnh3amnc64o",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:38:49.137733Z",
+            "end_time": "2023-07-27T20:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 9,
+                "limit": 40,
+                "total": 9
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-27T20:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T00:08:34.158880Z",
+            "uri": "https://api.calendly.com/scheduled_events/ee293ad5-25be-4d57-ab99-1afd3ce135c5"
+        },
+        {
+            "calendar_event": {
+                "external_id": "1247t91t08jeg51mhudfmecloo",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:41:42.500052Z",
+            "end_time": "2023-07-12T14:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 36,
+                "limit": 40,
+                "total": 38
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-12T14:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-12T09:08:00.139454Z",
+            "uri": "https://api.calendly.com/scheduled_events/5e8a6131-ed3a-42b4-8256-080a2c11030b"
+        },
+        {
+            "calendar_event": {
+                "external_id": "juelrabtj26vgrcnoho659g9h4",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:43:19.979733Z",
+            "end_time": "2023-07-10T17:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 7,
+                "limit": 40,
+                "total": 11
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T17:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T02:10:42.151692Z",
+            "uri": "https://api.calendly.com/scheduled_events/1d6bd53a-ec44-4fed-841b-b62bc9ee896b"
+        },
+        {
+            "calendar_event": {
+                "external_id": "3buivf558cnbegpgci6in31bfk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:46:22.608368Z",
+            "end_time": "2023-07-11T18:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 10,
+                "limit": 40,
+                "total": 10
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T18:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T17:55:16.721948Z",
+            "uri": "https://api.calendly.com/scheduled_events/cb138e2f-98b2-4c2e-a7b3-dfe12cce2f43"
+        },
+        {
+            "calendar_event": {
+                "external_id": "4sjkgs05s7i3js98fqu0bd9fc4",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:48:37.128940Z",
+            "end_time": "2023-07-17T17:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 27,
+                "limit": 40,
+                "total": 27
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T17:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-17T12:58:13.242668Z",
+            "uri": "https://api.calendly.com/scheduled_events/a09f5bb0-2a39-4e79-a60b-dc2517c29e7e"
+        },
+        {
+            "calendar_event": {
+                "external_id": "146im9j5s1emfrs1nosumco1u4",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:51:41.599512Z",
+            "end_time": "2023-07-11T14:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 8,
+                "limit": 40,
+                "total": 8
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T14:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T14:12:52.826877Z",
+            "uri": "https://api.calendly.com/scheduled_events/70206a0d-aa92-48d5-af65-1b70ea4c82b9"
+        },
+        {
+            "calendar_event": {
+                "external_id": "80unbgukdgpcppgc5vjlf5boss",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:58:16.509526Z",
+            "end_time": "2023-07-24T11:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 39,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-24T11:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-24T10:57:14.242328Z",
+            "uri": "https://api.calendly.com/scheduled_events/f24de359-3824-49d6-838e-f015380bdf72"
+        },
+        {
+            "calendar_event": {
+                "external_id": "opt29pdmdhnqvl2uo0b2qfuqgk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T22:58:37.877117Z",
+            "end_time": "2023-07-13T16:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 39,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T16:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T04:54:49.601873Z",
+            "uri": "https://api.calendly.com/scheduled_events/7a3f51a9-b768-4588-a113-c329c4e46ef7"
+        },
+        {
+            "calendar_event": {
+                "external_id": "jgi3lr25bnrh02k2kp5mr44ihk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:03:15.641104Z",
+            "end_time": "2023-07-27T20:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 22,
+                "limit": 40,
+                "total": 23
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-27T20:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-25T17:32:54.853633Z",
+            "uri": "https://api.calendly.com/scheduled_events/0de8a147-556c-47cd-8ea7-551130e58cf7"
+        },
+        {
+            "calendar_event": {
+                "external_id": "efubgdhq96r0f244r5ueheg1pk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:04:29.282428Z",
+            "end_time": "2023-07-24T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-24T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-24T03:37:02.905298Z",
+            "uri": "https://api.calendly.com/scheduled_events/6b3fc749-2141-40e8-b61e-2f505bbf0024"
+        },
+        {
+            "calendar_event": {
+                "external_id": "io1m1dbt64fidsca7mc08ss828",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:10:33.716079Z",
+            "end_time": "2023-07-20T13:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 43
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-20T13:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-20T12:26:22.216478Z",
+            "uri": "https://api.calendly.com/scheduled_events/5f060751-12d0-4027-92be-a361e3dff8e1"
+        },
+        {
+            "calendar_event": {
+                "external_id": "t1udbq7ek80lq04imkir14shok",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:12:02.558193Z",
+            "end_time": "2023-07-11T14:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 12,
+                "limit": 40,
+                "total": 13
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-11T14:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-10T14:52:14.274535Z",
+            "uri": "https://api.calendly.com/scheduled_events/0eb198c8-a348-4275-a6b4-2a7a243db282"
+        },
+        {
+            "calendar_event": {
+                "external_id": "g34g2ljmd8re48ikds9dqtrvjg",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:13:18.425784Z",
+            "end_time": "2023-07-10T18:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 4,
+                "limit": 40,
+                "total": 5
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T18:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T14:18:42.547993Z",
+            "uri": "https://api.calendly.com/scheduled_events/11203e76-8951-476f-99aa-e33ad6b6afbc"
+        },
+        {
+            "calendar_event": {
+                "external_id": "gtk4k228d1i4bp5d2qefcp9aho",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:15:11.191794Z",
+            "end_time": "2023-07-17T13:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 30,
+                "limit": 40,
+                "total": 30
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-17T13:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-16T23:25:13.424670Z",
+            "uri": "https://api.calendly.com/scheduled_events/f0b29191-5aa5-41cc-859b-6d1bd3e25375"
+        },
+        {
+            "calendar_event": {
+                "external_id": "u8di7haqs3eo70fvepc768ruog",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:23:16.281854Z",
+            "end_time": "2023-07-13T20:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 39,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T20:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T19:58:54.873535Z",
+            "uri": "https://api.calendly.com/scheduled_events/4d4d257d-be83-4d6d-919c-a67b72603569"
+        },
+        {
+            "calendar_event": {
+                "external_id": "75elobcf321f6dcddo3om07638",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:35:24.817716Z",
+            "end_time": "2023-07-18T13:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 42
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-18T13:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T20:31:18.888762Z",
+            "uri": "https://api.calendly.com/scheduled_events/e256b399-78ee-4c38-9899-465e60c2b71d"
+        },
+        {
+            "calendar_event": {
+                "external_id": "05024rv0g9825kuqhdqrikvepo",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:46:23.211189Z",
+            "end_time": "2023-07-25T21:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 41
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-25T21:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-24T23:55:22.516121Z",
+            "uri": "https://api.calendly.com/scheduled_events/314de095-39bb-4f23-8136-19066dc9eadb"
+        },
+        {
+            "calendar_event": {
+                "external_id": "k3oomrpgp6vh74fdelp61q8f74",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:49:22.020205Z",
+            "end_time": "2023-07-19T16:15:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 32,
+                "limit": 40,
+                "total": 39
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-19T16:00:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-19T15:54:36.667825Z",
+            "uri": "https://api.calendly.com/scheduled_events/e44c93cf-5b8a-4e9a-a1c6-05033ebfb900"
+        },
+        {
+            "calendar_event": {
+                "external_id": "vr29t8jq31djnu87kak0sum1s0",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:51:15.462075Z",
+            "end_time": "2023-07-24T17:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 15,
+                "limit": 40,
+                "total": 15
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-24T17:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-24T11:48:15.253746Z",
+            "uri": "https://api.calendly.com/scheduled_events/8dd22832-179f-43d1-8f8d-d7757a7fbcc3"
+        },
+        {
+            "calendar_event": {
+                "external_id": "1ffdjulamv8c87r4ih5ajdmod4",
+                "kind": "google"
+            },
+            "created_at": "2023-07-05T23:52:31.180598Z",
+            "end_time": "2023-07-12T13:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-12T13:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-11T21:42:01.342947Z",
+            "uri": "https://api.calendly.com/scheduled_events/4e35b5fe-603a-4a7d-8d76-b6129680cea6"
+        },
+        {
+            "calendar_event": {
+                "external_id": "5v3urqhev02m35q00ivul4j6uk",
+                "kind": "google"
+            },
+            "created_at": "2023-07-06T00:07:47.136754Z",
+            "end_time": "2023-07-12T18:45:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 40
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-12T18:30:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-12T14:16:46.381657Z",
+            "uri": "https://api.calendly.com/scheduled_events/10b3281d-6c7c-4829-a9b7-992ad869aba6"
+        },
+        {
+            "calendar_event": {
+                "external_id": "4geb30ell3qk94a89uqnlra67s",
+                "kind": "google"
+            },
+            "created_at": "2023-07-06T00:15:05.906409Z",
+            "end_time": "2023-07-20T14:30:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 20,
+                "limit": 40,
+                "total": 20
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-20T14:15:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-20T00:53:31.975342Z",
+            "uri": "https://api.calendly.com/scheduled_events/531b4691-1657-4404-8f34-647e3053a0f4"
+        },
+        {
+            "calendar_event": {
+                "external_id": "2g8ioasbp1di6mr6ba31ltr6js",
+                "kind": "google"
+            },
+            "created_at": "2023-07-06T00:20:43.889224Z",
+            "end_time": "2023-07-10T13:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 8,
+                "limit": 40,
+                "total": 8
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-10T12:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-09T12:39:44.217416Z",
+            "uri": "https://api.calendly.com/scheduled_events/3486f01b-c52f-4836-a495-871ca4917b3c"
+        },
+        {
+            "calendar_event": {
+                "external_id": "g2r5op96hma07a7e55n8755q6k",
+                "kind": "google"
+            },
+            "created_at": "2023-07-06T00:24:55.598120Z",
+            "end_time": "2023-07-13T15:00:00.000000Z",
+            "event_guests": [],
+            "event_memberships": [
+                {
+                    "user": "https://api.calendly.com/users/HFBARTHU4SLR3OZG",
+                    "user_email": "techdepot@flaglerschools.com"
+                }
+            ],
+            "event_type": "https://api.calendly.com/event_types/HGA65FR4OR6U47OY",
+            "invitees_counter": {
+                "active": 40,
+                "limit": 40,
+                "total": 43
+            },
+            "location": {
+                "location": "https://goo.gl/maps/1FjAg62U1hmiN8mM9",
+                "type": "physical"
+            },
+            "name": "23.24 DLMR Drive-thru Device Pickup",
+            "start_time": "2023-07-13T14:45:00.000000Z",
+            "status": "active",
+            "updated_at": "2023-07-13T08:58:33.177429Z",
+            "uri": "https://api.calendly.com/scheduled_events/ad0d339b-7f0d-4476-931e-c42785294b06"
+        }
+    ],
+    "pagination": {
+        "count": 100,
+        "next_page": "https://api.calendly.com/scheduled_events?count=100&max_start_time=2023-12-25T00%3A00%3A00.000000Z&min_start_time=2023-07-10T00%3A00%3A00.000000Z&organization=https%3A%2F%2Fapi.calendly.com%2Forganizations%2FDECCOAJRZFYYECHL&page_token=RbqIudTUK7VRu35OEjxZFhZYzcZAqUGW&status=active",
+        "next_page_token": "RbqIudTUK7VRu35OEjxZFhZYzcZAqUGW",
+        "previous_page": null,
+        "previous_page_token": null
+    }
+}

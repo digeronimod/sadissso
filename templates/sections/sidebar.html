@@ -1,0 +1,40 @@
+{% load static %}
+<div class="flex flex-row min-h-screen">
+    <div @click.away="open = false" class="w-64 flex flex-col flex-shrink-0 bg-gray-800 text-white" x-data="{ open: false }">
+        <div class="flex flex-row flex-shrink-0 justify-between items-center px-8 py-4">
+            <a href="{% url 'inventory:home' %}" class="text-lg font-semibold rounded-lg tracking-widest uppercase focus:outline-none focus:shadow-outline">SADIS</a>
+        </div>
+        <hr />
+        <nav class="flex-grow block px-4 pb-0 overflow-y-auto">
+            <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg hover:bg-gray-700 focus:bg-gray-600 focus:outline-none focus:shadow-outline" href="#"><i class="fa-duotone fa-home fa-fw mr-2"></i>Home</a>
+            <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg hover:bg-gray-700 focus:bg-gray-600 focus:outline-none focus:shadow-outline" href="#">Users</a>
+            <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg hover:bg-gray-700 focus:bg-gray-600 focus:outline-none focus:shadow-outline" href="#">Devices</a>
+            <div @click.away="open = false" class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg block hover:bg-gray-700 focus:bg-gray-600 focus:outline-none focus:shadow-outline">
+                    <span class="mr-2">Modes</span>
+                    <span :class="{'rotate-180': open, 'rotate-0': !open}" class="transition-transform duration-200 transform"><i class="fa-light fa-chevron-down"></i></span>
+                </button>
+                <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-1 origin-top-right rounded-md shadow-lg z-10">
+                    <div class="px-2 py-2 bg-gray-600 rounded-md shadow">
+                        <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:bg-gray-500 focus:bg-gray-400 focus:outline-none focus:shadow-outline" href="#">Link #1</a>
+                        <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:bg-gray-500 focus:bg-gray-400 focus:outline-none focus:shadow-outline" href="#">Link #2</a>
+                        <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:bg-gray-500 focus:bg-gray-400 focus:outline-none focus:shadow-outline" href="#">Link #3</a>
+                    </div>
+                </div>
+            </div>
+            <div @click.away="open = false" class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg block hover:bg-gray-700 focus:bg-gray-600 focus:outline-none focus:shadow-outline">
+                    <span class="mr-2">Tools</span>
+                    <span :class="{'rotate-180': open, 'rotate-0': !open}" class="transition-transform duration-200 transform"><i class="fa-light fa-chevron-down"></i></span>
+                </button>
+                <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-1 origin-top-right rounded-md shadow-lg z-10">
+                    <div class="px-2 py-2 bg-gray-600 rounded-md shadow">
+                        <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:bg-gray-500 focus:bg-gray-400 focus:outline-none focus:shadow-outline" href="#">Link #1</a>
+                        <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:bg-gray-500 focus:bg-gray-400 focus:outline-none focus:shadow-outline" href="#">Link #2</a>
+                        <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 hover:bg-gray-500 focus:bg-gray-400 focus:outline-none focus:shadow-outline" href="#">Link #3</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

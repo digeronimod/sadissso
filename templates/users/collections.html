@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load allowance humanize qurl static %}
+{% block title %}Collections Tool{% endblock %}
+{% block content %}
+<div class="uk-section uk-section-muted uk-padding uk-padding-remove-top">
+    <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-card-body">
+                    <div class="uk-grid-small uk-child-width-1-2@m" data-uk-grid>
+                        <div>
+                            <form class="uk-grid-collapse uk-flex uk-flex-center" method="GET" data-uk-grid>
+                                <div class="uk-button-group uk-width-expand">
+                                    <input class="uk-input uk-width-1-1" type="search" name="search" value="{{ request.GET.search }}" placeholder="Search by school ID, name, or username" style="border-right:0">
+                                        <a class="uk-form-icon uk-form-icon-flip uk-width-auto" href="{% qurl request.get_full_path person=None %}" style="right:125px;opacity:30%" data-uk-tooltip="Reset Search">
+                                            <i class="fas fa-times" style="font-size:18px"></i>
+                                        </a>
+                                    </input>
+                                    <button type="submit" class="uk-button uk-button-primary">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <form id="device-owner-form">
+                                <div class="uk-button-group uk-width-expand">
+                                    <input class="uk-input uk-width-1-1" type="search" id="device-owner-search" name="device" placeholder="Search by asset tag or serial" style="border-right:0" autofocus>
+                                        <a class="uk-form-icon uk-form-icon-flip uk-width-auto" href="{% qurl request.get_full_path device=None %}" style="right:125px;opacity:30%" data-uk-tooltip="Reset Search">
+                                            <i class="fas fa-times" style="font-size:18px"></i>
+                                        </a>
+                                    </input>
+                                    <button id="device-owner-submit" type="submit" class="uk-button uk-button-primary">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-small">
+                <div class="uk-card-body">
+                    <div class="uk-grid-small uk-flex-middle" data-uk-grid>
+                        <div class="uk-width-auto">
+                            <i class="fas fa-tools fa-3x"></i>
+                        </div>
+                        <div class="uk-width-expand">
+                            <span class="uk-card-title">Collections Tool</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if collections_expired %}
+        <div>
+            <div class="uk-alert-warning" data-uk-alert>
+                <p>The <b>Collections Tool</b> is currently disabled. You can view or search the data, but you cannot collect devices via this tool until collections resume.</p>
+            </div>
+        </div>
+        {% endif %}
+        <div>
+            <div class="uk-card uk-card-default uk-card-small">
+                <div class="uk-overflow-auto">
+                    <table class="uk-table uk-table-hover uk-table-small uk-table-middle uk-table-striped" style="min-width:700px">
+                        <thead>
+                            <tr>
+                                <th class="uk-width-large">User</th>
+                                <th class="uk-width-large">Location</th>
+                                <th class="uk-width-auto">Device</th>
+                                <th class="uk-width-auto">Charger(s)</th>
+                                <th class="uk-width-small">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in entries %}
+                            <tr style="{% if record.student.status.id == 'SP' %}background-color:#fee2e2;{% endif %}">
+                                <td class="uk-table-link">
+                                    <a class="uk-link-reset" href="{% url 'users:detail_students' record.student.id %}">
+                                        <span class="uk-text-bold">{{ record.student.name }}</span>
+                                        <div class="uk-text-small">
+                                            <i class="fas fa-user"></i> {{ record.student.username}}
+                                        </div>
+                                    </a>
+                                </td>
+                                <td class="uk-text-small">
+                                    <span class="uk-text-bold">{{ record.student.location.name }}</span>
+                                    <div class="uk-text-meta">
+                                        {% if record.student.get_grade_full %}
+                                        <div class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical">
+                                            <i class="fas fa-graduation-cap"></i>
+                                            <span class="uk-hidden@m">&nbsp;{{ record.student.get_grade }}</span>
+                                            <span class="uk-visible@m">&nbsp;{{ record.student.get_grade_full }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if record.student.role %}
+                                        <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical">
+                                            {% if record.student.role.id == 'OTO' %}1:1{% else %}{{ record.student.role.id }}{% endif %}
+                                        </span>
+                                        {% endif %}
+                                        {% if record.student.get_remote_status == 'Yes' %}
+                                        <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="Remote Student">R</span>
+                                        {% endif %}
+                                        {% if record.student.status.id == 'SP' %}
+                                        <span class="uk-badge uk-badge-default uk-padding-small uk-padding-remove-vertical" data-uk-tooltip="Summer Student">SP</span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{% url 'assets:detail' record.device.id %}" target="_blank">{{ record.device.id }}</a>
+                                    <div class="uk-text-meta">
+                                        {{ record.device.foreign_model.name }}
+                                    </div>
+                                </td>
+                                <td>
+                                {% for key, value in chargers.items %}
+                                    {% if key == record.student.id %}
+                                        {% for item in value %}
+                                        {% if forloop.first %}{% else%}<br />{% endif %}<span class="uk-badge uk-padding-remove-vertical" style="width:100px">{{ item }}</span>
+                                        {% empty %}
+                                        <span class="uk-badge uk-padding-remove-vertical" style="border:#dedede 1px solid;background-color:transparent;color:#aeaeae;width:100px">0</span>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% empty %}
+                                Empty
+                                {% endfor %}
+                                </td>
+                                <td class="uk-text-small">
+                                    {% if collections_expired == True %}
+                                    <button type="button" class="collect-button uk-button uk-button-small uk-button-danger" disabled>Collect</button>
+                                    {% else %}
+                                    <button type="button" class="collect-button uk-button uk-button-small uk-button-danger" data-record="{{ record.id }}">Collect</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="uk-text-center">There are no results for your search query.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            {% include 'sections/pagination.html' %}
+        </div>
+    </div>
+</div>
+<div id="collect-device-modal" data-uk-modal>
+    {% csrf_token %}
+    <div class="uk-modal-dialog" data-uk-height-viewport>
+        <button type="button" class="uk-modal-close-full uk-close-large" data-uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Collect Device</h2>
+        </div>
+        <div id="collect-device-content"></div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $(".collect-button").each(function() {
+        var $this = $(this);
+
+        $this.on("click", function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: "{% url 'users:collect_device' %}",
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    record_id: $(this).data("record")
+                },
+                success: function(response) {
+                    openModal(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+
+            function openModal(data) {
+                $("#collect-device-content").replaceWith(data);
+                UIkit.modal("#collect-device-modal").show();
+            }
+        });
+    });
+
+    $(document).on("submit", "#device-owner-form", function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: "get-device-owner",
+                device_identifier: $('#device-owner-search').val()
+            },
+            success: function(response) {
+                if (response.success == true) {
+                    location.assign(response.redirect_url);
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

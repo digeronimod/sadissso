@@ -1,0 +1,201 @@
+{% load static humanize %}
+<div id="modify-device-content" class="uk-margin-top">
+    <div id="modify-device-notifications"></div>
+    <form id="modify-device-form">
+        {% csrf_token %}
+        <h4 class="uk-text-bold uk-margin-remove-vertical">{{ device.manufacturer }} {{ device.foreign_model.name }}</h4>
+        <h5 class="uk-margin-remove-vertical"><a href="{% url 'assets:detail' device.id %}" target="_blank">{{ device.id }}</a> &centerdot; {{ device.serial }}</h5>
+        <div class="uk-margin-small">
+            <b>Owner:</b> <a href="" target="_blank">{{ owner.name }}</a>
+            <br /><b>School ID:</b> {{ owner.id }}
+        </div>
+        <h5 class="uk-heading-divider uk-margin-top uk-text-uppercase uk-text-bold">Device Assessment</h5>
+        <div class="uk-margin">
+            <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                <div class="uk-width-1-1">
+                    <label class="uk-form-label"><input id="device-damage-none" type="checkbox" class="uk-checkbox" /> No Damages</label>
+                </div>
+                <div class="device-damages">
+                    <label class="uk-form-label uk-text-bold">Non-finable Offenses:</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-dd" type="checkbox" name="device-damages" class="uk-checkbox" /> Dings / Dents</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-edd" type="checkbox" name="device-damages" class="uk-checkbox" /> Excessive Dents / Damage</label>
+                    {% if 'MacBook' in device.foreign_model.name %}
+                    <br /><label class="uk-form-label"><input id="device-damages-ccd" type="checkbox" name="device-damages" class="uk-checkbox" /> Clutch Cover Damaged</label>
+                    {% endif %}
+                    <br /><label class="uk-form-label"><input id="device-damages-lis" type="checkbox" name="device-damages" class="uk-checkbox" /> Line in Screen</label>
+                    {% if 'MacBook' in device.foreign_model.name %}
+                    <br /><label class="uk-form-label"><input id="device-damages-tnc" type="checkbox" name="device-damages" class="uk-checkbox" /> Trackpad Doesn't Click</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-ms" type="checkbox" name="device-damages" class="uk-checkbox" /> Missing Screws</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-mkr" type="checkbox" name="device-damages" class="uk-checkbox" /> Missing Keys (Repairable)</label>
+                    {% endif %}
+                    <br /><label class="uk-form-label"><input id="device-damages-bci" type="checkbox" name="device-damages" class="uk-checkbox" /> Battery / Charging Issue</label>
+                </div>
+                <div class="device-damages">
+                    <label class="uk-form-label uk-text-bold">Finable Offenses:</label>
+                    <br /><label class="uk-form-label"><input id="device-damages-cs" type="checkbox" name="device-damages" class="uk-checkbox" /> Cracked Screen</label>
+                    {% if 'MacBook' in device.foreign_model.name %}
+                    <br /><label class="uk-form-label"><input id="device-damages-tc" type="checkbox" name="device-damages" class="uk-checkbox" /> Trackpad Cracked</label>
+                    {% endif %}
+                    <br /><label class="uk-form-label"><input id="device-damages-prt" type="checkbox" name="device-damages" class="uk-checkbox" /> Port(s) Damage
+                    <br /><label class="uk-form-label"><input id="device-damages-ld" type="checkbox" name="device-damages" class="uk-checkbox" /> Liquid Damage</label>
+                    {% if 'MacBook' in device.foreign_model.name %}
+                    <br /><label class="uk-form-label"><input id="device-damages-mku" type="checkbox" name="device-damages" class="uk-checkbox" /> Missing Keys (Unrepairable)</label>
+                    {% endif %}
+                </div>
+            </div>
+            <script>
+            var deviceMasterCheck = $("#device-damage-none");
+
+            deviceMasterCheck.on("click", function() {
+                var isDeviceMasterChecked = $(this).is(":checked");
+
+                $(".device-damages input:checkbox").each(function() {
+                    $this = $(this);
+
+                    $this.attr("disabled", isDeviceMasterChecked);
+
+                    if (isDeviceMasterChecked) {
+                        $this.prop("checked", false);
+                    }
+                });
+            });
+            </script>
+        </div>
+        <h5 class="uk-heading-divider uk-margin-top uk-text-uppercase uk-text-bold">Staging Information</h5>
+        <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+            <div>
+                <label class="uk-form-label">What bin is this device going into?</label>
+                <input id="device-bin" class="uk-input" placeholder="GS0" maxlength="10" required />
+            </div>
+        </div>
+        <h5 class="uk-heading-divider uk-margin uk-text-uppercase uk-text-bold">Additional Information</h5>
+        <div class="uk-margin-small">
+            <p class="uk-form-label" style="margin-bottom:4px">Why are you modifying the device? (Quick Notes)</p>
+            <div class="uk-grid-small uk-child-width-1-1" data-uk-grid>
+                <div>
+                    <label class="uk-form-label"><input type="checkbox" id="device-quicknote-af" class="uk-checkbox" /> "Adding fine(s) for damage(s)."</label>
+                    <br /><label class="uk-form-label"><input type="checkbox" id="device-quicknote-solwod" class="uk-checkbox" /> "Swapping out loaner with original device issued."</label>
+                    <br /><label class="uk-form-label"><input type="checkbox" id="device-quicknote-soowld" class="uk-checkbox" /> "Swapping out original device issued with loaner."</label>
+                    <br /><label class="uk-form-label"><input type="checkbox" id="device-quicknote-drfw" class="uk-checkbox" /> "Device returned for withdrawl."</label>
+                    <br /><label class="uk-form-label"><input type="checkbox" id="device-quicknote-drfg" class="uk-checkbox" /> "Device returned for graduation."</label>
+                </div>
+            </div>
+            <script>
+            $("#modify-device-form #device-quicknote-af").click(function() {
+                if ($(this).prop("checked")) {
+                    $("#modify-device-form #device-note").append("Adding fine(s) for damage(s). ");
+                }
+            });
+
+            $("#modify-device-form #device-quicknote-solwod").click(function() {
+                if ($(this).prop("checked")) {
+                    $("#modify-device-form #device-note").append("Swapping out loaner with original device issued. ");
+                }
+            });
+
+            $("#modify-device-form #device-quicknote-soowld").click(function() {
+                if ($(this).prop("checked")) {
+                    $("#modify-device-form #device-note").append("Swapping out original device issued with loaner. ");
+                }
+            });
+
+            $("#modify-device-form #device-quicknote-drfw").click(function() {
+                if ($(this).prop("checked")) {
+                    $("#modify-device-form #device-note").append("Device returned for withdrawl. ");
+                }
+            });
+
+            $("#modify-device-form #device-quicknote-drfg").click(function() {
+                if ($(this).prop("checked")) {
+                    $("#modify-device-form #device-note").append("Device returned for graduation. ");
+                }
+            });
+            </script>
+        </div>
+        <div class="uk-margin-small">
+            <label class="uk-form-label">Why are you checking in the device?</label>
+            <textarea id="device-note" rows="3" class="uk-textarea" style="resize: none;" placeholder="User cracked the screen and it needs to be repaired." required></textarea>
+        </div>
+        <div class="uk-margin-small">
+            <label class="uk-form-label"><input type="checkbox" id="checkin-receipt-activate" class="uk-checkbox" /> Send a device check-in receipt</label>
+        </div>
+        <div class="uk-margin-small uk-hidden">
+            <p>A receipt will be sent to {{ user_email }}. Please enter any other email addresses to send the receipt to, separated by commas.</p>
+            <input id="checkin-receipt-emails" class="uk-input" placeholder="john@doe.com, jane@doe.com" />
+        </div>
+        <script>
+        $(document).on("change", "#checkin-receipt-activate", function() {
+            if ($(this).prop("checked") == true) {
+                $("#modify-device-form #checkin-receipt-emails").parent().removeClass("uk-hidden");
+            } else {
+                $("#modify-device-form #checkin-receipt-emails").parent().addClass("uk-hidden");
+            }
+        });
+        </script>
+        <div class="uk-margin-medium-top uk-text-right">
+            <button id="modify-device-submit" type="submit" class="uk-button uk-button-danger" data-type="checkin">Check-in</button>
+            <a href="#modify-device" class="uk-button uk-button-default" data-uk-toggle>Cancel</a>
+        </div>
+    </form>
+    <script>
+    $(document).ready(function() {
+        $(document).on("click", "#modify-device-form button[type=submit]", function() {
+            var submit_type = $(this).data("type");
+            var $form = $(this).parents("form").first();
+            var $input = $('<input type="hidden" class="submit-type" />').data("value", submit_type);
+
+            $form.find("input.submit-type").remove();
+            $form.append($input);
+        });
+    });
+
+    $(document).on("submit", "#modify-device-form", function(event) {
+        event.preventDefault();
+
+        var submissionButtonValue = $("#modify-device-form .submit-type").data("value");
+
+        $("#modify-device-form #modify-device-submit").attr("disabled", true);
+        $('#modify-device-form #modify-device-submit').replaceWith('<div uk-spinner></div>');
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'users:modify_device_submit' %}",
+            data: {
+                csrfmiddlewaretoken: $("#modify-device-form input[name=csrfmiddlewaretoken]").val(),
+                device_id: "{{ device.id }}",
+                device_damage_present: $("#modify-device-form input[id=device-damage-none]").prop("checked"),
+                device_damage_dd: $("#modify-device-form input[id=device-damages-dd]").prop("checked"),
+                device_damage_edd: $("#modify-device-form input[id=device-damages-edd]").prop("checked"),
+                device_damage_lis: $("#modify-device-form input[id=device-damages-lis]").prop("checked"),
+                device_damage_cs: $("#modify-device-form input[id=device-damages-cs]").prop("checked"),
+                device_damage_tnc: $("#modify-device-form input[id=device-damages-tnc]").prop("checked"),
+                device_damage_tc: $("#modify-device-form input[id=device-damages-tc]").prop("checked"),
+                device_damage_prt: $("#modify-device-form input[id=device-damages-prt]").prop("checked"),
+                device_damage_ms: $("#modify-device-form input[id=device-damages-ms]").prop("checked"),
+                device_damage_ld: $("#modify-device-form input[id=device-damages-ld]").prop("checked"),
+                device_damage_mkr: $("#modify-device-form input[id=device-damages-mkr]").prop("checked"),
+                device_damage_mku: $("#modify-device-form input[id=device-damages-mku]").prop("checked"),
+                device_damage_bci: $("#modify-device-form input[id=device-damages-bci]").prop("checked"),
+                device_damage_ccd: $("#modify-device-form input[id=device-damages-ccd]").prop("checked"),
+                device_bin: $("#modify-device-form #device-bin").val(),
+                device_note: $("#modify-device-form #device-note").val(),
+                device_submit_type: submissionButtonValue,
+                send_checkin_receipt: $("#modify-device-form input[id=checkin-receipt-activate]").prop("checked"),
+                additional_emails: $("#modify-device-form input[id=checkin-receipt-emails]").val()
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);
+            },
+            complete: function() {
+                window.location.reload(true);
+            }
+        });
+    });
+    </script>
+    <div class="meta-container uk-margin">
+        <div class="uk-form-label uk-text-bold uk-text-uppercase">Meta information:</div>
+        <div class="uk-form-controls uk-form-controls-text">
+            <b>Author:</b> {{ request.user.get_full_name }} &centerdot; <b>Timestamp:</b> {{ current_datetime|date:'F d, Y ~H:i A' }}
+        </div>
+    </div>
+</div>
